@@ -43,6 +43,10 @@
             --glow-secondary: rgba(0, 180, 216, 0.3);
         }
 
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-tertiary) 100%);
             position: relative;
@@ -50,9 +54,11 @@
             color: var(--text-primary);
             transition: background 0.5s ease, color 0.3s ease;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
         }
 
-        /* Cyber Grid Background */
+        /* Cyber Grid Background - Responsive */
         .cyber-grid {
             position: fixed;
             top: 0;
@@ -67,6 +73,13 @@
             background-size: 50px 50px;
             opacity: 0.15;
             animation: gridMove 20s linear infinite;
+        }
+
+        @media (max-width: 768px) {
+            .cyber-grid {
+                background-size: 30px 30px;
+                opacity: 0.1;
+            }
         }
 
         @keyframes gridMove {
@@ -95,7 +108,7 @@
             100% { top: 100%; opacity: 0; }
         }
 
-        /* Hexagonal Pattern */
+        /* Hexagonal Pattern - Responsive */
         .hex-pattern {
             position: fixed;
             top: 0;
@@ -106,6 +119,13 @@
             opacity: 0.05;
             background-image: url("data:image/svg+xml,%3Csvg width='50' height='43.4' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M25 0l25 14.4v14.5L25 43.4 0 28.9V14.4L25 0z' fill='none' stroke='%2300e6b4' stroke-width='1'/%3E%3C/svg%3E");
             background-size: 100px 86.6px;
+        }
+
+        @media (max-width: 768px) {
+            .hex-pattern {
+                background-size: 60px 52px;
+                opacity: 0.03;
+            }
         }
 
         /* Glitch Effect */
@@ -124,11 +144,18 @@
         /* Terminal Cursor */
         .terminal-cursor {
             display: inline-block;
-            width: 10px;
-            height: 20px;
+            width: 8px;
+            height: 16px;
             background: var(--accent-primary);
             animation: blink 1s step-end infinite;
             margin-left: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .terminal-cursor {
+                width: 6px;
+                height: 14px;
+            }
         }
 
         @keyframes blink {
@@ -158,7 +185,7 @@
             100% { transform: scale(1.3); opacity: 0; }
         }
 
-        /* Cyber Card */
+        /* Cyber Card - Responsive */
         .cyber-card {
             background: var(--card-bg);
             backdrop-filter: blur(20px);
@@ -167,6 +194,12 @@
             position: relative;
             overflow: hidden;
             transition: all 0.4s ease;
+        }
+
+        @media (max-width: 768px) {
+            .cyber-card {
+                border-radius: 12px;
+            }
         }
 
         .cyber-card::before {
@@ -193,14 +226,30 @@
             box-shadow: 0 20px 40px var(--glow-primary);
         }
 
-        /* Code Block Style */
+        @media (max-width: 768px) {
+            .cyber-card:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 10px 20px var(--glow-primary);
+            }
+        }
+
+        /* Code Block Style - Responsive */
         .code-block {
             background: #1e1e1e;
             border-left: 4px solid var(--accent-primary);
-            padding: 20px;
+            padding: 15px;
             border-radius: 8px;
             font-family: 'Courier New', monospace;
             overflow-x: auto;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .code-block {
+                padding: 10px;
+                font-size: 12px;
+                border-left-width: 3px;
+            }
         }
 
         /* Matrix Rain Effect */
@@ -225,7 +274,7 @@
             50% { transform: scale(1.1); }
         }
 
-        /* Security Level Indicator */
+        /* Security Level Indicator - Responsive */
         .security-level {
             display: inline-flex;
             align-items: center;
@@ -238,6 +287,14 @@
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
+        }
+
+        @media (max-width: 640px) {
+            .security-level {
+                padding: 5px 12px;
+                font-size: 10px;
+                gap: 6px;
+            }
         }
 
         /* Typing Animation */
@@ -276,13 +333,19 @@
             100% { transform: translateX(100%); }
         }
 
-        /* Skill Bar Animation */
+        /* Skill Bar Animation - Responsive */
         .skill-bar {
             position: relative;
             height: 8px;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 4px;
             overflow: hidden;
+        }
+
+        @media (max-width: 768px) {
+            .skill-bar {
+                height: 6px;
+            }
         }
 
         .skill-bar-fill {
@@ -312,12 +375,19 @@
             100% { transform: translateX(100%); }
         }
 
-        /* Terminal Window */
+        /* Terminal Window - Responsive */
         .terminal-window {
             background: #1e1e1e;
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            .terminal-window {
+                border-radius: 6px;
+                box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+            }
         }
 
         .terminal-header {
@@ -328,10 +398,24 @@
             gap: 8px;
         }
 
+        @media (max-width: 768px) {
+            .terminal-header {
+                padding: 8px 12px;
+                gap: 6px;
+            }
+        }
+
         .terminal-dot {
             width: 12px;
             height: 12px;
             border-radius: 50%;
+        }
+
+        @media (max-width: 768px) {
+            .terminal-dot {
+                width: 10px;
+                height: 10px;
+            }
         }
 
         .terminal-dot.red { background: #ff5f56; }
@@ -345,19 +429,19 @@
             color: var(--accent-primary);
         }
 
+        @media (max-width: 768px) {
+            .terminal-body {
+                padding: 15px;
+                font-size: 12px;
+            }
+        }
+
         /* Particle Connections */
         #particles-background {
             background: transparent;
         }
 
-        /* Responsive Text Sizes */
-        @media (max-width: 768px) {
-            .typing-animation {
-                font-size: 18px;
-            }
-        }
-
-        /* Enhanced Navbar */
+        /* Enhanced Navbar - Responsive */
         .nav-glassmorphism {
             background: rgba(10, 14, 39, 0.8);
             backdrop-filter: blur(20px);
@@ -384,6 +468,12 @@
             width: 10px;
         }
 
+        @media (max-width: 768px) {
+            ::-webkit-scrollbar {
+                width: 6px;
+            }
+        }
+
         ::-webkit-scrollbar-track {
             background: var(--bg-secondary);
         }
@@ -395,6 +485,78 @@
 
         ::-webkit-scrollbar-thumb:hover {
             background: var(--accent-secondary);
+        }
+
+        /* Responsive Image Fixes */
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Mobile Menu Animation */
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .mobile-menu-enter {
+            animation: slideDown 0.3s ease-out;
+        }
+
+        /* Modal Responsive Fixes */
+        @media (max-width: 768px) {
+            .modal-content {
+                max-height: 85vh;
+                overflow-y: auto;
+            }
+        }
+
+        /* Text Responsive Sizes */
+        @media (max-width: 640px) {
+            h1 { font-size: 2rem !important; }
+            h2 { font-size: 1.75rem !important; }
+            h3 { font-size: 1.25rem !important; }
+        }
+
+        @media (min-width: 641px) and (max-width: 1024px) {
+            h1 { font-size: 2.5rem !important; }
+            h2 { font-size: 2rem !important; }
+            h3 { font-size: 1.5rem !important; }
+        }
+
+        /* Touch-friendly buttons on mobile */
+        @media (max-width: 768px) {
+            button, a {
+                min-height: 44px;
+                min-width: 44px;
+            }
+        }
+
+        /* Prevent horizontal scroll */
+        html, body {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
+        /* Responsive padding adjustments */
+        @media (max-width: 640px) {
+            section {
+                padding-left: 1rem !important;
+                padding-right: 1rem !important;
+            }
+        }
+
+        /* Floating elements responsive */
+        @media (max-width: 768px) {
+            .floating-icon {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -429,7 +591,7 @@
             }
             render() {
                 if (this.state.hasError) {
-                    return <h1 className="text-center text-red-400">Une erreur s'est produite.</h1>;
+                    return <h1 className="text-center text-red-400 p-4">Une erreur s'est produite.</h1>;
                 }
                 return this.props.children;
             }
@@ -462,7 +624,7 @@
             return <div ref={ref} className={`opacity-0 ${className}`}>{children}</div>;
         };
 
-        // Enhanced Navbar with Cybersecurity Theme
+        // Enhanced Navbar with Cybersecurity Theme - RESPONSIVE
         const Navbar = () => {
             const [isOpen, setIsOpen] = useState(false);
             const [scrolled, setScrolled] = useState(false);
@@ -493,20 +655,21 @@
                         <div className="flex justify-between h-16 items-center">
                             <a href="#" className="group flex items-center space-x-2">
                                 <div className="security-badge">
-                                    <i className={`fas fa-shield-alt text-2xl transition-colors duration-300 ${
+                                    <i className={`fas fa-shield-alt text-xl sm:text-2xl transition-colors duration-300 ${
                                         scrolled ? 'text-sky-400' : 'text-[var(--accent-primary)]'
                                     }`}></i>
                                 </div>
-                                <span className={`text-xl font-bold tracking-tight transition-colors duration-300 ${
+                                <span className={`text-lg sm:text-xl font-bold tracking-tight transition-colors duration-300 ${
                                     scrolled ? 'text-white' : 'text-[var(--text-primary)]'
                                 }`}>
                                     <span className={`transition-colors duration-300 ${scrolled ? 'text-sky-400' : 'text-[var(--accent-primary)]'}`}>&lt;</span>
-                                    Omar.dev
+                                    <span className="hidden xs:inline">Omar.dev</span>
+                                    <span className="xs:hidden">O.dev</span>
                                     <span className={`transition-colors duration-300 ${scrolled ? 'text-sky-400' : 'text-[var(--accent-primary)]'}`}>/&gt;</span>
                                 </span>
                             </a>
                             
-                            <div className="hidden md:flex items-center space-x-8">
+                            <div className="hidden lg:flex items-center space-x-4 xl:space-x-8">
                                 {navItems.map((item) => (
                                     <a
                                         key={item.name}
@@ -535,16 +698,27 @@
                                 </button>
                             </div>
                             
-                            <button onClick={() => setIsOpen(!isOpen)} className={`md:hidden transition-colors duration-300 ${
-                                scrolled ? 'text-white' : 'text-[var(--text-primary)]'
-                            }`}>
-                                <i className={`fas ${isOpen ? 'fa-times' : 'fa-bars'} text-xl`}></i>
-                            </button>
+                            <div className="flex items-center gap-2 lg:hidden">
+                                <button
+                                    onClick={toggleTheme}
+                                    className="w-10 h-10 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg hover:border-[var(--accent-primary)] transition-all duration-300"
+                                >
+                                    <i className={`${theme === 'light' ? 'fas fa-moon' : 'fas fa-sun'} transition-colors duration-300 ${
+                                        scrolled ? 'text-sky-400' : 'text-[var(--accent-primary)]'
+                                    }`}></i>
+                                </button>
+                                
+                                <button onClick={() => setIsOpen(!isOpen)} className={`w-10 h-10 flex items-center justify-center transition-colors duration-300 ${
+                                    scrolled ? 'text-white' : 'text-[var(--text-primary)]'
+                                }`}>
+                                    <i className={`fas ${isOpen ? 'fa-times' : 'fa-bars'} text-xl`}></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
                     
                     {isOpen && (
-                        <div className="md:hidden nav-glassmorphism">
+                        <div className="lg:hidden nav-glassmorphism mobile-menu-enter">
                             {navItems.map((item) => (
                                 <a
                                     key={item.name}
@@ -566,10 +740,9 @@
             );
         };
 
-        // Hero Section with Cybersecurity Focus
+        // Hero Section with Cybersecurity Focus - RESPONSIVE
         const Home = () => {
             useEffect(() => {
-                // Ensure page starts at top
                 window.scrollTo({ top: 0, behavior: 'instant' });
                 
                 const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
@@ -581,15 +754,15 @@
             }, []);
             
             return (
-                <section id="accueil" className="min-h-screen flex items-center pt-20 relative overflow-hidden">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-12 items-center">
-                        <div className="space-y-8">
+                <section id="accueil" className="min-h-screen flex items-center pt-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+                    <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+                        <div className="space-y-6 sm:space-y-8 text-center lg:text-left">
                             <div className="hero-heading">
-                                <div className="security-level mb-4">
+                                <div className="security-level mb-4 justify-center lg:justify-start">
                                     <i className="fas fa-lock lock-icon"></i>
                                     <span>Cybersecurity Expert</span>
                                 </div>
-                                <h1 className="text-5xl sm:text-6xl font-bold mb-4 leading-tight">
+                                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 leading-tight">
                                     <span className="text-[var(--accent-primary)]">Omar El Farouk</span>
                                     <br />
                                     <span className="text-[var(--text-primary)]">Kortas</span>
@@ -602,7 +775,7 @@
                                         <div className="terminal-dot red"></div>
                                         <div className="terminal-dot yellow"></div>
                                         <div className="terminal-dot green"></div>
-                                        <span className="text-xs text-gray-400 ml-2">system@cybersec:~</span>
+                                        <span className="text-xs text-gray-400 ml-2 hidden sm:inline">system@cybersec:~</span>
                                     </div>
                                     <div className="terminal-body">
                                         <div className="mb-2">
@@ -623,36 +796,36 @@
                             </div>
                             
                             <div className="hero-description space-y-4">
-                                <p className="text-[var(--text-secondary)] text-lg leading-relaxed">
+                                <p className="text-[var(--text-secondary)] text-base sm:text-lg leading-relaxed">
                                     Passionné par la <span className="text-[var(--accent-primary)] font-semibold">cybersécurité</span>, 
                                     le <span className="text-[var(--accent-secondary)] font-semibold">développement logiciel</span> et 
                                     les <span className="text-[var(--accent-primary)] font-semibold">services IT</span>.
                                 </p>
-                                <div className="flex flex-wrap gap-3">
-                                    <span className="px-4 py-2 bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg text-sm text-[var(--accent-primary)]">
+                                <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
+                                    <span className="px-3 sm:px-4 py-2 bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg text-xs sm:text-sm text-[var(--accent-primary)]">
                                         <i className="fas fa-shield-alt mr-2"></i>Security
                                     </span>
-                                    <span className="px-4 py-2 bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg text-sm text-[var(--accent-secondary)]">
+                                    <span className="px-3 sm:px-4 py-2 bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg text-xs sm:text-sm text-[var(--accent-secondary)]">
                                         <i className="fas fa-code mr-2"></i>Development
                                     </span>
-                                    <span className="px-4 py-2 bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg text-sm text-[var(--accent-warning)]">
+                                    <span className="px-3 sm:px-4 py-2 bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg text-xs sm:text-sm text-[var(--accent-warning)]">
                                         <i className="fas fa-network-wired mr-2"></i>Networks
                                     </span>
                                 </div>
                             </div>
                             
-                            <div className="hero-buttons flex flex-wrap gap-4">
-                                <a href="CV.html" className="group px-8 py-4 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-black font-semibold rounded-lg hover:shadow-lg hover:shadow-[var(--glow-primary)] transition-all duration-300 flex items-center space-x-2">
+                            <div className="hero-buttons flex flex-col sm:flex-row flex-wrap gap-4 justify-center lg:justify-start">
+                                <a href="CV.html" className="group px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-black font-semibold rounded-lg hover:shadow-lg hover:shadow-[var(--glow-primary)] transition-all duration-300 flex items-center justify-center space-x-2">
                                     <i className="fas fa-file-download"></i>
                                     <span>Télécharger CV</span>
                                 </a>
-                                <a href="#contact" className="group px-8 py-4 bg-transparent border-2 border-[var(--accent-primary)] text-[var(--accent-primary)] font-semibold rounded-lg hover:bg-[var(--accent-primary)] hover:text-black transition-all duration-300 flex items-center space-x-2">
+                                <a href="#contact" className="group px-6 sm:px-8 py-3 sm:py-4 bg-transparent border-2 border-[var(--accent-primary)] text-[var(--accent-primary)] font-semibold rounded-lg hover:bg-[var(--accent-primary)] hover:text-black transition-all duration-300 flex items-center justify-center space-x-2">
                                     <i className="fas fa-envelope"></i>
                                     <span>Me Contacter</span>
                                 </a>
                             </div>
                             
-                            <div className="flex gap-4">
+                            <div className="flex gap-4 justify-center lg:justify-start">
                                 <a href="https://www.linkedin.com/in/omar-el-farouk-kortas-8b4613294/" className="w-12 h-12 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg hover:border-[var(--accent-primary)] hover:shadow-lg hover:shadow-[var(--glow-primary)] transition-all duration-300">
                                     <i className="fab fa-linkedin text-xl text-[var(--accent-primary)]"></i>
                                 </a>
@@ -662,21 +835,21 @@
                             </div>
                         </div>
                         
-                        <div className="hero-image relative">
-                            <div className="relative">
+                        <div className="hero-image relative order-first lg:order-last">
+                            <div className="relative max-w-md mx-auto lg:max-w-lg">
                                 <div className="absolute -inset-4 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-full blur-2xl opacity-30 animate-pulse"></div>
-                                <img src="omar-removebg-preview.png" alt="Omar" className="relative z-10 w-full max-w-lg mx-auto" />
+                                <img src="omar-removebg-preview.png" alt="Omar" className="relative z-10 w-full" />
                             </div>
                             
-                            {/* Floating Security Icons */}
-                            <div className="absolute top-10 right-10 animate-bounce">
-                                <div className="w-16 h-16 bg-[var(--card-bg)] border-2 border-[var(--accent-primary)] rounded-lg flex items-center justify-center shadow-lg shadow-[var(--glow-primary)]">
-                                    <i className="fas fa-lock text-2xl text-[var(--accent-primary)]"></i>
+                            {/* Floating Security Icons - Hidden on mobile */}
+                            <div className="floating-icon absolute top-10 right-10 animate-bounce hidden md:block">
+                                <div className="w-12 h-12 sm:w-16 sm:h-16 bg-[var(--card-bg)] border-2 border-[var(--accent-primary)] rounded-lg flex items-center justify-center shadow-lg shadow-[var(--glow-primary)]">
+                                    <i className="fas fa-lock text-xl sm:text-2xl text-[var(--accent-primary)]"></i>
                                 </div>
                             </div>
-                            <div className="absolute bottom-10 left-10 animate-bounce" style={{ animationDelay: '0.5s' }}>
-                                <div className="w-16 h-16 bg-[var(--card-bg)] border-2 border-[var(--accent-secondary)] rounded-lg flex items-center justify-center shadow-lg shadow-[var(--glow-secondary)]">
-                                    <i className="fas fa-code text-2xl text-[var(--accent-secondary)]"></i>
+                            <div className="floating-icon absolute bottom-10 left-10 animate-bounce hidden md:block" style={{ animationDelay: '0.5s' }}>
+                                <div className="w-12 h-12 sm:w-16 sm:h-16 bg-[var(--card-bg)] border-2 border-[var(--accent-secondary)] rounded-lg flex items-center justify-center shadow-lg shadow-[var(--glow-secondary)]">
+                                    <i className="fas fa-code text-xl sm:text-2xl text-[var(--accent-secondary)]"></i>
                                 </div>
                             </div>
                         </div>
@@ -685,36 +858,36 @@
             );
         };
 
-        // About Section
+        // About Section - RESPONSIVE
         const About = () => {
             return (
-                <section id="à-propos" className="py-24 px-4 sm:px-6 lg:px-8 relative">
+                <section id="à-propos" className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 relative">
                     <div className="max-w-7xl mx-auto">
                         <FadeIn>
-                            <div className="text-center mb-16">
+                            <div className="text-center mb-12 sm:mb-16">
                                 <div className="security-level inline-flex mb-4">
                                     <i className="fas fa-user-shield"></i>
                                     <span>À Propos</span>
                                 </div>
-                                <h2 className="text-4xl sm:text-5xl font-bold text-[var(--text-primary)] mb-4">
+                                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[var(--text-primary)] mb-4">
                                     Profil <span className="text-[var(--accent-primary)]">Professionnel</span>
                                 </h2>
                             </div>
                         </FadeIn>
                         
-                        <div className="grid lg:grid-cols-2 gap-12 items-center">
+                        <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 items-center">
                             <FadeIn direction="right">
                                 <div className="relative group">
                                     <div className="absolute -inset-2 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-2xl blur-xl opacity-30 group-hover:opacity-50 transition-opacity"></div>
-                                    <img src="farouk.png" alt="Omar" className="relative rounded-2xl shadow-2xl" />
+                                    <img src="farouk.png" alt="Omar" className="relative rounded-2xl shadow-2xl w-full max-w-md mx-auto lg:max-w-none" />
                                 </div>
                             </FadeIn>
                             
                             <FadeIn direction="left" delay={0.2}>
                                 <div className="space-y-6">
-                                    <h3 className="text-3xl font-bold text-[var(--accent-primary)]">Omar El Farouk Kortas</h3>
+                                    <h3 className="text-2xl sm:text-3xl font-bold text-[var(--accent-primary)]">Omar El Farouk Kortas</h3>
                                     
-                                    <div className="space-y-4 text-[var(--text-secondary)] leading-relaxed">
+                                    <div className="space-y-4 text-[var(--text-secondary)] leading-relaxed text-sm sm:text-base">
                                         <p>
                                             Diplômé en <span className="text-[var(--accent-primary)] font-semibold">Ingénierie Informatique</span> et 
                                             actuellement en <span className="text-[var(--accent-primary)] font-semibold">Master Services et Sécurité Informatique</span>.
@@ -732,23 +905,23 @@
                                         </p>
                                     </div>
                                     
-                                    <div className="grid grid-cols-2 gap-4 pt-4">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
                                         <div className="cyber-card p-4">
                                             <div className="flex items-center space-x-3">
-                                                <i className="fas fa-graduation-cap text-2xl text-[var(--accent-primary)]"></i>
+                                                <i className="fas fa-graduation-cap text-xl sm:text-2xl text-[var(--accent-primary)]"></i>
                                                 <div>
-                                                    <div className="text-sm text-[var(--text-secondary)]">Formation</div>
-                                                    <div className="font-semibold text-[var(--text-primary)]">Master IT</div>
+                                                    <div className="text-xs sm:text-sm text-[var(--text-secondary)]">Formation</div>
+                                                    <div className="font-semibold text-sm sm:text-base text-[var(--text-primary)]">Master IT</div>
                                                 </div>
                                             </div>
                                         </div>
                                         
                                         <div className="cyber-card p-4">
                                             <div className="flex items-center space-x-3">
-                                                <i className="fas fa-shield-alt text-2xl text-[var(--accent-primary)]"></i>
+                                                <i className="fas fa-shield-alt text-xl sm:text-2xl text-[var(--accent-primary)]"></i>
                                                 <div>
-                                                    <div className="text-sm text-[var(--text-secondary)]">Spécialité</div>
-                                                    <div className="font-semibold text-[var(--text-primary)]">Cybersécurité</div>
+                                                    <div className="text-xs sm:text-sm text-[var(--text-secondary)]">Spécialité</div>
+                                                    <div className="font-semibold text-sm sm:text-base text-[var(--text-primary)]">Cybersécurité</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -761,7 +934,7 @@
             );
         };
 
-        // Skills Section with Cybersecurity Focus
+        // Skills Section - RESPONSIVE
         const Skills = () => {
             const skillCategories = [
                 {
@@ -800,37 +973,37 @@
             ];
             
             return (
-                <section id="compétences" className="py-24 px-4 sm:px-6 lg:px-8 bg-[var(--bg-secondary)]">
+                <section id="compétences" className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-[var(--bg-secondary)]">
                     <div className="max-w-7xl mx-auto">
                         <FadeIn>
-                            <div className="text-center mb-16">
+                            <div className="text-center mb-12 sm:mb-16">
                                 <div className="security-level inline-flex mb-4">
                                     <i className="fas fa-code"></i>
                                     <span>Compétences Techniques</span>
                                 </div>
-                                <h2 className="text-4xl sm:text-5xl font-bold text-[var(--text-primary)]">
+                                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[var(--text-primary)]">
                                     Expertise <span className="text-[var(--accent-primary)]">Technique</span>
                                 </h2>
                             </div>
                         </FadeIn>
                         
-                        <div className="grid lg:grid-cols-3 gap-8">
+                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
                             {skillCategories.map((category, idx) => (
                                 <FadeIn key={category.title} delay={idx * 0.2}>
-                                    <div className="cyber-card p-8 h-full">
+                                    <div className="cyber-card p-6 sm:p-8 h-full">
                                         <div className="flex items-center space-x-3 mb-6">
-                                            <div className="w-12 h-12 flex items-center justify-center bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-lg">
-                                                <i className={`${category.icon} text-xl text-black`}></i>
+                                            <div className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-lg">
+                                                <i className={`${category.icon} text-lg sm:text-xl text-black`}></i>
                                             </div>
-                                            <h3 className="text-2xl font-bold text-[var(--text-primary)]">{category.title}</h3>
+                                            <h3 className="text-xl sm:text-2xl font-bold text-[var(--text-primary)]">{category.title}</h3>
                                         </div>
                                         
-                                        <div className="space-y-6">
+                                        <div className="space-y-4 sm:space-y-6">
                                             {category.skills.map((skill) => (
                                                 <div key={skill.name}>
                                                     <div className="flex justify-between mb-2">
-                                                        <span className="text-sm text-[var(--text-secondary)]">{skill.name}</span>
-                                                        <span className="text-sm font-semibold text-[var(--accent-primary)]">{skill.level}%</span>
+                                                        <span className="text-xs sm:text-sm text-[var(--text-secondary)]">{skill.name}</span>
+                                                        <span className="text-xs sm:text-sm font-semibold text-[var(--accent-primary)]">{skill.level}%</span>
                                                     </div>
                                                     <div className="skill-bar">
                                                         <div 
@@ -850,7 +1023,7 @@
             );
         };
 
-        // Projects Section (continuing with similar cybersecurity theme)
+        // Projects Section - RESPONSIVE (continuing from original with modal improvements)
         const Projects = () => {
             const [selectedProject, setSelectedProject] = useState(null);
             
@@ -861,7 +1034,7 @@
                     fullDescription: "Application web et mobile pour la gestion des livraisons entre clients, fournisseurs et livreurs. Système complet de livraison intégrant l'inscription des utilisateurs, la gestion des commandes, le suivi des livraisons, la soumission de réclamations, la génération automatique des factures et l'envoi de notifications par email.",
                     tech: ["Next.js", "NestJS", "MySQL", "JWT"],
                     features: [
-                        "Inscription et authentification des utilisateurs (Clients, Fournisseurs, Livreurs)",
+                        "Inscription et authentification des utilisateurs",
                         "Gestion complète des commandes",
                         "Suivi en temps réel des livraisons",
                         "Système de réclamations",
@@ -876,7 +1049,7 @@
                     title: "Système de Détection d'Intrusion",
                     description: "IDS/IPS basé sur l'IA pour la détection de menaces en temps réel.",
                     fullDescription: "Système de détection et de prévention d'intrusions utilisant l'intelligence artificielle pour identifier et bloquer les menaces de sécurité en temps réel.",
-                    tech: ["Python", "TensorFlow", "Scapy", "Machine Learning"],
+                    tech: ["Python", "TensorFlow", "Scapy", "ML"],
                     features: [
                         "Analyse du trafic réseau en temps réel",
                         "Détection des anomalies par IA",
@@ -888,84 +1061,76 @@
                     image: "work5.png",
                     badge: "Projet"
                 },
-  {
-    title: "Valorant Tracker",
-    description: "Application de suivi des statistiques et performances des joueurs Valorant.",
-    fullDescription: "Application permettant de suivre et d’analyser les statistiques des joueurs de Valorant : performances par match, historique des parties, statistiques par agent et évolution du niveau de jeu via des tableaux de bord clairs.",
-    tech: ["React", "Node.js", "API REST", "Chart.js"],
-    features: [
-        "Consultation des statistiques des joueurs",
-        "Historique des matchs",
-        "Analyse des performances par agent",
-        "Tableaux de bord et graphiques",
-        "Recherche de joueurs"
-    ],
-    icon: "fas fa-gamepad",
-    image: "work6.png",
-    badge: "Projet"
-}
-
+                {
+                    title: "Valorant Tracker",
+                    description: "Application de suivi des statistiques et performances des joueurs Valorant.",
+                    fullDescription: "Application permettant de suivre et d'analyser les statistiques des joueurs de Valorant : performances par match, historique des parties, statistiques par agent et évolution du niveau de jeu.",
+                    tech: ["React", "Node.js", "API REST", "Chart.js"],
+                    features: [
+                        "Consultation des statistiques des joueurs",
+                        "Historique des matchs",
+                        "Analyse des performances par agent",
+                        "Tableaux de bord et graphiques",
+                        "Recherche de joueurs"
+                    ],
+                    icon: "fas fa-gamepad",
+                    image: "work6.png",
+                    badge: "Projet"
+                }
             ];
             
             const openModal = (project) => {
                 setSelectedProject(project);
+                document.body.style.overflow = 'hidden';
             };
             
             const closeModal = () => {
                 setSelectedProject(null);
+                document.body.style.overflow = 'unset';
             };
             
             return (
-                <section id="projets" className="py-24 px-4 sm:px-6 lg:px-8">
+                <section id="projets" className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8">
                     <div className="max-w-7xl mx-auto">
                         <FadeIn>
-                            <div className="text-center mb-16">
+                            <div className="text-center mb-12 sm:mb-16">
                                 <div className="security-level inline-flex mb-4">
                                     <i className="fas fa-project-diagram"></i>
                                     <span>Portfolio</span>
                                 </div>
-                                <h2 className="text-4xl sm:text-5xl font-bold text-[var(--text-primary)]">
+                                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[var(--text-primary)]">
                                     Projets <span className="text-[var(--accent-primary)]">Récents</span>
                                 </h2>
                             </div>
                         </FadeIn>
                         
-                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
                             {projects.map((project, idx) => (
                                 <FadeIn key={project.title} delay={idx * 0.15}>
                                     <div 
-                                        className="cyber-card p-6 group h-full flex flex-col cursor-pointer"
+                                        className="cyber-card p-4 sm:p-6 group h-full flex flex-col cursor-pointer"
                                         onClick={() => openModal(project)}
                                     >
-                                        {/* Project Image */}
-                                        <div className="w-full h-48 mb-6 rounded-xl overflow-hidden border-2 border-[var(--border-color)] group-hover:border-[var(--accent-primary)] transition-all">
+                                        <div className="w-full h-40 sm:h-48 mb-4 sm:mb-6 rounded-xl overflow-hidden border-2 border-[var(--border-color)] group-hover:border-[var(--accent-primary)] transition-all">
                                             <img 
                                                 src={project.image} 
                                                 alt={project.title}
                                                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                                                onError={(e) => {
-                                                    // Fallback to icon if image fails to load
-                                                    e.target.style.display = 'none';
-                                                    const iconDiv = document.createElement('div');
-                                                    iconDiv.className = 'w-full h-full bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] flex items-center justify-center';
-                                                    iconDiv.innerHTML = `<i class="${project.icon} text-4xl text-black"></i>`;
-                                                    e.target.parentElement.appendChild(iconDiv);
-                                                }}
                                             />
                                         </div>
                                         
-                                        <h3 className="text-xl font-bold text-[var(--text-primary)] mb-3">{project.title}</h3>
-                                        <p className="text-[var(--text-secondary)] mb-4 flex-grow">{project.description}</p>
+                                        <h3 className="text-lg sm:text-xl font-bold text-[var(--text-primary)] mb-3">{project.title}</h3>
+                                        <p className="text-sm sm:text-base text-[var(--text-secondary)] mb-4 flex-grow">{project.description}</p>
                                         
                                         <div className="flex flex-wrap gap-2 mb-4">
                                             {project.tech.map((tech) => (
-                                                <span key={tech} className="px-3 py-1 bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-full text-xs text-[var(--accent-primary)]">
+                                                <span key={tech} className="px-2 sm:px-3 py-1 bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-full text-xs text-[var(--accent-primary)]">
                                                     {tech}
                                                 </span>
                                             ))}
                                         </div>
                                         
-                                        <button className="w-full py-3 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-black font-semibold rounded-lg hover:shadow-lg hover:shadow-[var(--glow-primary)] transition-all">
+                                        <button className="w-full py-2 sm:py-3 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-black font-semibold rounded-lg hover:shadow-lg hover:shadow-[var(--glow-primary)] transition-all text-sm sm:text-base">
                                             Voir détails
                                         </button>
                                     </div>
@@ -973,70 +1138,54 @@
                             ))}
                         </div>
                         
-                        {/* Modal for Project Details */}
+                        {/* Modal - RESPONSIVE */}
                         {selectedProject && (
                             <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto" onClick={closeModal}>
-                                <div className="bg-gradient-to-br from-[var(--bg-primary)] to-[var(--bg-secondary)] rounded-3xl max-w-4xl w-full my-8 p-6 sm:p-8 relative border-2 border-[var(--accent-primary)] shadow-2xl shadow-[var(--glow-primary)] max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
-                                    {/* Close Button */}
+                                <div className="bg-gradient-to-br from-[var(--bg-primary)] to-[var(--bg-secondary)] rounded-2xl sm:rounded-3xl max-w-4xl w-full my-8 p-4 sm:p-6 lg:p-8 relative border-2 border-[var(--accent-primary)] shadow-2xl shadow-[var(--glow-primary)] max-h-[90vh] overflow-y-auto modal-content" onClick={(e) => e.stopPropagation()}>
                                     <button 
                                         onClick={closeModal}
-                                        className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg hover:border-[var(--accent-primary)] transition-all duration-300 z-10"
+                                        className="absolute top-2 right-2 sm:top-4 sm:right-4 w-10 h-10 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg hover:border-[var(--accent-primary)] transition-all duration-300 z-10"
                                     >
                                         <i className="fas fa-times text-[var(--text-primary)]"></i>
                                     </button>
                                     
-                                    {/* Header with Badge */}
-                                    <div className="mb-6">
-                                        <div className="flex items-start justify-between mb-4">
-                                            <h2 className="text-3xl sm:text-4xl font-bold text-[var(--text-primary)] pr-12">
+                                    <div className="mb-4 sm:mb-6">
+                                        <div className="flex items-start justify-between mb-4 pr-12">
+                                            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[var(--text-primary)]">
                                                 {selectedProject.title}
                                             </h2>
-                                            <span className="px-4 py-2 bg-[var(--accent-primary)] text-black text-xs font-bold rounded-full whitespace-nowrap">
+                                            <span className="px-3 sm:px-4 py-1 sm:py-2 bg-[var(--accent-primary)] text-black text-xs font-bold rounded-full whitespace-nowrap">
                                                 {selectedProject.badge}
                                             </span>
                                         </div>
                                     </div>
                                     
-                                    {/* Project Image */}
-                                    <div className="mb-8 relative rounded-2xl overflow-hidden border-2 border-[var(--border-color)]">
+                                    <div className="mb-6 sm:mb-8 relative rounded-xl sm:rounded-2xl overflow-hidden border-2 border-[var(--border-color)]">
                                         <img 
                                             src={selectedProject.image} 
                                             alt={selectedProject.title}
                                             className="w-full h-auto object-cover"
-                                            onError={(e) => {
-                                                e.target.onerror = null;
-                                                // Fallback to icon if image doesn't load
-                                                e.target.parentElement.innerHTML = `
-                                                    <div class="bg-gradient-to-br from-[var(--accent-primary)]/20 to-[var(--accent-secondary)]/20 p-12 flex items-center justify-center min-h-[300px]">
-                                                        <div class="w-32 h-32 bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-3xl flex items-center justify-center shadow-2xl">
-                                                            <i class="${selectedProject.icon} text-6xl text-black"></i>
-                                                        </div>
-                                                    </div>
-                                                `;
-                                            }}
                                         />
                                     </div>
                                     
-                                    {/* Description */}
-                                    <div className="mb-8">
-                                        <h3 className="text-xl font-bold text-[var(--text-primary)] mb-4 flex items-center gap-2">
+                                    <div className="mb-6 sm:mb-8">
+                                        <h3 className="text-lg sm:text-xl font-bold text-[var(--text-primary)] mb-4 flex items-center gap-2">
                                             <i className="fas fa-info-circle text-[var(--accent-primary)]"></i>
                                             Description du projet
                                         </h3>
-                                        <p className="text-[var(--text-secondary)] leading-relaxed">
+                                        <p className="text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed">
                                             {selectedProject.fullDescription}
                                         </p>
                                     </div>
                                     
-                                    {/* Features */}
-                                    <div className="mb-8">
-                                        <h3 className="text-xl font-bold text-[var(--text-primary)] mb-4 flex items-center gap-2">
+                                    <div className="mb-6 sm:mb-8">
+                                        <h3 className="text-lg sm:text-xl font-bold text-[var(--text-primary)] mb-4 flex items-center gap-2">
                                             <i className="fas fa-tasks text-[var(--accent-primary)]"></i>
                                             Fonctionnalités principales
                                         </h3>
-                                        <ul className="grid md:grid-cols-2 gap-3">
+                                        <ul className="grid gap-3">
                                             {selectedProject.features.map((feature, index) => (
-                                                <li key={index} className="flex items-start gap-3 text-[var(--text-secondary)]">
+                                                <li key={index} className="flex items-start gap-3 text-sm sm:text-base text-[var(--text-secondary)]">
                                                     <i className="fas fa-check-circle text-[var(--accent-primary)] mt-1 flex-shrink-0"></i>
                                                     <span>{feature}</span>
                                                 </li>
@@ -1044,25 +1193,23 @@
                                         </ul>
                                     </div>
                                     
-                                    {/* Technologies */}
-                                    <div className="mb-8">
-                                        <h3 className="text-xl font-bold text-[var(--text-primary)] mb-4 flex items-center gap-2">
+                                    <div className="mb-6 sm:mb-8">
+                                        <h3 className="text-lg sm:text-xl font-bold text-[var(--text-primary)] mb-4 flex items-center gap-2">
                                             <i className="fas fa-code text-[var(--accent-primary)]"></i>
                                             Technologies utilisées
                                         </h3>
-                                        <div className="flex flex-wrap gap-3">
+                                        <div className="flex flex-wrap gap-2 sm:gap-3">
                                             {selectedProject.tech.map((tech) => (
-                                                <span key={tech} className="px-4 py-2 bg-gradient-to-r from-[var(--accent-primary)]/20 to-[var(--accent-secondary)]/20 border border-[var(--border-color)] rounded-lg text-[var(--accent-primary)] font-semibold">
+                                                <span key={tech} className="px-3 sm:px-4 py-1 sm:py-2 bg-gradient-to-r from-[var(--accent-primary)]/20 to-[var(--accent-secondary)]/20 border border-[var(--border-color)] rounded-lg text-[var(--accent-primary)] font-semibold text-sm sm:text-base">
                                                     {tech}
                                                 </span>
                                             ))}
                                         </div>
                                     </div>
                                     
-                                    {/* Close Button */}
                                     <button 
                                         onClick={closeModal}
-                                        className="w-full py-4 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-black font-bold rounded-lg hover:shadow-lg hover:shadow-[var(--glow-primary)] transition-all text-lg"
+                                        className="w-full py-3 sm:py-4 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-black font-bold rounded-lg hover:shadow-lg hover:shadow-[var(--glow-primary)] transition-all text-base sm:text-lg"
                                     >
                                         Fermer
                                     </button>
@@ -1074,7 +1221,7 @@
             );
         };
 
-        // Certifications Section
+        // Certifications Section - RESPONSIVE
         const Certifications = () => {
             const [selectedCert, setSelectedCert] = useState(null);
             
@@ -1089,12 +1236,12 @@
                     image: "work1.png",
                     color: "from-blue-500 to-cyan-500"
                 },
-                                {
+                {
                     title: "Introduction de sensibilisation à la cybersécurité",
                     issuer: "HP LIFE",
                     date: "19/01/2026",
-                    description: "Reconnaissance des menaces courantes en matière de cybersécurité et acquisition de connaissances élémentaires permettant de mieux sécuriser les données et les informations en ligne.",
-                    skills: ["Cybersécurité", "Sécurité des données", "Menaces en ligne", "Protection"],
+                    description: "Reconnaissance des menaces courantes en matière de cybersécurité.",
+                    skills: ["Cybersécurité", "Sécurité des données", "Menaces en ligne"],
                     icon: "fas fa-shield-alt",
                     image: "certif.png",
                     color: "from-red-500 to-orange-500"
@@ -1103,8 +1250,8 @@
                     title: "L'IA pour les professionnels",
                     issuer: "HP LIFE",
                     date: "19/01/2026",
-                    description: "Rôle de l'IA dans les entreprises, outils d'IA autonomes et fonctionnalités intégrées, rédaction de prompts efficaces, utilisation éthique de l'IA et exploitation des outils d'IA pour l'évolution professionnelle.",
-                    skills: ["Intelligence Artificielle", "Prompts IA", "Éthique IA", "Outils IA"],
+                    description: "Rôle de l'IA dans les entreprises et utilisation éthique.",
+                    skills: ["Intelligence Artificielle", "Prompts IA", "Éthique IA"],
                     icon: "fas fa-robot",
                     image: "certif1.png",
                     color: "from-indigo-500 to-purple-500"
@@ -1114,7 +1261,7 @@
                     issuer: "Certification Professionnelle",
                     date: "2024",
                     description: "Traitement intelligent des données IoT à grande échelle.",
-                    skills: ["Python", "TensorFlow", "Kafka", "Spark", "MQTT"],
+                    skills: ["Python", "TensorFlow", "Kafka", "Spark"],
                     icon: "fas fa-brain",
                     image: "work2.png",
                     color: "from-purple-500 to-pink-500"
@@ -1124,80 +1271,66 @@
                     issuer: "Google Cloud",
                     date: "2024",
                     description: "Architecture cloud évolutive et sécurisée sur GCP.",
-                    skills: ["Google Cloud", "Terraform", "Docker", "CI/CD"],
+                    skills: ["Google Cloud", "Terraform", "Docker"],
                     icon: "fas fa-cloud",
                     image: "work3.png",
                     color: "from-green-500 to-emerald-500"
                 },
-
-{
-    title: "Introduction to Firewall",
-    issuer: "Great Learning Academy",
-    date: "08/2024",
-    description: "Introduction aux pare-feu, principes de sécurité réseau, contrôle du trafic entrant et sortant, bases de la protection des systèmes informatiques.",
-    skills: [
-        "Firewall",
-        "Sécurité réseau",
-        "Cybersécurité",
-        "Contrôle du trafic"
-    ],
-    icon: "fas fa-shield-alt",
-    image: "certif2.png",
-    color: "from-blue-500 to-cyan-500"
-}
-
+                {
+                    title: "Introduction to Firewall",
+                    issuer: "Great Learning Academy",
+                    date: "08/2024",
+                    description: "Introduction aux pare-feu et principes de sécurité réseau.",
+                    skills: ["Firewall", "Sécurité réseau", "Cybersécurité"],
+                    icon: "fas fa-shield-alt",
+                    image: "certif2.png",
+                    color: "from-blue-500 to-cyan-500"
+                }
             ];
             
             const openModal = (cert) => {
                 setSelectedCert(cert);
+                document.body.style.overflow = 'hidden';
             };
             
             const closeModal = () => {
                 setSelectedCert(null);
+                document.body.style.overflow = 'unset';
             };
             
             return (
-                <section id="certifications" className="py-24 px-4 sm:px-6 lg:px-8 bg-[var(--bg-secondary)]">
+                <section id="certifications" className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-[var(--bg-secondary)]">
                     <div className="max-w-7xl mx-auto">
                         <FadeIn>
-                            <div className="text-center mb-16">
+                            <div className="text-center mb-12 sm:mb-16">
                                 <div className="security-level inline-flex mb-4">
                                     <i className="fas fa-award"></i>
                                     <span>Certifications</span>
                                 </div>
-                                <h2 className="text-4xl sm:text-5xl font-bold text-[var(--text-primary)]">
+                                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[var(--text-primary)]">
                                     Certifications <span className="text-[var(--accent-primary)]">Professionnelles</span>
                                 </h2>
                             </div>
                         </FadeIn>
                         
-                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
                             {certifications.map((cert, idx) => (
                                 <FadeIn key={cert.title} delay={idx * 0.15}>
                                     <div 
-                                        className="cyber-card p-6 group cursor-pointer h-full flex flex-col"
+                                        className="cyber-card p-4 sm:p-6 group cursor-pointer h-full flex flex-col"
                                         onClick={() => openModal(cert)}
                                     >
-                                        {/* Certification Image */}
-                                        <div className="w-full h-48 mb-6 rounded-xl overflow-hidden border-2 border-[var(--border-color)] group-hover:border-[var(--accent-primary)] transition-all">
+                                        <div className="w-full h-40 sm:h-48 mb-4 sm:mb-6 rounded-xl overflow-hidden border-2 border-[var(--border-color)] group-hover:border-[var(--accent-primary)] transition-all">
                                             <img 
                                                 src={cert.image} 
                                                 alt={cert.title}
                                                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                                                onError={(e) => {
-                                                    // Fallback to icon if image fails to load
-                                                    e.target.style.display = 'none';
-                                                    const iconDiv = document.createElement('div');
-                                                    iconDiv.className = `w-full h-full bg-gradient-to-br ${cert.color} flex items-center justify-center`;
-                                                    iconDiv.innerHTML = `<i class="${cert.icon} text-4xl text-white"></i>`;
-                                                    e.target.parentElement.appendChild(iconDiv);
-                                                }}
                                             />
                                         </div>
                                         
-                                        <h3 className="text-xl font-bold text-[var(--text-primary)] mb-2">{cert.title}</h3>
+                                        <h3 className="text-lg sm:text-xl font-bold text-[var(--text-primary)] mb-2">{cert.title}</h3>
                                         <p className="text-[var(--accent-primary)] text-sm font-semibold mb-3">{cert.issuer}</p>
-                                        <p className="text-[var(--text-secondary)] text-sm mb-4 flex-grow">{cert.description}</p>
+                                        <p className="text-xs sm:text-sm text-[var(--text-secondary)] mb-4 flex-grow">{cert.description}</p>
                                         
                                         <div className="flex flex-wrap gap-2 mb-4">
                                             {cert.skills.slice(0, 3).map((skill) => (
@@ -1214,67 +1347,62 @@
                                         
                                         <div className="flex items-center justify-between text-xs text-[var(--text-secondary)]">
                                             <span><i className="fas fa-calendar mr-1"></i>{cert.date}</span>
-                                            <span className="text-[var(--accent-primary)]">Voir le certificat →</span>
+                                            <span className="text-[var(--accent-primary)]">Voir →</span>
                                         </div>
                                     </div>
                                 </FadeIn>
                             ))}
                         </div>
                         
-                        {/* Modal for Certification */}
+                        {/* Modal - RESPONSIVE */}
                         {selectedCert && (
                             <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto" onClick={closeModal}>
-                                <div className="bg-[var(--bg-primary)] rounded-3xl max-w-2xl w-full my-8 p-6 sm:p-8 relative border-2 border-[var(--accent-primary)] shadow-2xl shadow-[var(--glow-primary)] max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
-                                    {/* Close Button */}
+                                <div className="bg-[var(--bg-primary)] rounded-2xl sm:rounded-3xl max-w-2xl w-full my-8 p-4 sm:p-6 lg:p-8 relative border-2 border-[var(--accent-primary)] shadow-2xl shadow-[var(--glow-primary)] max-h-[90vh] overflow-y-auto modal-content" onClick={(e) => e.stopPropagation()}>
                                     <button 
                                         onClick={closeModal}
-                                        className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg hover:border-[var(--accent-primary)] transition-all duration-300 z-10"
+                                        className="absolute top-2 right-2 sm:top-4 sm:right-4 w-10 h-10 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg hover:border-[var(--accent-primary)] transition-all duration-300 z-10"
                                     >
                                         <i className="fas fa-times text-[var(--text-primary)]"></i>
                                     </button>
                                     
-                                    {/* Header */}
-                                    <div className="flex items-start gap-4 mb-6 pr-12">
-                                        <div className={`w-14 h-14 bg-gradient-to-br ${selectedCert.color} rounded-xl flex items-center justify-center flex-shrink-0`}>
-                                            <i className={`${selectedCert.icon} text-xl text-white`}></i>
+                                    <div className="flex items-start gap-3 sm:gap-4 mb-4 sm:mb-6 pr-12">
+                                        <div className={`w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br ${selectedCert.color} rounded-xl flex items-center justify-center flex-shrink-0`}>
+                                            <i className={`${selectedCert.icon} text-lg sm:text-xl text-white`}></i>
                                         </div>
                                         <div className="flex-grow">
-                                            <h3 className="text-xl sm:text-2xl font-bold text-[var(--text-primary)] mb-1">
+                                            <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-[var(--text-primary)] mb-1">
                                                 {selectedCert.title}
                                             </h3>
-                                            <p className="text-[var(--accent-primary)] font-semibold text-sm">
+                                            <p className="text-[var(--accent-primary)] font-semibold text-xs sm:text-sm">
                                                 {selectedCert.issuer} • {selectedCert.date}
                                             </p>
                                         </div>
                                     </div>
                                     
-                                    {/* Description */}
-                                    <div className="mb-6">
-                                        <p className="text-[var(--text-secondary)]">{selectedCert.description}</p>
+                                    <div className="mb-4 sm:mb-6">
+                                        <p className="text-sm sm:text-base text-[var(--text-secondary)]">{selectedCert.description}</p>
                                     </div>
                                     
-                                    {/* Skills */}
-                                    <div className="mb-6">
-                                        <h4 className="text-base font-semibold text-[var(--text-primary)] mb-3 flex items-center gap-2">
+                                    <div className="mb-4 sm:mb-6">
+                                        <h4 className="text-sm sm:text-base font-semibold text-[var(--text-primary)] mb-3 flex items-center gap-2">
                                             <i className="fas fa-code text-[var(--accent-primary)]"></i>
                                             Compétences acquises
                                         </h4>
                                         <div className="flex flex-wrap gap-2">
                                             {selectedCert.skills.map((skill) => (
-                                                <span key={skill} className="px-3 py-1 bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-full text-sm text-[var(--accent-primary)]">
+                                                <span key={skill} className="px-2 sm:px-3 py-1 bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-full text-xs sm:text-sm text-[var(--accent-primary)]">
                                                     {skill}
                                                 </span>
                                             ))}
                                         </div>
                                     </div>
                                     
-                                    {/* Certificate Image */}
-                                    <div className="mb-6">
+                                    <div className="mb-4 sm:mb-6">
                                         <div className="flex items-center gap-2 mb-3">
                                             <i className="fas fa-award text-[var(--accent-primary)]"></i>
-                                            <h4 className="text-base font-semibold text-[var(--text-primary)]">Certificat</h4>
+                                            <h4 className="text-sm sm:text-base font-semibold text-[var(--text-primary)]">Certificat</h4>
                                         </div>
-                                        <div className="bg-[var(--card-bg)] rounded-2xl p-4 border border-[var(--border-color)]">
+                                        <div className="bg-[var(--card-bg)] rounded-xl sm:rounded-2xl p-3 sm:p-4 border border-[var(--border-color)]">
                                             <img 
                                                 src={selectedCert.image} 
                                                 alt={`Certificat ${selectedCert.title}`}
@@ -1283,10 +1411,6 @@
                                                     e.stopPropagation();
                                                     window.open(selectedCert.image, '_blank');
                                                 }}
-                                                onError={(e) => {
-                                                    e.target.onerror = null;
-                                                    e.target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300"%3E%3Crect fill="%23f0f4f8" width="400" height="300"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-size="16" fill="%23495057"%3ECertificat non disponible%3C/text%3E%3C/svg%3E';
-                                                }}
                                             />
                                             <p className="text-center text-xs text-[var(--text-secondary)] mt-2">
                                                 Cliquez pour agrandir
@@ -1294,10 +1418,9 @@
                                         </div>
                                     </div>
                                     
-                                    {/* Close Button */}
                                     <button 
                                         onClick={closeModal}
-                                        className="w-full py-3 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-black font-semibold rounded-lg hover:shadow-lg hover:shadow-[var(--glow-primary)] transition-all"
+                                        className="w-full py-2 sm:py-3 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-black font-semibold rounded-lg hover:shadow-lg hover:shadow-[var(--glow-primary)] transition-all text-sm sm:text-base"
                                     >
                                         Fermer
                                     </button>
@@ -1309,8 +1432,7 @@
             );
         };
 
-        // Services Section
-        // Services Section
+        // Services Section - RESPONSIVE
         const Services = () => {
             const services = [
                 {
@@ -1352,39 +1474,37 @@
             ];
             
             return (
-                <section id="services" className="py-24 px-4 sm:px-6 lg:px-8 bg-[var(--bg-secondary)]">
+                <section id="services" className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-[var(--bg-secondary)]">
                     <div className="max-w-7xl mx-auto">
                         <FadeIn>
-                            <div className="text-center mb-16">
+                            <div className="text-center mb-12 sm:mb-16">
                                 <div className="security-level inline-flex mb-4">
                                     <i className="fas fa-server"></i>
                                     <span>Services</span>
                                 </div>
-                                <h2 className="text-4xl sm:text-5xl font-bold text-[var(--text-primary)]">
+                                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[var(--text-primary)]">
                                     Services <span className="text-[var(--accent-primary)]">Proposés</span>
                                 </h2>
                             </div>
                         </FadeIn>
                         
-                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
                             {services.map((service, idx) => (
                                 <FadeIn key={service.title} delay={idx * 0.1}>
-                                    <div className="cyber-card p-8 group hover:scale-105 transition-all duration-300 h-full flex flex-col">
-                                        {/* Icon with gradient background */}
-                                        <div className={`w-20 h-20 bg-gradient-to-br ${service.color} rounded-2xl flex items-center justify-center mb-6 group-hover:rotate-6 group-hover:scale-110 transition-all duration-300 shadow-lg`}>
-                                            <i className={`${service.icon} text-3xl text-white`}></i>
+                                    <div className="cyber-card p-6 sm:p-8 group hover:scale-105 transition-all duration-300 h-full flex flex-col">
+                                        <div className={`w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br ${service.color} rounded-xl sm:rounded-2xl flex items-center justify-center mb-4 sm:mb-6 group-hover:rotate-6 group-hover:scale-110 transition-all duration-300 shadow-lg`}>
+                                            <i className={`${service.icon} text-2xl sm:text-3xl text-white`}></i>
                                         </div>
                                         
-                                        <h3 className="text-xl font-bold text-[var(--text-primary)] mb-3 group-hover:text-[var(--accent-primary)] transition-colors">
+                                        <h3 className="text-lg sm:text-xl font-bold text-[var(--text-primary)] mb-3 group-hover:text-[var(--accent-primary)] transition-colors">
                                             {service.title}
                                         </h3>
                                         
-                                        <p className="text-[var(--text-secondary)] leading-relaxed flex-grow">
+                                        <p className="text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed flex-grow">
                                             {service.description}
                                         </p>
                                         
-                                        {/* Hover effect line */}
-                                        <div className="mt-6 h-1 w-0 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] group-hover:w-full transition-all duration-500 rounded-full"></div>
+                                        <div className="mt-4 sm:mt-6 h-1 w-0 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] group-hover:w-full transition-all duration-500 rounded-full"></div>
                                     </div>
                                 </FadeIn>
                             ))}
@@ -1394,7 +1514,7 @@
             );
         };
 
-        // Experience Section with Modal and Attestations
+        // Experience Section - RESPONSIVE
         const Experiences = () => {
             const [selectedExperience, setSelectedExperience] = useState(null);
             
@@ -1424,7 +1544,7 @@
                     icon: "fas fa-code",
                     tasks: [
                         "Conception et développement d'une plateforme de livraison intelligente.",
-                        "Mise en place de fonctionnalités permettant aux clients et fournisseurs de soumettre des commandes, et aux livreurs ou sociétés de livraison de les prendre en charge."
+                        "Mise en place de fonctionnalités permettant aux clients et fournisseurs de soumettre des commandes."
                     ],
                     responsibilities: [
                         "Développement plateforme de livraison sécurisée",
@@ -1437,43 +1557,45 @@
             
             const openModal = (exp) => {
                 setSelectedExperience(exp);
+                document.body.style.overflow = 'hidden';
             };
             
             const closeModal = () => {
                 setSelectedExperience(null);
+                document.body.style.overflow = 'unset';
             };
             
             return (
-                <section id="expériences" className="py-24 px-4 sm:px-6 lg:px-8">
+                <section id="expériences" className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8">
                     <div className="max-w-7xl mx-auto">
                         <FadeIn>
-                            <div className="text-center mb-16">
+                            <div className="text-center mb-12 sm:mb-16">
                                 <div className="security-level inline-flex mb-4">
                                     <i className="fas fa-briefcase"></i>
                                     <span>Parcours</span>
                                 </div>
-                                <h2 className="text-4xl sm:text-5xl font-bold text-[var(--text-primary)]">
+                                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[var(--text-primary)]">
                                     Expériences <span className="text-[var(--accent-primary)]">Professionnelles</span>
                                 </h2>
                             </div>
                         </FadeIn>
                         
-                        <div className="space-y-8">
+                        <div className="space-y-6 sm:space-y-8">
                             {experiences.map((exp, idx) => (
                                 <FadeIn key={exp.company} delay={idx * 0.2}>
-                                    <div className="cyber-card p-8 cursor-pointer" onClick={() => openModal(exp)}>
-                                        <div className="flex items-start gap-6">
-                                            <div className="w-16 h-16 bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-xl flex items-center justify-center flex-shrink-0">
-                                                <i className={`${exp.icon} text-2xl text-black`}></i>
+                                    <div className="cyber-card p-4 sm:p-6 lg:p-8 cursor-pointer" onClick={() => openModal(exp)}>
+                                        <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6">
+                                            <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-lg sm:rounded-xl flex items-center justify-center flex-shrink-0">
+                                                <i className={`${exp.icon} text-xl sm:text-2xl text-black`}></i>
                                             </div>
                                             
-                                            <div className="flex-grow">
-                                                <h3 className="text-2xl font-bold text-[var(--text-primary)] mb-2">{exp.company}</h3>
-                                                <div className="flex flex-wrap items-center gap-4 mb-4">
-                                                    <span className="text-[var(--accent-primary)] font-semibold">{exp.role}</span>
-                                                    <span className="text-[var(--text-secondary)]">•</span>
+                                            <div className="flex-grow w-full">
+                                                <h3 className="text-xl sm:text-2xl font-bold text-[var(--text-primary)] mb-2">{exp.company}</h3>
+                                                <div className="flex flex-wrap items-center gap-2 sm:gap-4 mb-4 text-sm sm:text-base">
+                                                    <span className="text-[var(--accent-primary)] font-semibold">{exp.role.split(' - ')[0]}</span>
+                                                    <span className="hidden sm:inline text-[var(--text-secondary)]">•</span>
                                                     <span className="text-[var(--text-secondary)]">{exp.period}</span>
-                                                    <span className="text-[var(--text-secondary)]">•</span>
+                                                    <span className="hidden sm:inline text-[var(--text-secondary)]">•</span>
                                                     <span className="text-[var(--text-secondary)]">
                                                         <i className="fas fa-map-marker-alt mr-1"></i>
                                                         {exp.location}
@@ -1482,8 +1604,8 @@
                                                 
                                                 <ul className="space-y-2">
                                                     {exp.responsibilities.map((task) => (
-                                                        <li key={task} className="flex items-start gap-3 text-[var(--text-secondary)]">
-                                                            <i className="fas fa-check text-[var(--accent-primary)] mt-1"></i>
+                                                        <li key={task} className="flex items-start gap-3 text-sm sm:text-base text-[var(--text-secondary)]">
+                                                            <i className="fas fa-check text-[var(--accent-primary)] mt-1 flex-shrink-0"></i>
                                                             <span>{task}</span>
                                                         </li>
                                                     ))}
@@ -1495,55 +1617,51 @@
                             ))}
                         </div>
                         
-                        {/* Modal for Attestation */}
+                        {/* Modal - RESPONSIVE */}
                         {selectedExperience && (
                             <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto" onClick={closeModal}>
-                                <div className="bg-[var(--bg-primary)] rounded-3xl max-w-2xl w-full my-8 p-6 sm:p-8 relative border-2 border-[var(--accent-primary)] shadow-2xl shadow-[var(--glow-primary)] max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
-                                    {/* Close Button */}
+                                <div className="bg-[var(--bg-primary)] rounded-2xl sm:rounded-3xl max-w-2xl w-full my-8 p-4 sm:p-6 lg:p-8 relative border-2 border-[var(--accent-primary)] shadow-2xl shadow-[var(--glow-primary)] max-h-[90vh] overflow-y-auto modal-content" onClick={(e) => e.stopPropagation()}>
                                     <button 
                                         onClick={closeModal}
-                                        className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg hover:border-[var(--accent-primary)] transition-all duration-300 z-10"
+                                        className="absolute top-2 right-2 sm:top-4 sm:right-4 w-10 h-10 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg hover:border-[var(--accent-primary)] transition-all duration-300 z-10"
                                     >
                                         <i className="fas fa-times text-[var(--text-primary)]"></i>
                                     </button>
                                     
-                                    {/* Header */}
-                                    <div className="flex items-start gap-4 mb-6 pr-12">
-                                        <div className="w-14 h-14 bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-xl flex items-center justify-center flex-shrink-0">
-                                            <i className={`${selectedExperience.icon} text-xl text-black`}></i>
+                                    <div className="flex items-start gap-3 sm:gap-4 mb-4 sm:mb-6 pr-12">
+                                        <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-lg sm:rounded-xl flex items-center justify-center flex-shrink-0">
+                                            <i className={`${selectedExperience.icon} text-lg sm:text-xl text-black`}></i>
                                         </div>
                                         <div className="flex-grow">
-                                            <h3 className="text-xl sm:text-2xl font-bold text-[var(--text-primary)] mb-1">
+                                            <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-[var(--text-primary)] mb-1">
                                                 {selectedExperience.company}
                                             </h3>
-                                            <p className="text-[var(--accent-primary)] font-semibold text-sm sm:text-base">
+                                            <p className="text-[var(--accent-primary)] font-semibold text-xs sm:text-sm lg:text-base">
                                                 {selectedExperience.role.split(' - ')[0]}
                                             </p>
                                         </div>
                                     </div>
                                     
-                                    {/* Details */}
-                                    <div className="flex flex-wrap items-center gap-3 text-[var(--text-secondary)] text-sm mb-6">
+                                    <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-[var(--text-secondary)] text-xs sm:text-sm mb-4 sm:mb-6">
                                         <div className="flex items-center gap-2">
                                             <i className="fas fa-calendar-alt"></i>
                                             <span>{selectedExperience.period}</span>
                                         </div>
-                                        <span>•</span>
+                                        <span className="hidden sm:inline">•</span>
                                         <div className="flex items-center gap-2">
                                             <i className="fas fa-map-marker-alt"></i>
                                             <span>{selectedExperience.location}</span>
                                         </div>
                                     </div>
                                     
-                                    {/* Responsibilities */}
-                                    <div className="mb-6">
+                                    <div className="mb-4 sm:mb-6">
                                         <div className="flex items-center gap-2 mb-3">
                                             <i className="fas fa-list text-[var(--accent-primary)]"></i>
-                                            <h4 className="text-base sm:text-lg font-semibold text-[var(--text-primary)]">Responsabilités</h4>
+                                            <h4 className="text-sm sm:text-base lg:text-lg font-semibold text-[var(--text-primary)]">Responsabilités</h4>
                                         </div>
                                         <ul className="space-y-2">
                                             {selectedExperience.tasks.map((task, index) => (
-                                                <li key={index} className="flex items-start gap-3 text-[var(--text-secondary)] text-sm">
+                                                <li key={index} className="flex items-start gap-3 text-[var(--text-secondary)] text-xs sm:text-sm">
                                                     <i className="fas fa-check text-green-400 mt-1 flex-shrink-0"></i>
                                                     <span>{task}</span>
                                                 </li>
@@ -1551,13 +1669,12 @@
                                         </ul>
                                     </div>
                                     
-                                    {/* Attestation */}
-                                    <div className="mb-6">
+                                    <div className="mb-4 sm:mb-6">
                                         <div className="flex items-center gap-2 mb-3">
                                             <i className="fas fa-certificate text-[var(--accent-primary)]"></i>
-                                            <h4 className="text-base sm:text-lg font-semibold text-[var(--text-primary)]">Attestation</h4>
+                                            <h4 className="text-sm sm:text-base lg:text-lg font-semibold text-[var(--text-primary)]">Attestation</h4>
                                         </div>
-                                        <div className="bg-[var(--card-bg)] rounded-2xl p-4 border border-[var(--border-color)]">
+                                        <div className="bg-[var(--card-bg)] rounded-xl sm:rounded-2xl p-3 sm:p-4 border border-[var(--border-color)]">
                                             <img 
                                                 src={selectedExperience.attestation} 
                                                 alt={`Attestation ${selectedExperience.company}`}
@@ -1566,10 +1683,6 @@
                                                     e.stopPropagation();
                                                     window.open(selectedExperience.attestation, '_blank');
                                                 }}
-                                                onError={(e) => {
-                                                    e.target.onerror = null;
-                                                    e.target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300"%3E%3Crect fill="%23f0f4f8" width="400" height="300"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-size="16" fill="%23495057"%3EAttestation non disponible%3C/text%3E%3C/svg%3E';
-                                                }}
                                             />
                                             <p className="text-center text-xs text-[var(--text-secondary)] mt-2">
                                                 Cliquez pour agrandir
@@ -1577,10 +1690,9 @@
                                         </div>
                                     </div>
                                     
-                                    {/* Close Button */}
                                     <button 
                                         onClick={closeModal}
-                                        className="w-full py-3 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-black font-semibold rounded-lg hover:shadow-lg hover:shadow-[var(--glow-primary)] transition-all"
+                                        className="w-full py-2 sm:py-3 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-black font-semibold rounded-lg hover:shadow-lg hover:shadow-[var(--glow-primary)] transition-all text-sm sm:text-base"
                                     >
                                         Fermer
                                     </button>
@@ -1592,7 +1704,7 @@
             );
         };
 
-        // Contact Section
+        // Contact Section - RESPONSIVE
         const Contact = () => {
             const [formData, setFormData] = useState({ name: "", email: "", message: "" });
             const [status, setStatus] = useState({ message: "", type: "" });
@@ -1624,61 +1736,61 @@
             };
             
             return (
-                <section id="contact" className="py-24 px-4 sm:px-6 lg:px-8 bg-[var(--bg-secondary)]">
+                <section id="contact" className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-[var(--bg-secondary)]">
                     <div className="max-w-7xl mx-auto">
                         <FadeIn>
-                            <div className="text-center mb-16">
+                            <div className="text-center mb-12 sm:mb-16">
                                 <div className="security-level inline-flex mb-4">
                                     <i className="fas fa-envelope-open-text"></i>
                                     <span>Contact</span>
                                 </div>
-                                <h2 className="text-4xl sm:text-5xl font-bold text-[var(--text-primary)]">
+                                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[var(--text-primary)]">
                                     Contactez <span className="text-[var(--accent-primary)]">-Moi</span>
                                 </h2>
                             </div>
                         </FadeIn>
                         
-                        <div className="grid lg:grid-cols-2 gap-12">
+                        <div className="grid lg:grid-cols-2 gap-8 sm:gap-12">
                             <FadeIn direction="right">
-                                <div className="space-y-8">
-                                    <div className="cyber-card p-6 flex items-center space-x-4">
-                                        <div className="w-12 h-12 bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-lg flex items-center justify-center">
-                                            <i className="fas fa-envelope text-xl text-black"></i>
+                                <div className="space-y-6 sm:space-y-8">
+                                    <div className="cyber-card p-4 sm:p-6 flex items-center space-x-3 sm:space-x-4">
+                                        <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-lg flex items-center justify-center flex-shrink-0">
+                                            <i className="fas fa-envelope text-lg sm:text-xl text-black"></i>
                                         </div>
-                                        <div>
-                                            <div className="text-sm text-[var(--text-secondary)]">Email</div>
-                                            <a href="mailto:omaromarkortas@gmail.com" className="text-[var(--accent-primary)] hover:underline">
+                                        <div className="min-w-0">
+                                            <div className="text-xs sm:text-sm text-[var(--text-secondary)]">Email</div>
+                                            <a href="mailto:omaromarkortas@gmail.com" className="text-sm sm:text-base text-[var(--accent-primary)] hover:underline break-all">
                                                 omaromarkortas@gmail.com
                                             </a>
                                         </div>
                                     </div>
                                     
-                                    <div className="cyber-card p-6 flex items-center space-x-4">
-                                        <div className="w-12 h-12 bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-lg flex items-center justify-center">
-                                            <i className="fas fa-phone text-xl text-black"></i>
+                                    <div className="cyber-card p-4 sm:p-6 flex items-center space-x-3 sm:space-x-4">
+                                        <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-lg flex items-center justify-center flex-shrink-0">
+                                            <i className="fas fa-phone text-lg sm:text-xl text-black"></i>
                                         </div>
                                         <div>
-                                            <div className="text-sm text-[var(--text-secondary)]">Téléphone</div>
-                                            <a href="tel:+21699749793" className="text-[var(--accent-primary)] hover:underline">
+                                            <div className="text-xs sm:text-sm text-[var(--text-secondary)]">Téléphone</div>
+                                            <a href="tel:+21699749793" className="text-sm sm:text-base text-[var(--accent-primary)] hover:underline">
                                                 +216 99 749 793
                                             </a>
                                         </div>
                                     </div>
                                     
-                                    <div className="cyber-card p-6 flex items-center space-x-4">
-                                        <div className="w-12 h-12 bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-lg flex items-center justify-center">
-                                            <i className="fas fa-map-marker-alt text-xl text-black"></i>
+                                    <div className="cyber-card p-4 sm:p-6 flex items-center space-x-3 sm:space-x-4">
+                                        <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-lg flex items-center justify-center flex-shrink-0">
+                                            <i className="fas fa-map-marker-alt text-lg sm:text-xl text-black"></i>
                                         </div>
                                         <div>
-                                            <div className="text-sm text-[var(--text-secondary)]">Localisation</div>
-                                            <div className="text-[var(--text-primary)]">Sousse, Tunisie</div>
+                                            <div className="text-xs sm:text-sm text-[var(--text-secondary)]">Localisation</div>
+                                            <div className="text-sm sm:text-base text-[var(--text-primary)]">Sousse, Tunisie</div>
                                         </div>
                                     </div>
                                 </div>
                             </FadeIn>
                             
                             <FadeIn direction="left" delay={0.2}>
-                                <form onSubmit={handleSubmit} className="cyber-card p-8 space-y-6">
+                                <form onSubmit={handleSubmit} className="cyber-card p-4 sm:p-6 lg:p-8 space-y-4 sm:space-y-6">
                                     <div>
                                         <label className="block text-sm font-semibold text-[var(--text-secondary)] mb-2">
                                             Nom complet
@@ -1687,7 +1799,7 @@
                                             type="text"
                                             value={formData.name}
                                             onChange={(e) => setFormData({...formData, name: e.target.value})}
-                                            className="w-full px-4 py-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-lg text-[var(--text-primary)] focus:border-[var(--accent-primary)] focus:outline-none transition-all"
+                                            className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-lg text-[var(--text-primary)] focus:border-[var(--accent-primary)] focus:outline-none transition-all text-sm sm:text-base"
                                             required
                                         />
                                     </div>
@@ -1700,7 +1812,7 @@
                                             type="email"
                                             value={formData.email}
                                             onChange={(e) => setFormData({...formData, email: e.target.value})}
-                                            className="w-full px-4 py-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-lg text-[var(--text-primary)] focus:border-[var(--accent-primary)] focus:outline-none transition-all"
+                                            className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-lg text-[var(--text-primary)] focus:border-[var(--accent-primary)] focus:outline-none transition-all text-sm sm:text-base"
                                             required
                                         />
                                     </div>
@@ -1713,7 +1825,7 @@
                                             rows="5"
                                             value={formData.message}
                                             onChange={(e) => setFormData({...formData, message: e.target.value})}
-                                            className="w-full px-4 py-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-lg text-[var(--text-primary)] focus:border-[var(--accent-primary)] focus:outline-none transition-all resize-none"
+                                            className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-lg text-[var(--text-primary)] focus:border-[var(--accent-primary)] focus:outline-none transition-all resize-none text-sm sm:text-base"
                                             required
                                         ></textarea>
                                     </div>
@@ -1721,13 +1833,13 @@
                                     <button
                                         type="submit"
                                         disabled={isSubmitting}
-                                        className="w-full py-4 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-black font-semibold rounded-lg hover:shadow-lg hover:shadow-[var(--glow-primary)] transition-all disabled:opacity-50"
+                                        className="w-full py-3 sm:py-4 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-black font-semibold rounded-lg hover:shadow-lg hover:shadow-[var(--glow-primary)] transition-all disabled:opacity-50 text-sm sm:text-base"
                                     >
                                         {isSubmitting ? "Envoi en cours..." : "Envoyer le message"}
                                     </button>
                                     
                                     {status.message && (
-                                        <div className={`p-4 rounded-lg ${
+                                        <div className={`p-3 sm:p-4 rounded-lg text-sm sm:text-base ${
                                             status.type === "success" 
                                                 ? "bg-green-900/30 border border-green-500 text-green-400" 
                                                 : "bg-red-900/30 border border-red-500 text-red-400"
@@ -1743,22 +1855,22 @@
             );
         };
 
-        // Footer
+        // Footer - RESPONSIVE
         const Footer = () => {
             return (
-                <footer className="py-12 px-4 sm:px-6 lg:px-8 border-t border-[var(--border-color)]">
+                <footer className="py-8 sm:py-12 px-4 sm:px-6 lg:px-8 border-t border-[var(--border-color)]">
                     <div className="max-w-7xl mx-auto">
-                        <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+                        <div className="flex flex-col md:flex-row justify-between items-center gap-4 sm:gap-6">
                             <div className="text-center md:text-left">
-                                <p className="text-[var(--text-secondary)]">
+                                <p className="text-sm sm:text-base text-[var(--text-secondary)]">
                                     © 2025 Omar El Farouk Kortas. Tous droits réservés.
                                 </p>
-                                <p className="text-sm text-[var(--text-secondary)] mt-1">
+                                <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-1">
                                     Développé avec <i className="fas fa-heart text-red-500"></i> et sécurisé par design
                                 </p>
                             </div>
                             
-                            <div className="flex gap-4">
+                            <div className="flex gap-3 sm:gap-4">
                                 <a href="https://www.linkedin.com/in/omar-el-farouk-kortas-8b4613294/" className="w-10 h-10 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg hover:border-[var(--accent-primary)] transition-all">
                                     <i className="fab fa-linkedin text-[var(--accent-primary)]"></i>
                                 </a>
@@ -1776,7 +1888,6 @@
         const App = () => {
             const [theme, setTheme] = useState('light');
             
-            // Scroll to top on page load
             useEffect(() => {
                 window.scrollTo(0, 0);
             }, []);
@@ -1787,12 +1898,13 @@
                         selector: '#particles-background',
                         color: theme === 'light' ? ['#00b4d8', '#0077b6', '#000000'] : ['#00e6b4', '#00b4d8', '#FFFFFF'],
                         connectParticles: true,
-                        maxParticles: 80,
+                        maxParticles: window.innerWidth < 768 ? 40 : 80,
                         speed: 0.5,
                         sizeVariations: 3,
                         minDistance: 120,
                         responsive: [
-                            { breakpoint: 768, options: { maxParticles: 50 } }
+                            { breakpoint: 768, options: { maxParticles: 40 } },
+                            { breakpoint: 480, options: { maxParticles: 25 } }
                         ]
                     });
                 } catch (error) {
@@ -1826,14 +1938,12 @@
 
         ReactDOM.render(<App />, document.getElementById('root'));
         
-        // Force scroll to top on page load
         window.addEventListener('load', () => {
             setTimeout(() => {
                 window.scrollTo({ top: 0, behavior: 'instant' });
             }, 0);
         });
         
-        // Also handle browser back/forward
         window.addEventListener('popstate', () => {
             window.scrollTo({ top: 0, behavior: 'instant' });
         });
