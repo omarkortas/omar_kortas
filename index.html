@@ -493,12 +493,16 @@
                         <div className="flex justify-between h-16 items-center">
                             <a href="#" className="group flex items-center space-x-2">
                                 <div className="security-badge">
-                                    <i className="fas fa-shield-alt text-[var(--accent-primary)] text-2xl"></i>
+                                    <i className={`fas fa-shield-alt text-2xl transition-colors duration-300 ${
+                                        scrolled ? 'text-sky-400' : 'text-[var(--accent-primary)]'
+                                    }`}></i>
                                 </div>
-                                <span className="text-xl font-bold text-[var(--text-primary)] tracking-tight">
-                                    <span className="text-[var(--accent-primary)]">&lt;</span>
+                                <span className={`text-xl font-bold tracking-tight transition-colors duration-300 ${
+                                    scrolled ? 'text-white' : 'text-[var(--text-primary)]'
+                                }`}>
+                                    <span className={`transition-colors duration-300 ${scrolled ? 'text-sky-400' : 'text-[var(--accent-primary)]'}`}>&lt;</span>
                                     Omar.dev
-                                    <span className="text-[var(--accent-primary)]">/&gt;</span>
+                                    <span className={`transition-colors duration-300 ${scrolled ? 'text-sky-400' : 'text-[var(--accent-primary)]'}`}>/&gt;</span>
                                 </span>
                             </a>
                             
@@ -507,11 +511,17 @@
                                     <a
                                         key={item.name}
                                         href={`#${item.name.toLowerCase().replace(' ', '-')}`}
-                                        className="group flex items-center space-x-2 text-[var(--text-secondary)] hover:text-[var(--accent-primary)] transition-all duration-300 text-sm font-medium"
+                                        className={`group flex items-center space-x-2 transition-all duration-300 text-sm font-medium ${
+                                            scrolled 
+                                                ? 'text-sky-300 hover:text-sky-400' 
+                                                : 'text-[var(--text-secondary)] hover:text-[var(--accent-primary)]'
+                                        }`}
                                     >
                                         <i className={`${item.icon} text-xs`}></i>
                                         <span>{item.name}</span>
-                                        <span className="block h-0.5 bg-[var(--accent-primary)] w-0 group-hover:w-full transition-all duration-300"></span>
+                                        <span className={`block h-0.5 w-0 group-hover:w-full transition-all duration-300 ${
+                                            scrolled ? 'bg-sky-400' : 'bg-[var(--accent-primary)]'
+                                        }`}></span>
                                     </a>
                                 ))}
                                 
@@ -519,11 +529,15 @@
                                     onClick={toggleTheme}
                                     className="w-10 h-10 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg hover:border-[var(--accent-primary)] transition-all duration-300"
                                 >
-                                    <i className={`${theme === 'light' ? 'fas fa-moon' : 'fas fa-sun'} text-[var(--accent-primary)]`}></i>
+                                    <i className={`${theme === 'light' ? 'fas fa-moon' : 'fas fa-sun'} transition-colors duration-300 ${
+                                        scrolled ? 'text-sky-400' : 'text-[var(--accent-primary)]'
+                                    }`}></i>
                                 </button>
                             </div>
                             
-                            <button onClick={() => setIsOpen(!isOpen)} className="md:hidden text-[var(--text-primary)]">
+                            <button onClick={() => setIsOpen(!isOpen)} className={`md:hidden transition-colors duration-300 ${
+                                scrolled ? 'text-white' : 'text-[var(--text-primary)]'
+                            }`}>
                                 <i className={`fas ${isOpen ? 'fa-times' : 'fa-bars'} text-xl`}></i>
                             </button>
                         </div>
@@ -535,7 +549,11 @@
                                 <a
                                     key={item.name}
                                     href={`#${item.name.toLowerCase().replace(' ', '-')}`}
-                                    className="flex items-center space-x-3 px-4 py-3 text-[var(--text-secondary)] hover:text-[var(--accent-primary)] hover:bg-[var(--bg-tertiary)] border-b border-[var(--border-color)] transition-all"
+                                    className={`flex items-center space-x-3 px-4 py-3 border-b border-[var(--border-color)] transition-all ${
+                                        scrolled
+                                            ? 'text-sky-300 hover:text-sky-400 hover:bg-[var(--bg-tertiary)]'
+                                            : 'text-[var(--text-secondary)] hover:text-[var(--accent-primary)] hover:bg-[var(--bg-tertiary)]'
+                                    }`}
                                     onClick={() => setIsOpen(false)}
                                 >
                                     <i className={item.icon}></i>
@@ -834,29 +852,67 @@
 
         // Projects Section (continuing with similar cybersecurity theme)
         const Projects = () => {
+            const [selectedProject, setSelectedProject] = useState(null);
+            
             const projects = [
                 {
                     title: "Plateforme de Livraison Sécurisée",
                     description: "Application web et mobile avec authentification avancée et chiffrement des données.",
+                    fullDescription: "Application web et mobile pour la gestion des livraisons entre clients, fournisseurs et livreurs. Système complet de livraison intégrant l'inscription des utilisateurs, la gestion des commandes, le suivi des livraisons, la soumission de réclamations, la génération automatique des factures et l'envoi de notifications par email.",
                     tech: ["Next.js", "NestJS", "MySQL", "JWT"],
+                    features: [
+                        "Inscription et authentification des utilisateurs (Clients, Fournisseurs, Livreurs)",
+                        "Gestion complète des commandes",
+                        "Suivi en temps réel des livraisons",
+                        "Système de réclamations",
+                        "Génération automatique des factures",
+                        "Notifications par email"
+                    ],
                     icon: "fas fa-truck",
-                    image: "work4.png"
+                    image: "work4.png",
+                    badge: "Projet"
                 },
                 {
                     title: "Système de Détection d'Intrusion",
                     description: "IDS/IPS basé sur l'IA pour la détection de menaces en temps réel.",
-                    tech: ["Python", "TensorFlow", "Scapy"],
+                    fullDescription: "Système de détection et de prévention d'intrusions utilisant l'intelligence artificielle pour identifier et bloquer les menaces de sécurité en temps réel.",
+                    tech: ["Python", "TensorFlow", "Scapy", "Machine Learning"],
+                    features: [
+                        "Analyse du trafic réseau en temps réel",
+                        "Détection des anomalies par IA",
+                        "Blocage automatique des menaces",
+                        "Alertes et notifications",
+                        "Tableaux de bord de monitoring"
+                    ],
                     icon: "fas fa-shield-virus",
-                    image: "work5.png"
+                    image: "work5.png",
+                    badge: "Projet"
                 },
                 {
                     title: "Infrastructure Cloud Sécurisée",
                     description: "Déploiement d'une architecture cloud avec chiffrement et contrôle d'accès.",
-                    tech: ["AWS", "Terraform", "Docker"],
+                    fullDescription: "Mise en place d'une infrastructure cloud sur Google Cloud Platform (GCP) avec déploiement automatisé via Terraform, conteneurisation avec Docker, pipelines CI/CD, gestion des identités et surveillance des ressources pour garantir performance et sécurité.",
+                    tech: ["AWS", "Terraform", "Docker", "Kubernetes"],
+                    features: [
+                        "Architecture cloud évolutive",
+                        "Déploiement automatisé avec Terraform",
+                        "Conteneurisation avec Docker",
+                        "Pipelines CI/CD",
+                        "Monitoring et surveillance"
+                    ],
                     icon: "fas fa-cloud-upload-alt",
-                    image: "work3.png"
+                    image: "work3.png",
+                    badge: "Projet"
                 }
             ];
+            
+            const openModal = (project) => {
+                setSelectedProject(project);
+            };
+            
+            const closeModal = () => {
+                setSelectedProject(null);
+            };
             
             return (
                 <section id="projets" className="py-24 px-4 sm:px-6 lg:px-8">
@@ -876,9 +932,25 @@
                         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                             {projects.map((project, idx) => (
                                 <FadeIn key={project.title} delay={idx * 0.15}>
-                                    <div className="cyber-card p-6 group h-full flex flex-col">
-                                        <div className="w-16 h-16 bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-xl flex items-center justify-center mb-6">
-                                            <i className={`${project.icon} text-2xl text-black`}></i>
+                                    <div 
+                                        className="cyber-card p-6 group h-full flex flex-col cursor-pointer"
+                                        onClick={() => openModal(project)}
+                                    >
+                                        {/* Project Image */}
+                                        <div className="w-full h-48 mb-6 rounded-xl overflow-hidden border-2 border-[var(--border-color)] group-hover:border-[var(--accent-primary)] transition-all">
+                                            <img 
+                                                src={project.image} 
+                                                alt={project.title}
+                                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                                onError={(e) => {
+                                                    // Fallback to icon if image fails to load
+                                                    e.target.style.display = 'none';
+                                                    const iconDiv = document.createElement('div');
+                                                    iconDiv.className = 'w-full h-full bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] flex items-center justify-center';
+                                                    iconDiv.innerHTML = `<i class="${project.icon} text-4xl text-black"></i>`;
+                                                    e.target.parentElement.appendChild(iconDiv);
+                                                }}
+                                            />
                                         </div>
                                         
                                         <h3 className="text-xl font-bold text-[var(--text-primary)] mb-3">{project.title}</h3>
@@ -899,6 +971,103 @@
                                 </FadeIn>
                             ))}
                         </div>
+                        
+                        {/* Modal for Project Details */}
+                        {selectedProject && (
+                            <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto" onClick={closeModal}>
+                                <div className="bg-gradient-to-br from-[var(--bg-primary)] to-[var(--bg-secondary)] rounded-3xl max-w-4xl w-full my-8 p-6 sm:p-8 relative border-2 border-[var(--accent-primary)] shadow-2xl shadow-[var(--glow-primary)] max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+                                    {/* Close Button */}
+                                    <button 
+                                        onClick={closeModal}
+                                        className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg hover:border-[var(--accent-primary)] transition-all duration-300 z-10"
+                                    >
+                                        <i className="fas fa-times text-[var(--text-primary)]"></i>
+                                    </button>
+                                    
+                                    {/* Header with Badge */}
+                                    <div className="mb-6">
+                                        <div className="flex items-start justify-between mb-4">
+                                            <h2 className="text-3xl sm:text-4xl font-bold text-[var(--text-primary)] pr-12">
+                                                {selectedProject.title}
+                                            </h2>
+                                            <span className="px-4 py-2 bg-[var(--accent-primary)] text-black text-xs font-bold rounded-full whitespace-nowrap">
+                                                {selectedProject.badge}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    
+                                    {/* Project Image */}
+                                    <div className="mb-8 relative rounded-2xl overflow-hidden border-2 border-[var(--border-color)]">
+                                        <img 
+                                            src={selectedProject.image} 
+                                            alt={selectedProject.title}
+                                            className="w-full h-auto object-cover"
+                                            onError={(e) => {
+                                                e.target.onerror = null;
+                                                // Fallback to icon if image doesn't load
+                                                e.target.parentElement.innerHTML = `
+                                                    <div class="bg-gradient-to-br from-[var(--accent-primary)]/20 to-[var(--accent-secondary)]/20 p-12 flex items-center justify-center min-h-[300px]">
+                                                        <div class="w-32 h-32 bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-3xl flex items-center justify-center shadow-2xl">
+                                                            <i class="${selectedProject.icon} text-6xl text-black"></i>
+                                                        </div>
+                                                    </div>
+                                                `;
+                                            }}
+                                        />
+                                    </div>
+                                    
+                                    {/* Description */}
+                                    <div className="mb-8">
+                                        <h3 className="text-xl font-bold text-[var(--text-primary)] mb-4 flex items-center gap-2">
+                                            <i className="fas fa-info-circle text-[var(--accent-primary)]"></i>
+                                            Description du projet
+                                        </h3>
+                                        <p className="text-[var(--text-secondary)] leading-relaxed">
+                                            {selectedProject.fullDescription}
+                                        </p>
+                                    </div>
+                                    
+                                    {/* Features */}
+                                    <div className="mb-8">
+                                        <h3 className="text-xl font-bold text-[var(--text-primary)] mb-4 flex items-center gap-2">
+                                            <i className="fas fa-tasks text-[var(--accent-primary)]"></i>
+                                            Fonctionnalités principales
+                                        </h3>
+                                        <ul className="grid md:grid-cols-2 gap-3">
+                                            {selectedProject.features.map((feature, index) => (
+                                                <li key={index} className="flex items-start gap-3 text-[var(--text-secondary)]">
+                                                    <i className="fas fa-check-circle text-[var(--accent-primary)] mt-1 flex-shrink-0"></i>
+                                                    <span>{feature}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                    
+                                    {/* Technologies */}
+                                    <div className="mb-8">
+                                        <h3 className="text-xl font-bold text-[var(--text-primary)] mb-4 flex items-center gap-2">
+                                            <i className="fas fa-code text-[var(--accent-primary)]"></i>
+                                            Technologies utilisées
+                                        </h3>
+                                        <div className="flex flex-wrap gap-3">
+                                            {selectedProject.tech.map((tech) => (
+                                                <span key={tech} className="px-4 py-2 bg-gradient-to-r from-[var(--accent-primary)]/20 to-[var(--accent-secondary)]/20 border border-[var(--border-color)] rounded-lg text-[var(--accent-primary)] font-semibold">
+                                                    {tech}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                    
+                                    {/* Close Button */}
+                                    <button 
+                                        onClick={closeModal}
+                                        className="w-full py-4 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-black font-bold rounded-lg hover:shadow-lg hover:shadow-[var(--glow-primary)] transition-all text-lg"
+                                    >
+                                        Fermer
+                                    </button>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </section>
             );
@@ -919,6 +1088,26 @@
                     image: "work1.png",
                     color: "from-blue-500 to-cyan-500"
                 },
+                                {
+                    title: "Introduction de sensibilisation à la cybersécurité",
+                    issuer: "HP LIFE",
+                    date: "19/01/2026",
+                    description: "Reconnaissance des menaces courantes en matière de cybersécurité et acquisition de connaissances élémentaires permettant de mieux sécuriser les données et les informations en ligne.",
+                    skills: ["Cybersécurité", "Sécurité des données", "Menaces en ligne", "Protection"],
+                    icon: "fas fa-shield-alt",
+                    image: "certif.png",
+                    color: "from-red-500 to-orange-500"
+                },
+                {
+                    title: "L'IA pour les professionnels",
+                    issuer: "HP LIFE",
+                    date: "19/01/2026",
+                    description: "Rôle de l'IA dans les entreprises, outils d'IA autonomes et fonctionnalités intégrées, rédaction de prompts efficaces, utilisation éthique de l'IA et exploitation des outils d'IA pour l'évolution professionnelle.",
+                    skills: ["Intelligence Artificielle", "Prompts IA", "Éthique IA", "Outils IA"],
+                    icon: "fas fa-robot",
+                    image: "certif1.png",
+                    color: "from-indigo-500 to-purple-500"
+                },
                 {
                     title: "IA & Big Data dans l'IoT",
                     issuer: "Certification Professionnelle",
@@ -938,7 +1127,24 @@
                     icon: "fas fa-cloud",
                     image: "work3.png",
                     color: "from-green-500 to-emerald-500"
-                }
+                },
+
+{
+    title: "Introduction to Firewall",
+    issuer: "Great Learning Academy",
+    date: "08/2024",
+    description: "Introduction aux pare-feu, principes de sécurité réseau, contrôle du trafic entrant et sortant, bases de la protection des systèmes informatiques.",
+    skills: [
+        "Firewall",
+        "Sécurité réseau",
+        "Cybersécurité",
+        "Contrôle du trafic"
+    ],
+    icon: "fas fa-shield-alt",
+    image: "certif2.png",
+    color: "from-blue-500 to-cyan-500"
+}
+
             ];
             
             const openModal = (cert) => {
@@ -971,8 +1177,21 @@
                                         className="cyber-card p-6 group cursor-pointer h-full flex flex-col"
                                         onClick={() => openModal(cert)}
                                     >
-                                        <div className={`w-16 h-16 bg-gradient-to-br ${cert.color} rounded-xl flex items-center justify-center mb-6`}>
-                                            <i className={`${cert.icon} text-2xl text-white`}></i>
+                                        {/* Certification Image */}
+                                        <div className="w-full h-48 mb-6 rounded-xl overflow-hidden border-2 border-[var(--border-color)] group-hover:border-[var(--accent-primary)] transition-all">
+                                            <img 
+                                                src={cert.image} 
+                                                alt={cert.title}
+                                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                                onError={(e) => {
+                                                    // Fallback to icon if image fails to load
+                                                    e.target.style.display = 'none';
+                                                    const iconDiv = document.createElement('div');
+                                                    iconDiv.className = `w-full h-full bg-gradient-to-br ${cert.color} flex items-center justify-center`;
+                                                    iconDiv.innerHTML = `<i class="${cert.icon} text-4xl text-white"></i>`;
+                                                    e.target.parentElement.appendChild(iconDiv);
+                                                }}
+                                            />
                                         </div>
                                         
                                         <h3 className="text-xl font-bold text-[var(--text-primary)] mb-2">{cert.title}</h3>
@@ -1090,37 +1309,44 @@
         };
 
         // Services Section
+        // Services Section
         const Services = () => {
             const services = [
                 {
                     icon: "fas fa-shield-alt",
                     title: "Audit de Sécurité",
-                    description: "Évaluation complète de la sécurité de vos systèmes et infrastructures."
+                    description: "Évaluation complète de la sécurité de vos systèmes et infrastructures.",
+                    color: "from-cyan-500 to-blue-600"
                 },
                 {
                     icon: "fas fa-bug",
                     title: "Tests de Pénétration",
-                    description: "Identification et exploitation des vulnérabilités dans un cadre éthique."
+                    description: "Identification et exploitation des vulnérabilités dans un cadre éthique.",
+                    color: "from-blue-500 to-indigo-600"
                 },
                 {
                     icon: "fas fa-code",
                     title: "Développement Sécurisé",
-                    description: "Création d'applications web et mobiles avec les meilleures pratiques de sécurité."
+                    description: "Création d'applications web et mobiles avec les meilleures pratiques de sécurité.",
+                    color: "from-teal-500 to-cyan-600"
                 },
                 {
                     icon: "fas fa-network-wired",
                     title: "Sécurité Réseau",
-                    description: "Configuration et sécurisation des infrastructures réseau."
+                    description: "Configuration et sécurisation des infrastructures réseau.",
+                    color: "from-green-500 to-teal-600"
                 },
                 {
                     icon: "fas fa-cloud-upload-alt",
                     title: "Cloud Security",
-                    description: "Sécurisation des environnements cloud (AWS, Azure, GCP)."
+                    description: "Sécurisation des environnements cloud (AWS, Azure, GCP).",
+                    color: "from-sky-500 to-blue-600"
                 },
                 {
                     icon: "fas fa-user-shield",
                     title: "Formation",
-                    description: "Sensibilisation et formation en cybersécurité pour équipes."
+                    description: "Sensibilisation et formation en cybersécurité pour équipes.",
+                    color: "from-indigo-500 to-purple-600"
                 }
             ];
             
@@ -1142,12 +1368,22 @@
                         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                             {services.map((service, idx) => (
                                 <FadeIn key={service.title} delay={idx * 0.1}>
-                                    <div className="cyber-card p-8 group hover:scale-105 transition-transform">
-                                        <div className="w-16 h-16 bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-xl flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform">
-                                            <i className={`${service.icon} text-2xl text-black`}></i>
+                                    <div className="cyber-card p-8 group hover:scale-105 transition-all duration-300 h-full flex flex-col">
+                                        {/* Icon with gradient background */}
+                                        <div className={`w-20 h-20 bg-gradient-to-br ${service.color} rounded-2xl flex items-center justify-center mb-6 group-hover:rotate-6 group-hover:scale-110 transition-all duration-300 shadow-lg`}>
+                                            <i className={`${service.icon} text-3xl text-white`}></i>
                                         </div>
-                                        <h3 className="text-xl font-bold text-[var(--text-primary)] mb-3">{service.title}</h3>
-                                        <p className="text-[var(--text-secondary)]">{service.description}</p>
+                                        
+                                        <h3 className="text-xl font-bold text-[var(--text-primary)] mb-3 group-hover:text-[var(--accent-primary)] transition-colors">
+                                            {service.title}
+                                        </h3>
+                                        
+                                        <p className="text-[var(--text-secondary)] leading-relaxed flex-grow">
+                                            {service.description}
+                                        </p>
+                                        
+                                        {/* Hover effect line */}
+                                        <div className="mt-6 h-1 w-0 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] group-hover:w-full transition-all duration-500 rounded-full"></div>
                                     </div>
                                 </FadeIn>
                             ))}
