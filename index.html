@@ -1,0 +1,1605 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Omar El Farouk Kortas - Cybersecurity & IT Services</title>
+    <link rel="icon" type="image/png" href="farouk.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particlesjs/2.2.3/particles.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        :root {
+            --bg-primary: #f0f4f8;
+            --bg-secondary: #e1e8ed;
+            --bg-tertiary: #d6dfe8;
+            --text-primary: #0a0e27;
+            --text-secondary: #495057;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --border-color: rgba(0, 180, 216, 0.3);
+            --accent-primary: #00b4d8;
+            --accent-secondary: #0077b6;
+            --accent-danger: #d00058;
+            --accent-warning: #f77f00;
+            --glow-primary: rgba(0, 180, 216, 0.2);
+            --glow-secondary: rgba(0, 119, 182, 0.2);
+        }
+        
+        [data-theme="dark"] {
+            --bg-primary: #0a0e27;
+            --bg-secondary: #151937;
+            --bg-tertiary: #1a1f45;
+            --text-primary: #ffffff;
+            --text-secondary: #b4c7e7;
+            --card-bg: rgba(26, 31, 69, 0.6);
+            --border-color: rgba(0, 230, 180, 0.3);
+            --accent-primary: #00e6b4;
+            --accent-secondary: #00b4d8;
+            --accent-danger: #ff006e;
+            --accent-warning: #ffbe0b;
+            --glow-primary: rgba(0, 230, 180, 0.4);
+            --glow-secondary: rgba(0, 180, 216, 0.3);
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-tertiary) 100%);
+            position: relative;
+            overflow-x: hidden;
+            color: var(--text-primary);
+            transition: background 0.5s ease, color 0.3s ease;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        /* Cyber Grid Background */
+        .cyber-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            background-image: 
+                linear-gradient(var(--border-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border-color) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.15;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(50px); }
+        }
+
+        /* Security Scan Effect */
+        .scan-line {
+            position: fixed;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, 
+                transparent, 
+                var(--accent-primary) 50%, 
+                transparent);
+            box-shadow: 0 0 20px var(--glow-primary);
+            animation: scan 4s linear infinite;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        @keyframes scan {
+            0% { top: -2px; opacity: 0; }
+            50% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+
+        /* Hexagonal Pattern */
+        .hex-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg width='50' height='43.4' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M25 0l25 14.4v14.5L25 43.4 0 28.9V14.4L25 0z' fill='none' stroke='%2300e6b4' stroke-width='1'/%3E%3C/svg%3E");
+            background-size: 100px 86.6px;
+        }
+
+        /* Glitch Effect */
+        .glitch {
+            position: relative;
+            animation: glitch 3s infinite;
+        }
+
+        @keyframes glitch {
+            0%, 90%, 100% { transform: translate(0); }
+            92% { transform: translate(-2px, 2px); }
+            94% { transform: translate(2px, -2px); }
+            96% { transform: translate(-2px, -2px); }
+        }
+
+        /* Terminal Cursor */
+        .terminal-cursor {
+            display: inline-block;
+            width: 10px;
+            height: 20px;
+            background: var(--accent-primary);
+            animation: blink 1s step-end infinite;
+            margin-left: 5px;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        /* Security Badge Animation */
+        .security-badge {
+            position: relative;
+            display: inline-block;
+        }
+
+        .security-badge::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            border: 2px solid var(--accent-primary);
+            border-radius: 50%;
+            animation: pulse-ring 2s infinite;
+        }
+
+        @keyframes pulse-ring {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.3); opacity: 0; }
+        }
+
+        /* Cyber Card */
+        .cyber-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .cyber-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                var(--glow-primary), 
+                transparent);
+            transition: left 0.5s;
+        }
+
+        .cyber-card:hover::before {
+            left: 100%;
+        }
+
+        .cyber-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent-primary);
+            box-shadow: 0 20px 40px var(--glow-primary);
+        }
+
+        /* Code Block Style */
+        .code-block {
+            background: #1e1e1e;
+            border-left: 4px solid var(--accent-primary);
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+
+        /* Matrix Rain Effect */
+        .matrix-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.05;
+        }
+
+        /* Lock Icon Animation */
+        .lock-icon {
+            animation: lockPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes lockPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Security Level Indicator */
+        .security-level {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            background: rgba(0, 230, 180, 0.1);
+            border: 1px solid var(--accent-primary);
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Typing Animation */
+        .typing-animation {
+            overflow: hidden;
+            border-right: 3px solid var(--accent-primary);
+            white-space: nowrap;
+            animation: typing 4s steps(40) 1s forwards, blink-caret 0.75s step-end infinite;
+            max-width: fit-content;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink-caret {
+            50% { border-color: transparent; }
+        }
+
+        /* Firewall Effect */
+        .firewall-line {
+            height: 2px;
+            background: linear-gradient(90deg, 
+                transparent, 
+                var(--accent-danger) 30%, 
+                var(--accent-warning) 50%,
+                var(--accent-primary) 70%,
+                transparent);
+            margin: 4px 0;
+            animation: firewall-scan 2s linear infinite;
+        }
+
+        @keyframes firewall-scan {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Skill Bar Animation */
+        .skill-bar {
+            position: relative;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .skill-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-secondary), var(--accent-primary));
+            border-radius: 4px;
+            position: relative;
+            transition: width 1.5s ease;
+        }
+
+        .skill-bar-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.3), 
+                transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Terminal Window */
+        .terminal-window {
+            background: #1e1e1e;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .terminal-header {
+            background: #2d2d2d;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .terminal-dot.red { background: #ff5f56; }
+        .terminal-dot.yellow { background: #ffbd2e; }
+        .terminal-dot.green { background: #27c93f; }
+
+        .terminal-body {
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            color: var(--accent-primary);
+        }
+
+        /* Particle Connections */
+        #particles-background {
+            background: transparent;
+        }
+
+        /* Responsive Text Sizes */
+        @media (max-width: 768px) {
+            .typing-animation {
+                font-size: 18px;
+            }
+        }
+
+        /* Enhanced Navbar */
+        .nav-glassmorphism {
+            background: rgba(10, 14, 39, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        /* Loading Animation */
+        .loading-spinner {
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top: 3px solid var(--accent-primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-primary);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-secondary);
+        }
+    </style>
+</head>
+<body class="font-sans antialiased overflow-x-hidden" data-theme="light">
+    <!-- Cyber Grid Background -->
+    <div class="cyber-grid"></div>
+    <div class="hex-pattern"></div>
+    <div class="scan-line"></div>
+    
+    <!-- Particles Background -->
+    <div id="particles-background" class="fixed top-0 left-0 w-full h-full z-0"></div>
+    
+    <!-- Main Container -->
+    <div id="root" class="relative z-10"></div>
+    
+    <!-- React and Babel -->
+    <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.22.9/babel.min.js"></script>
+    
+    <script type="text/babel">
+        const { useEffect, useState, useRef } = React;
+
+        // Theme Context
+        const ThemeContext = React.createContext();
+
+        // Error Boundary
+        class ErrorBoundary extends React.Component {
+            state = { hasError: false };
+            static getDerivedStateFromError(error) {
+                return { hasError: true };
+            }
+            render() {
+                if (this.state.hasError) {
+                    return <h1 className="text-center text-red-400">Une erreur s'est produite.</h1>;
+                }
+                return this.props.children;
+            }
+        }
+
+        // Animation Components
+        const FadeIn = ({ children, direction = "up", delay = 0, className = "" }) => {
+            const ref = useRef(null);
+            
+            useEffect(() => {
+                const element = ref.current;
+                if (!element) return;
+                
+                let fromVars = { opacity: 0 };
+                if (direction === "up") fromVars.y = 40;
+                if (direction === "down") fromVars.y = -40;
+                if (direction === "left") fromVars.x = 40;
+                if (direction === "right") fromVars.x = -40;
+                
+                gsap.fromTo(element, fromVars, {
+                    opacity: 1, x: 0, y: 0, duration: 0.8, delay,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: element,
+                        start: "top 85%"
+                    }
+                });
+            }, [direction, delay]);
+            
+            return <div ref={ref} className={`opacity-0 ${className}`}>{children}</div>;
+        };
+
+        // Enhanced Navbar with Cybersecurity Theme
+        const Navbar = () => {
+            const [isOpen, setIsOpen] = useState(false);
+            const [scrolled, setScrolled] = useState(false);
+            const { theme, toggleTheme } = React.useContext(ThemeContext);
+            
+            useEffect(() => {
+                const handleScroll = () => setScrolled(window.scrollY > 50);
+                window.addEventListener('scroll', handleScroll);
+                return () => window.removeEventListener('scroll', handleScroll);
+            }, []);
+            
+            const navItems = [
+                { name: 'Accueil', icon: 'fas fa-home' },
+                { name: 'À propos', icon: 'fas fa-user-shield' },
+                { name: 'Compétences', icon: 'fas fa-code' },
+                { name: 'Projets', icon: 'fas fa-project-diagram' },
+                { name: 'Certifications', icon: 'fas fa-award' },
+                { name: 'Services', icon: 'fas fa-server' },
+                { name: 'Expériences', icon: 'fas fa-briefcase' },
+                { name: 'Contact', icon: 'fas fa-envelope-open-text' }
+            ];
+            
+            return (
+                <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+                    scrolled ? 'nav-glassmorphism shadow-2xl' : 'bg-transparent'
+                }`}>
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="flex justify-between h-16 items-center">
+                            <a href="#" className="group flex items-center space-x-2">
+                                <div className="security-badge">
+                                    <i className="fas fa-shield-alt text-[var(--accent-primary)] text-2xl"></i>
+                                </div>
+                                <span className="text-xl font-bold text-[var(--text-primary)] tracking-tight">
+                                    <span className="text-[var(--accent-primary)]">&lt;</span>
+                                    Omar.dev
+                                    <span className="text-[var(--accent-primary)]">/&gt;</span>
+                                </span>
+                            </a>
+                            
+                            <div className="hidden md:flex items-center space-x-8">
+                                {navItems.map((item) => (
+                                    <a
+                                        key={item.name}
+                                        href={`#${item.name.toLowerCase().replace(' ', '-')}`}
+                                        className="group flex items-center space-x-2 text-[var(--text-secondary)] hover:text-[var(--accent-primary)] transition-all duration-300 text-sm font-medium"
+                                    >
+                                        <i className={`${item.icon} text-xs`}></i>
+                                        <span>{item.name}</span>
+                                        <span className="block h-0.5 bg-[var(--accent-primary)] w-0 group-hover:w-full transition-all duration-300"></span>
+                                    </a>
+                                ))}
+                                
+                                <button
+                                    onClick={toggleTheme}
+                                    className="w-10 h-10 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg hover:border-[var(--accent-primary)] transition-all duration-300"
+                                >
+                                    <i className={`${theme === 'light' ? 'fas fa-moon' : 'fas fa-sun'} text-[var(--accent-primary)]`}></i>
+                                </button>
+                            </div>
+                            
+                            <button onClick={() => setIsOpen(!isOpen)} className="md:hidden text-[var(--text-primary)]">
+                                <i className={`fas ${isOpen ? 'fa-times' : 'fa-bars'} text-xl`}></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    {isOpen && (
+                        <div className="md:hidden nav-glassmorphism">
+                            {navItems.map((item) => (
+                                <a
+                                    key={item.name}
+                                    href={`#${item.name.toLowerCase().replace(' ', '-')}`}
+                                    className="flex items-center space-x-3 px-4 py-3 text-[var(--text-secondary)] hover:text-[var(--accent-primary)] hover:bg-[var(--bg-tertiary)] border-b border-[var(--border-color)] transition-all"
+                                    onClick={() => setIsOpen(false)}
+                                >
+                                    <i className={item.icon}></i>
+                                    <span>{item.name}</span>
+                                </a>
+                            ))}
+                        </div>
+                    )}
+                </nav>
+            );
+        };
+
+        // Hero Section with Cybersecurity Focus
+        const Home = () => {
+            useEffect(() => {
+                // Ensure page starts at top
+                window.scrollTo({ top: 0, behavior: 'instant' });
+                
+                const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
+                tl.fromTo(".hero-heading", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 1 }, 0.3)
+                  .fromTo(".hero-subtitle", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1 }, 0.5)
+                  .fromTo(".hero-description", { opacity: 0 }, { opacity: 1, duration: 1 }, 0.7)
+                  .fromTo(".hero-buttons", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 1 }, 0.9)
+                  .fromTo(".hero-image", { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 1.2 }, 0.5);
+            }, []);
+            
+            return (
+                <section id="accueil" className="min-h-screen flex items-center pt-20 relative overflow-hidden">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-12 items-center">
+                        <div className="space-y-8">
+                            <div className="hero-heading">
+                                <div className="security-level mb-4">
+                                    <i className="fas fa-lock lock-icon"></i>
+                                    <span>Cybersecurity Expert</span>
+                                </div>
+                                <h1 className="text-5xl sm:text-6xl font-bold mb-4 leading-tight">
+                                    <span className="text-[var(--accent-primary)]">Omar El Farouk</span>
+                                    <br />
+                                    <span className="text-[var(--text-primary)]">Kortas</span>
+                                </h1>
+                            </div>
+                            
+                            <div className="hero-subtitle">
+                                <div className="terminal-window">
+                                    <div className="terminal-header">
+                                        <div className="terminal-dot red"></div>
+                                        <div className="terminal-dot yellow"></div>
+                                        <div className="terminal-dot green"></div>
+                                        <span className="text-xs text-gray-400 ml-2">system@cybersec:~</span>
+                                    </div>
+                                    <div className="terminal-body">
+                                        <div className="mb-2">
+                                            <span className="text-[var(--accent-secondary)]">$</span> whoami
+                                        </div>
+                                        <div className="mb-2">
+                                            → <span className="text-white">Ingénieur Informatique</span>
+                                        </div>
+                                        <div className="mb-2">
+                                            → <span className="text-white">Master Services et Sécurité IT</span>
+                                        </div>
+                                        <div className="flex items-center">
+                                            <span className="text-[var(--accent-secondary)]">$</span>
+                                            <span className="terminal-cursor ml-1"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div className="hero-description space-y-4">
+                                <p className="text-[var(--text-secondary)] text-lg leading-relaxed">
+                                    Passionné par la <span className="text-[var(--accent-primary)] font-semibold">cybersécurité</span>, 
+                                    le <span className="text-[var(--accent-secondary)] font-semibold">développement logiciel</span> et 
+                                    les <span className="text-[var(--accent-primary)] font-semibold">services IT</span>.
+                                </p>
+                                <div className="flex flex-wrap gap-3">
+                                    <span className="px-4 py-2 bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg text-sm text-[var(--accent-primary)]">
+                                        <i className="fas fa-shield-alt mr-2"></i>Security
+                                    </span>
+                                    <span className="px-4 py-2 bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg text-sm text-[var(--accent-secondary)]">
+                                        <i className="fas fa-code mr-2"></i>Development
+                                    </span>
+                                    <span className="px-4 py-2 bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg text-sm text-[var(--accent-warning)]">
+                                        <i className="fas fa-network-wired mr-2"></i>Networks
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <div className="hero-buttons flex flex-wrap gap-4">
+                                <a href="CV.html" className="group px-8 py-4 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-black font-semibold rounded-lg hover:shadow-lg hover:shadow-[var(--glow-primary)] transition-all duration-300 flex items-center space-x-2">
+                                    <i className="fas fa-file-download"></i>
+                                    <span>Télécharger CV</span>
+                                </a>
+                                <a href="#contact" className="group px-8 py-4 bg-transparent border-2 border-[var(--accent-primary)] text-[var(--accent-primary)] font-semibold rounded-lg hover:bg-[var(--accent-primary)] hover:text-black transition-all duration-300 flex items-center space-x-2">
+                                    <i className="fas fa-envelope"></i>
+                                    <span>Me Contacter</span>
+                                </a>
+                            </div>
+                            
+                            <div className="flex gap-4">
+                                <a href="https://www.linkedin.com/in/omar-el-farouk-kortas-8b4613294/" className="w-12 h-12 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg hover:border-[var(--accent-primary)] hover:shadow-lg hover:shadow-[var(--glow-primary)] transition-all duration-300">
+                                    <i className="fab fa-linkedin text-xl text-[var(--accent-primary)]"></i>
+                                </a>
+                                <a href="https://github.com/omarkortas" className="w-12 h-12 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg hover:border-[var(--accent-primary)] hover:shadow-lg hover:shadow-[var(--glow-primary)] transition-all duration-300">
+                                    <i className="fab fa-github text-xl text-[var(--accent-primary)]"></i>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div className="hero-image relative">
+                            <div className="relative">
+                                <div className="absolute -inset-4 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-full blur-2xl opacity-30 animate-pulse"></div>
+                                <img src="omar-removebg-preview.png" alt="Omar" className="relative z-10 w-full max-w-lg mx-auto" />
+                            </div>
+                            
+                            {/* Floating Security Icons */}
+                            <div className="absolute top-10 right-10 animate-bounce">
+                                <div className="w-16 h-16 bg-[var(--card-bg)] border-2 border-[var(--accent-primary)] rounded-lg flex items-center justify-center shadow-lg shadow-[var(--glow-primary)]">
+                                    <i className="fas fa-lock text-2xl text-[var(--accent-primary)]"></i>
+                                </div>
+                            </div>
+                            <div className="absolute bottom-10 left-10 animate-bounce" style={{ animationDelay: '0.5s' }}>
+                                <div className="w-16 h-16 bg-[var(--card-bg)] border-2 border-[var(--accent-secondary)] rounded-lg flex items-center justify-center shadow-lg shadow-[var(--glow-secondary)]">
+                                    <i className="fas fa-code text-2xl text-[var(--accent-secondary)]"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        // About Section
+        const About = () => {
+            return (
+                <section id="à-propos" className="py-24 px-4 sm:px-6 lg:px-8 relative">
+                    <div className="max-w-7xl mx-auto">
+                        <FadeIn>
+                            <div className="text-center mb-16">
+                                <div className="security-level inline-flex mb-4">
+                                    <i className="fas fa-user-shield"></i>
+                                    <span>À Propos</span>
+                                </div>
+                                <h2 className="text-4xl sm:text-5xl font-bold text-[var(--text-primary)] mb-4">
+                                    Profil <span className="text-[var(--accent-primary)]">Professionnel</span>
+                                </h2>
+                            </div>
+                        </FadeIn>
+                        
+                        <div className="grid lg:grid-cols-2 gap-12 items-center">
+                            <FadeIn direction="right">
+                                <div className="relative group">
+                                    <div className="absolute -inset-2 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-2xl blur-xl opacity-30 group-hover:opacity-50 transition-opacity"></div>
+                                    <img src="farouk.png" alt="Omar" className="relative rounded-2xl shadow-2xl" />
+                                </div>
+                            </FadeIn>
+                            
+                            <FadeIn direction="left" delay={0.2}>
+                                <div className="space-y-6">
+                                    <h3 className="text-3xl font-bold text-[var(--accent-primary)]">Omar El Farouk Kortas</h3>
+                                    
+                                    <div className="space-y-4 text-[var(--text-secondary)] leading-relaxed">
+                                        <p>
+                                            Diplômé en <span className="text-[var(--accent-primary)] font-semibold">Ingénierie Informatique</span> et 
+                                            actuellement en <span className="text-[var(--accent-primary)] font-semibold">Master Services et Sécurité Informatique</span>.
+                                        </p>
+                                        
+                                        <p>
+                                            Passionné par les <span className="text-[var(--accent-secondary)] font-semibold">technologies de pointe</span>, 
+                                            la <span className="text-[var(--accent-secondary)] font-semibold">cybersécurité</span> et 
+                                            le <span className="text-[var(--accent-secondary)] font-semibold">développement logiciel</span>.
+                                        </p>
+                                        
+                                        <p>
+                                            Expert dans la conception de solutions IT sécurisées, l'analyse de vulnérabilités 
+                                            et le développement d'applications robustes.
+                                        </p>
+                                    </div>
+                                    
+                                    <div className="grid grid-cols-2 gap-4 pt-4">
+                                        <div className="cyber-card p-4">
+                                            <div className="flex items-center space-x-3">
+                                                <i className="fas fa-graduation-cap text-2xl text-[var(--accent-primary)]"></i>
+                                                <div>
+                                                    <div className="text-sm text-[var(--text-secondary)]">Formation</div>
+                                                    <div className="font-semibold text-[var(--text-primary)]">Master IT</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div className="cyber-card p-4">
+                                            <div className="flex items-center space-x-3">
+                                                <i className="fas fa-shield-alt text-2xl text-[var(--accent-primary)]"></i>
+                                                <div>
+                                                    <div className="text-sm text-[var(--text-secondary)]">Spécialité</div>
+                                                    <div className="font-semibold text-[var(--text-primary)]">Cybersécurité</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </FadeIn>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        // Skills Section with Cybersecurity Focus
+        const Skills = () => {
+            const skillCategories = [
+                {
+                    title: "Cybersécurité",
+                    icon: "fas fa-shield-alt",
+                    color: "var(--accent-primary)",
+                    skills: [
+                        { name: "Sécurité des Réseaux", level: 85 },
+                        { name: "Tests de Pénétration", level: 80 },
+                        { name: "Cryptographie", level: 75 },
+                        { name: "Sécurité Cloud", level: 70 }
+                    ]
+                },
+                {
+                    title: "Développement",
+                    icon: "fas fa-code",
+                    color: "var(--accent-secondary)",
+                    skills: [
+                        { name: "Python/C", level: 85 },
+                        { name: "React/Next.js", level: 90 },
+                        { name: "Node.js/NestJS", level: 85 },
+                        { name: "SQL/NoSQL", level: 80 }
+                    ]
+                },
+                {
+                    title: "DevOps & Cloud",
+                    icon: "fas fa-cloud",
+                    color: "var(--accent-warning)",
+                    skills: [
+                        { name: "Docker/Kubernetes", level: 75 },
+                        { name: "CI/CD", level: 80 },
+                        { name: "AWS/GCP", level: 70 },
+                        { name: "Linux", level: 85 }
+                    ]
+                }
+            ];
+            
+            return (
+                <section id="compétences" className="py-24 px-4 sm:px-6 lg:px-8 bg-[var(--bg-secondary)]">
+                    <div className="max-w-7xl mx-auto">
+                        <FadeIn>
+                            <div className="text-center mb-16">
+                                <div className="security-level inline-flex mb-4">
+                                    <i className="fas fa-code"></i>
+                                    <span>Compétences Techniques</span>
+                                </div>
+                                <h2 className="text-4xl sm:text-5xl font-bold text-[var(--text-primary)]">
+                                    Expertise <span className="text-[var(--accent-primary)]">Technique</span>
+                                </h2>
+                            </div>
+                        </FadeIn>
+                        
+                        <div className="grid lg:grid-cols-3 gap-8">
+                            {skillCategories.map((category, idx) => (
+                                <FadeIn key={category.title} delay={idx * 0.2}>
+                                    <div className="cyber-card p-8 h-full">
+                                        <div className="flex items-center space-x-3 mb-6">
+                                            <div className="w-12 h-12 flex items-center justify-center bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-lg">
+                                                <i className={`${category.icon} text-xl text-black`}></i>
+                                            </div>
+                                            <h3 className="text-2xl font-bold text-[var(--text-primary)]">{category.title}</h3>
+                                        </div>
+                                        
+                                        <div className="space-y-6">
+                                            {category.skills.map((skill) => (
+                                                <div key={skill.name}>
+                                                    <div className="flex justify-between mb-2">
+                                                        <span className="text-sm text-[var(--text-secondary)]">{skill.name}</span>
+                                                        <span className="text-sm font-semibold text-[var(--accent-primary)]">{skill.level}%</span>
+                                                    </div>
+                                                    <div className="skill-bar">
+                                                        <div 
+                                                            className="skill-bar-fill" 
+                                                            style={{ width: `${skill.level}%` }}
+                                                        ></div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </FadeIn>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        // Projects Section (continuing with similar cybersecurity theme)
+        const Projects = () => {
+            const projects = [
+                {
+                    title: "Plateforme de Livraison Sécurisée",
+                    description: "Application web et mobile avec authentification avancée et chiffrement des données.",
+                    tech: ["Next.js", "NestJS", "MySQL", "JWT"],
+                    icon: "fas fa-truck",
+                    image: "work4.png"
+                },
+                {
+                    title: "Système de Détection d'Intrusion",
+                    description: "IDS/IPS basé sur l'IA pour la détection de menaces en temps réel.",
+                    tech: ["Python", "TensorFlow", "Scapy"],
+                    icon: "fas fa-shield-virus",
+                    image: "work5.png"
+                },
+                {
+                    title: "Infrastructure Cloud Sécurisée",
+                    description: "Déploiement d'une architecture cloud avec chiffrement et contrôle d'accès.",
+                    tech: ["AWS", "Terraform", "Docker"],
+                    icon: "fas fa-cloud-upload-alt",
+                    image: "work3.png"
+                }
+            ];
+            
+            return (
+                <section id="projets" className="py-24 px-4 sm:px-6 lg:px-8">
+                    <div className="max-w-7xl mx-auto">
+                        <FadeIn>
+                            <div className="text-center mb-16">
+                                <div className="security-level inline-flex mb-4">
+                                    <i className="fas fa-project-diagram"></i>
+                                    <span>Portfolio</span>
+                                </div>
+                                <h2 className="text-4xl sm:text-5xl font-bold text-[var(--text-primary)]">
+                                    Projets <span className="text-[var(--accent-primary)]">Récents</span>
+                                </h2>
+                            </div>
+                        </FadeIn>
+                        
+                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            {projects.map((project, idx) => (
+                                <FadeIn key={project.title} delay={idx * 0.15}>
+                                    <div className="cyber-card p-6 group h-full flex flex-col">
+                                        <div className="w-16 h-16 bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-xl flex items-center justify-center mb-6">
+                                            <i className={`${project.icon} text-2xl text-black`}></i>
+                                        </div>
+                                        
+                                        <h3 className="text-xl font-bold text-[var(--text-primary)] mb-3">{project.title}</h3>
+                                        <p className="text-[var(--text-secondary)] mb-4 flex-grow">{project.description}</p>
+                                        
+                                        <div className="flex flex-wrap gap-2 mb-4">
+                                            {project.tech.map((tech) => (
+                                                <span key={tech} className="px-3 py-1 bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-full text-xs text-[var(--accent-primary)]">
+                                                    {tech}
+                                                </span>
+                                            ))}
+                                        </div>
+                                        
+                                        <button className="w-full py-3 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-black font-semibold rounded-lg hover:shadow-lg hover:shadow-[var(--glow-primary)] transition-all">
+                                            Voir détails
+                                        </button>
+                                    </div>
+                                </FadeIn>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        // Certifications Section
+        const Certifications = () => {
+            const [selectedCert, setSelectedCert] = useState(null);
+            
+            const certifications = [
+                {
+                    title: "Responsive Web Design",
+                    issuer: "freeCodeCamp",
+                    date: "2024",
+                    description: "Certification en conception de sites web adaptatifs.",
+                    skills: ["HTML5", "CSS3", "Flexbox", "Grid"],
+                    icon: "fas fa-code",
+                    image: "work1.png",
+                    color: "from-blue-500 to-cyan-500"
+                },
+                {
+                    title: "IA & Big Data dans l'IoT",
+                    issuer: "Certification Professionnelle",
+                    date: "2024",
+                    description: "Traitement intelligent des données IoT à grande échelle.",
+                    skills: ["Python", "TensorFlow", "Kafka", "Spark", "MQTT"],
+                    icon: "fas fa-brain",
+                    image: "work2.png",
+                    color: "from-purple-500 to-pink-500"
+                },
+                {
+                    title: "Fondations Avancées du Cloud",
+                    issuer: "Google Cloud",
+                    date: "2024",
+                    description: "Architecture cloud évolutive et sécurisée sur GCP.",
+                    skills: ["Google Cloud", "Terraform", "Docker", "CI/CD"],
+                    icon: "fas fa-cloud",
+                    image: "work3.png",
+                    color: "from-green-500 to-emerald-500"
+                }
+            ];
+            
+            const openModal = (cert) => {
+                setSelectedCert(cert);
+            };
+            
+            const closeModal = () => {
+                setSelectedCert(null);
+            };
+            
+            return (
+                <section id="certifications" className="py-24 px-4 sm:px-6 lg:px-8 bg-[var(--bg-secondary)]">
+                    <div className="max-w-7xl mx-auto">
+                        <FadeIn>
+                            <div className="text-center mb-16">
+                                <div className="security-level inline-flex mb-4">
+                                    <i className="fas fa-award"></i>
+                                    <span>Certifications</span>
+                                </div>
+                                <h2 className="text-4xl sm:text-5xl font-bold text-[var(--text-primary)]">
+                                    Certifications <span className="text-[var(--accent-primary)]">Professionnelles</span>
+                                </h2>
+                            </div>
+                        </FadeIn>
+                        
+                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            {certifications.map((cert, idx) => (
+                                <FadeIn key={cert.title} delay={idx * 0.15}>
+                                    <div 
+                                        className="cyber-card p-6 group cursor-pointer h-full flex flex-col"
+                                        onClick={() => openModal(cert)}
+                                    >
+                                        <div className={`w-16 h-16 bg-gradient-to-br ${cert.color} rounded-xl flex items-center justify-center mb-6`}>
+                                            <i className={`${cert.icon} text-2xl text-white`}></i>
+                                        </div>
+                                        
+                                        <h3 className="text-xl font-bold text-[var(--text-primary)] mb-2">{cert.title}</h3>
+                                        <p className="text-[var(--accent-primary)] text-sm font-semibold mb-3">{cert.issuer}</p>
+                                        <p className="text-[var(--text-secondary)] text-sm mb-4 flex-grow">{cert.description}</p>
+                                        
+                                        <div className="flex flex-wrap gap-2 mb-4">
+                                            {cert.skills.slice(0, 3).map((skill) => (
+                                                <span key={skill} className="px-2 py-1 bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-full text-xs text-[var(--accent-primary)]">
+                                                    {skill}
+                                                </span>
+                                            ))}
+                                            {cert.skills.length > 3 && (
+                                                <span className="px-2 py-1 bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-full text-xs text-[var(--accent-primary)]">
+                                                    +{cert.skills.length - 3}
+                                                </span>
+                                            )}
+                                        </div>
+                                        
+                                        <div className="flex items-center justify-between text-xs text-[var(--text-secondary)]">
+                                            <span><i className="fas fa-calendar mr-1"></i>{cert.date}</span>
+                                            <span className="text-[var(--accent-primary)]">Voir le certificat →</span>
+                                        </div>
+                                    </div>
+                                </FadeIn>
+                            ))}
+                        </div>
+                        
+                        {/* Modal for Certification */}
+                        {selectedCert && (
+                            <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto" onClick={closeModal}>
+                                <div className="bg-[var(--bg-primary)] rounded-3xl max-w-2xl w-full my-8 p-6 sm:p-8 relative border-2 border-[var(--accent-primary)] shadow-2xl shadow-[var(--glow-primary)] max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+                                    {/* Close Button */}
+                                    <button 
+                                        onClick={closeModal}
+                                        className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg hover:border-[var(--accent-primary)] transition-all duration-300 z-10"
+                                    >
+                                        <i className="fas fa-times text-[var(--text-primary)]"></i>
+                                    </button>
+                                    
+                                    {/* Header */}
+                                    <div className="flex items-start gap-4 mb-6 pr-12">
+                                        <div className={`w-14 h-14 bg-gradient-to-br ${selectedCert.color} rounded-xl flex items-center justify-center flex-shrink-0`}>
+                                            <i className={`${selectedCert.icon} text-xl text-white`}></i>
+                                        </div>
+                                        <div className="flex-grow">
+                                            <h3 className="text-xl sm:text-2xl font-bold text-[var(--text-primary)] mb-1">
+                                                {selectedCert.title}
+                                            </h3>
+                                            <p className="text-[var(--accent-primary)] font-semibold text-sm">
+                                                {selectedCert.issuer} • {selectedCert.date}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    
+                                    {/* Description */}
+                                    <div className="mb-6">
+                                        <p className="text-[var(--text-secondary)]">{selectedCert.description}</p>
+                                    </div>
+                                    
+                                    {/* Skills */}
+                                    <div className="mb-6">
+                                        <h4 className="text-base font-semibold text-[var(--text-primary)] mb-3 flex items-center gap-2">
+                                            <i className="fas fa-code text-[var(--accent-primary)]"></i>
+                                            Compétences acquises
+                                        </h4>
+                                        <div className="flex flex-wrap gap-2">
+                                            {selectedCert.skills.map((skill) => (
+                                                <span key={skill} className="px-3 py-1 bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-full text-sm text-[var(--accent-primary)]">
+                                                    {skill}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                    
+                                    {/* Certificate Image */}
+                                    <div className="mb-6">
+                                        <div className="flex items-center gap-2 mb-3">
+                                            <i className="fas fa-award text-[var(--accent-primary)]"></i>
+                                            <h4 className="text-base font-semibold text-[var(--text-primary)]">Certificat</h4>
+                                        </div>
+                                        <div className="bg-[var(--card-bg)] rounded-2xl p-4 border border-[var(--border-color)]">
+                                            <img 
+                                                src={selectedCert.image} 
+                                                alt={`Certificat ${selectedCert.title}`}
+                                                className="w-full max-w-sm mx-auto h-auto rounded-lg cursor-pointer hover:scale-105 transition-transform"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    window.open(selectedCert.image, '_blank');
+                                                }}
+                                                onError={(e) => {
+                                                    e.target.onerror = null;
+                                                    e.target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300"%3E%3Crect fill="%23f0f4f8" width="400" height="300"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-size="16" fill="%23495057"%3ECertificat non disponible%3C/text%3E%3C/svg%3E';
+                                                }}
+                                            />
+                                            <p className="text-center text-xs text-[var(--text-secondary)] mt-2">
+                                                Cliquez pour agrandir
+                                            </p>
+                                        </div>
+                                    </div>
+                                    
+                                    {/* Close Button */}
+                                    <button 
+                                        onClick={closeModal}
+                                        className="w-full py-3 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-black font-semibold rounded-lg hover:shadow-lg hover:shadow-[var(--glow-primary)] transition-all"
+                                    >
+                                        Fermer
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </section>
+            );
+        };
+
+        // Services Section
+        const Services = () => {
+            const services = [
+                {
+                    icon: "fas fa-shield-alt",
+                    title: "Audit de Sécurité",
+                    description: "Évaluation complète de la sécurité de vos systèmes et infrastructures."
+                },
+                {
+                    icon: "fas fa-bug",
+                    title: "Tests de Pénétration",
+                    description: "Identification et exploitation des vulnérabilités dans un cadre éthique."
+                },
+                {
+                    icon: "fas fa-code",
+                    title: "Développement Sécurisé",
+                    description: "Création d'applications web et mobiles avec les meilleures pratiques de sécurité."
+                },
+                {
+                    icon: "fas fa-network-wired",
+                    title: "Sécurité Réseau",
+                    description: "Configuration et sécurisation des infrastructures réseau."
+                },
+                {
+                    icon: "fas fa-cloud-upload-alt",
+                    title: "Cloud Security",
+                    description: "Sécurisation des environnements cloud (AWS, Azure, GCP)."
+                },
+                {
+                    icon: "fas fa-user-shield",
+                    title: "Formation",
+                    description: "Sensibilisation et formation en cybersécurité pour équipes."
+                }
+            ];
+            
+            return (
+                <section id="services" className="py-24 px-4 sm:px-6 lg:px-8 bg-[var(--bg-secondary)]">
+                    <div className="max-w-7xl mx-auto">
+                        <FadeIn>
+                            <div className="text-center mb-16">
+                                <div className="security-level inline-flex mb-4">
+                                    <i className="fas fa-server"></i>
+                                    <span>Services</span>
+                                </div>
+                                <h2 className="text-4xl sm:text-5xl font-bold text-[var(--text-primary)]">
+                                    Services <span className="text-[var(--accent-primary)]">Proposés</span>
+                                </h2>
+                            </div>
+                        </FadeIn>
+                        
+                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            {services.map((service, idx) => (
+                                <FadeIn key={service.title} delay={idx * 0.1}>
+                                    <div className="cyber-card p-8 group hover:scale-105 transition-transform">
+                                        <div className="w-16 h-16 bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-xl flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform">
+                                            <i className={`${service.icon} text-2xl text-black`}></i>
+                                        </div>
+                                        <h3 className="text-xl font-bold text-[var(--text-primary)] mb-3">{service.title}</h3>
+                                        <p className="text-[var(--text-secondary)]">{service.description}</p>
+                                    </div>
+                                </FadeIn>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        // Experience Section with Modal and Attestations
+        const Experiences = () => {
+            const [selectedExperience, setSelectedExperience] = useState(null);
+            
+            const experiences = [
+                {
+                    company: "Groupe Allemand Dieter Braun",
+                    role: "Stage d'été - Administration Systèmes",
+                    period: "08/2024 – 09/2024",
+                    location: "Messadine, Sousse",
+                    icon: "fas fa-server",
+                    tasks: [
+                        "Gestion et mise en fonctionnement des serveurs dans un environnement d'entreprise.",
+                        "Initiation à la vie professionnelle : travail en équipe et développement des compétences professionnelles."
+                    ],
+                    responsibilities: [
+                        "Gestion et sécurisation des serveurs d'entreprise",
+                        "Mise en place de politiques de sécurité",
+                        "Maintenance des infrastructures IT"
+                    ],
+                    attestation: "ATTESTATION1.png"
+                },
+                {
+                    company: "ZOOMY Business & Technologie IT",
+                    role: "Stage de fin d'études - Full Stack Developer",
+                    period: "02/2025 - 05/2025",
+                    location: "Akouda, Sousse",
+                    icon: "fas fa-code",
+                    tasks: [
+                        "Conception et développement d'une plateforme de livraison intelligente.",
+                        "Mise en place de fonctionnalités permettant aux clients et fournisseurs de soumettre des commandes, et aux livreurs ou sociétés de livraison de les prendre en charge."
+                    ],
+                    responsibilities: [
+                        "Développement plateforme de livraison sécurisée",
+                        "Implémentation authentification JWT",
+                        "Architecture microservices"
+                    ],
+                    attestation: "ATTESTATION.png"
+                }
+            ];
+            
+            const openModal = (exp) => {
+                setSelectedExperience(exp);
+            };
+            
+            const closeModal = () => {
+                setSelectedExperience(null);
+            };
+            
+            return (
+                <section id="expériences" className="py-24 px-4 sm:px-6 lg:px-8">
+                    <div className="max-w-7xl mx-auto">
+                        <FadeIn>
+                            <div className="text-center mb-16">
+                                <div className="security-level inline-flex mb-4">
+                                    <i className="fas fa-briefcase"></i>
+                                    <span>Parcours</span>
+                                </div>
+                                <h2 className="text-4xl sm:text-5xl font-bold text-[var(--text-primary)]">
+                                    Expériences <span className="text-[var(--accent-primary)]">Professionnelles</span>
+                                </h2>
+                            </div>
+                        </FadeIn>
+                        
+                        <div className="space-y-8">
+                            {experiences.map((exp, idx) => (
+                                <FadeIn key={exp.company} delay={idx * 0.2}>
+                                    <div className="cyber-card p-8 cursor-pointer" onClick={() => openModal(exp)}>
+                                        <div className="flex items-start gap-6">
+                                            <div className="w-16 h-16 bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-xl flex items-center justify-center flex-shrink-0">
+                                                <i className={`${exp.icon} text-2xl text-black`}></i>
+                                            </div>
+                                            
+                                            <div className="flex-grow">
+                                                <h3 className="text-2xl font-bold text-[var(--text-primary)] mb-2">{exp.company}</h3>
+                                                <div className="flex flex-wrap items-center gap-4 mb-4">
+                                                    <span className="text-[var(--accent-primary)] font-semibold">{exp.role}</span>
+                                                    <span className="text-[var(--text-secondary)]">•</span>
+                                                    <span className="text-[var(--text-secondary)]">{exp.period}</span>
+                                                    <span className="text-[var(--text-secondary)]">•</span>
+                                                    <span className="text-[var(--text-secondary)]">
+                                                        <i className="fas fa-map-marker-alt mr-1"></i>
+                                                        {exp.location}
+                                                    </span>
+                                                </div>
+                                                
+                                                <ul className="space-y-2">
+                                                    {exp.responsibilities.map((task) => (
+                                                        <li key={task} className="flex items-start gap-3 text-[var(--text-secondary)]">
+                                                            <i className="fas fa-check text-[var(--accent-primary)] mt-1"></i>
+                                                            <span>{task}</span>
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </FadeIn>
+                            ))}
+                        </div>
+                        
+                        {/* Modal for Attestation */}
+                        {selectedExperience && (
+                            <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto" onClick={closeModal}>
+                                <div className="bg-[var(--bg-primary)] rounded-3xl max-w-2xl w-full my-8 p-6 sm:p-8 relative border-2 border-[var(--accent-primary)] shadow-2xl shadow-[var(--glow-primary)] max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+                                    {/* Close Button */}
+                                    <button 
+                                        onClick={closeModal}
+                                        className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg hover:border-[var(--accent-primary)] transition-all duration-300 z-10"
+                                    >
+                                        <i className="fas fa-times text-[var(--text-primary)]"></i>
+                                    </button>
+                                    
+                                    {/* Header */}
+                                    <div className="flex items-start gap-4 mb-6 pr-12">
+                                        <div className="w-14 h-14 bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-xl flex items-center justify-center flex-shrink-0">
+                                            <i className={`${selectedExperience.icon} text-xl text-black`}></i>
+                                        </div>
+                                        <div className="flex-grow">
+                                            <h3 className="text-xl sm:text-2xl font-bold text-[var(--text-primary)] mb-1">
+                                                {selectedExperience.company}
+                                            </h3>
+                                            <p className="text-[var(--accent-primary)] font-semibold text-sm sm:text-base">
+                                                {selectedExperience.role.split(' - ')[0]}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    
+                                    {/* Details */}
+                                    <div className="flex flex-wrap items-center gap-3 text-[var(--text-secondary)] text-sm mb-6">
+                                        <div className="flex items-center gap-2">
+                                            <i className="fas fa-calendar-alt"></i>
+                                            <span>{selectedExperience.period}</span>
+                                        </div>
+                                        <span>•</span>
+                                        <div className="flex items-center gap-2">
+                                            <i className="fas fa-map-marker-alt"></i>
+                                            <span>{selectedExperience.location}</span>
+                                        </div>
+                                    </div>
+                                    
+                                    {/* Responsibilities */}
+                                    <div className="mb-6">
+                                        <div className="flex items-center gap-2 mb-3">
+                                            <i className="fas fa-list text-[var(--accent-primary)]"></i>
+                                            <h4 className="text-base sm:text-lg font-semibold text-[var(--text-primary)]">Responsabilités</h4>
+                                        </div>
+                                        <ul className="space-y-2">
+                                            {selectedExperience.tasks.map((task, index) => (
+                                                <li key={index} className="flex items-start gap-3 text-[var(--text-secondary)] text-sm">
+                                                    <i className="fas fa-check text-green-400 mt-1 flex-shrink-0"></i>
+                                                    <span>{task}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                    
+                                    {/* Attestation */}
+                                    <div className="mb-6">
+                                        <div className="flex items-center gap-2 mb-3">
+                                            <i className="fas fa-certificate text-[var(--accent-primary)]"></i>
+                                            <h4 className="text-base sm:text-lg font-semibold text-[var(--text-primary)]">Attestation</h4>
+                                        </div>
+                                        <div className="bg-[var(--card-bg)] rounded-2xl p-4 border border-[var(--border-color)]">
+                                            <img 
+                                                src={selectedExperience.attestation} 
+                                                alt={`Attestation ${selectedExperience.company}`}
+                                                className="w-full max-w-sm mx-auto h-auto rounded-lg cursor-pointer hover:scale-105 transition-transform"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    window.open(selectedExperience.attestation, '_blank');
+                                                }}
+                                                onError={(e) => {
+                                                    e.target.onerror = null;
+                                                    e.target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300"%3E%3Crect fill="%23f0f4f8" width="400" height="300"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-size="16" fill="%23495057"%3EAttestation non disponible%3C/text%3E%3C/svg%3E';
+                                                }}
+                                            />
+                                            <p className="text-center text-xs text-[var(--text-secondary)] mt-2">
+                                                Cliquez pour agrandir
+                                            </p>
+                                        </div>
+                                    </div>
+                                    
+                                    {/* Close Button */}
+                                    <button 
+                                        onClick={closeModal}
+                                        className="w-full py-3 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-black font-semibold rounded-lg hover:shadow-lg hover:shadow-[var(--glow-primary)] transition-all"
+                                    >
+                                        Fermer
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </section>
+            );
+        };
+
+        // Contact Section
+        const Contact = () => {
+            const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+            const [status, setStatus] = useState({ message: "", type: "" });
+            const [isSubmitting, setIsSubmitting] = useState(false);
+            
+            const handleSubmit = async (e) => {
+                e.preventDefault();
+                setIsSubmitting(true);
+                
+                try {
+                    const response = await fetch('http://localhost:5000/api/contact', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(formData)
+                    });
+                    
+                    if (response.ok) {
+                        setStatus({ message: "Message envoyé avec succès!", type: "success" });
+                        setFormData({ name: "", email: "", message: "" });
+                    } else {
+                        throw new Error("Erreur d'envoi");
+                    }
+                } catch (error) {
+                    setStatus({ message: "Erreur lors de l'envoi", type: "error" });
+                } finally {
+                    setIsSubmitting(false);
+                    setTimeout(() => setStatus({ message: "", type: "" }), 5000);
+                }
+            };
+            
+            return (
+                <section id="contact" className="py-24 px-4 sm:px-6 lg:px-8 bg-[var(--bg-secondary)]">
+                    <div className="max-w-7xl mx-auto">
+                        <FadeIn>
+                            <div className="text-center mb-16">
+                                <div className="security-level inline-flex mb-4">
+                                    <i className="fas fa-envelope-open-text"></i>
+                                    <span>Contact</span>
+                                </div>
+                                <h2 className="text-4xl sm:text-5xl font-bold text-[var(--text-primary)]">
+                                    Contactez <span className="text-[var(--accent-primary)]">-Moi</span>
+                                </h2>
+                            </div>
+                        </FadeIn>
+                        
+                        <div className="grid lg:grid-cols-2 gap-12">
+                            <FadeIn direction="right">
+                                <div className="space-y-8">
+                                    <div className="cyber-card p-6 flex items-center space-x-4">
+                                        <div className="w-12 h-12 bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-lg flex items-center justify-center">
+                                            <i className="fas fa-envelope text-xl text-black"></i>
+                                        </div>
+                                        <div>
+                                            <div className="text-sm text-[var(--text-secondary)]">Email</div>
+                                            <a href="mailto:omaromarkortas@gmail.com" className="text-[var(--accent-primary)] hover:underline">
+                                                omaromarkortas@gmail.com
+                                            </a>
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="cyber-card p-6 flex items-center space-x-4">
+                                        <div className="w-12 h-12 bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-lg flex items-center justify-center">
+                                            <i className="fas fa-phone text-xl text-black"></i>
+                                        </div>
+                                        <div>
+                                            <div className="text-sm text-[var(--text-secondary)]">Téléphone</div>
+                                            <a href="tel:+21699749793" className="text-[var(--accent-primary)] hover:underline">
+                                                +216 99 749 793
+                                            </a>
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="cyber-card p-6 flex items-center space-x-4">
+                                        <div className="w-12 h-12 bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-lg flex items-center justify-center">
+                                            <i className="fas fa-map-marker-alt text-xl text-black"></i>
+                                        </div>
+                                        <div>
+                                            <div className="text-sm text-[var(--text-secondary)]">Localisation</div>
+                                            <div className="text-[var(--text-primary)]">Sousse, Tunisie</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </FadeIn>
+                            
+                            <FadeIn direction="left" delay={0.2}>
+                                <form onSubmit={handleSubmit} className="cyber-card p-8 space-y-6">
+                                    <div>
+                                        <label className="block text-sm font-semibold text-[var(--text-secondary)] mb-2">
+                                            Nom complet
+                                        </label>
+                                        <input
+                                            type="text"
+                                            value={formData.name}
+                                            onChange={(e) => setFormData({...formData, name: e.target.value})}
+                                            className="w-full px-4 py-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-lg text-[var(--text-primary)] focus:border-[var(--accent-primary)] focus:outline-none transition-all"
+                                            required
+                                        />
+                                    </div>
+                                    
+                                    <div>
+                                        <label className="block text-sm font-semibold text-[var(--text-secondary)] mb-2">
+                                            Email
+                                        </label>
+                                        <input
+                                            type="email"
+                                            value={formData.email}
+                                            onChange={(e) => setFormData({...formData, email: e.target.value})}
+                                            className="w-full px-4 py-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-lg text-[var(--text-primary)] focus:border-[var(--accent-primary)] focus:outline-none transition-all"
+                                            required
+                                        />
+                                    </div>
+                                    
+                                    <div>
+                                        <label className="block text-sm font-semibold text-[var(--text-secondary)] mb-2">
+                                            Message
+                                        </label>
+                                        <textarea
+                                            rows="5"
+                                            value={formData.message}
+                                            onChange={(e) => setFormData({...formData, message: e.target.value})}
+                                            className="w-full px-4 py-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-lg text-[var(--text-primary)] focus:border-[var(--accent-primary)] focus:outline-none transition-all resize-none"
+                                            required
+                                        ></textarea>
+                                    </div>
+                                    
+                                    <button
+                                        type="submit"
+                                        disabled={isSubmitting}
+                                        className="w-full py-4 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-black font-semibold rounded-lg hover:shadow-lg hover:shadow-[var(--glow-primary)] transition-all disabled:opacity-50"
+                                    >
+                                        {isSubmitting ? "Envoi en cours..." : "Envoyer le message"}
+                                    </button>
+                                    
+                                    {status.message && (
+                                        <div className={`p-4 rounded-lg ${
+                                            status.type === "success" 
+                                                ? "bg-green-900/30 border border-green-500 text-green-400" 
+                                                : "bg-red-900/30 border border-red-500 text-red-400"
+                                        }`}>
+                                            {status.message}
+                                        </div>
+                                    )}
+                                </form>
+                            </FadeIn>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        // Footer
+        const Footer = () => {
+            return (
+                <footer className="py-12 px-4 sm:px-6 lg:px-8 border-t border-[var(--border-color)]">
+                    <div className="max-w-7xl mx-auto">
+                        <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+                            <div className="text-center md:text-left">
+                                <p className="text-[var(--text-secondary)]">
+                                    © 2025 Omar El Farouk Kortas. Tous droits réservés.
+                                </p>
+                                <p className="text-sm text-[var(--text-secondary)] mt-1">
+                                    Développé avec <i className="fas fa-heart text-red-500"></i> et sécurisé par design
+                                </p>
+                            </div>
+                            
+                            <div className="flex gap-4">
+                                <a href="https://www.linkedin.com/in/omar-el-farouk-kortas-8b4613294/" className="w-10 h-10 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg hover:border-[var(--accent-primary)] transition-all">
+                                    <i className="fab fa-linkedin text-[var(--accent-primary)]"></i>
+                                </a>
+                                <a href="https://github.com/omarkortas" className="w-10 h-10 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg hover:border-[var(--accent-primary)] transition-all">
+                                    <i className="fab fa-github text-[var(--accent-primary)]"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            );
+        };
+
+        // Main App Component
+        const App = () => {
+            const [theme, setTheme] = useState('light');
+            
+            // Scroll to top on page load
+            useEffect(() => {
+                window.scrollTo(0, 0);
+            }, []);
+            
+            useEffect(() => {
+                try {
+                    Particles.init({
+                        selector: '#particles-background',
+                        color: theme === 'light' ? ['#00b4d8', '#0077b6', '#000000'] : ['#00e6b4', '#00b4d8', '#FFFFFF'],
+                        connectParticles: true,
+                        maxParticles: 80,
+                        speed: 0.5,
+                        sizeVariations: 3,
+                        minDistance: 120,
+                        responsive: [
+                            { breakpoint: 768, options: { maxParticles: 50 } }
+                        ]
+                    });
+                } catch (error) {
+                    console.error("Particles initialization error:", error);
+                }
+            }, [theme]);
+            
+            const toggleTheme = () => {
+                const newTheme = theme === 'light' ? 'dark' : 'light';
+                setTheme(newTheme);
+                document.body.setAttribute('data-theme', newTheme);
+            };
+            
+            return (
+                <ThemeContext.Provider value={{ theme, toggleTheme }}>
+                    <ErrorBoundary>
+                        <Navbar />
+                        <Home />
+                        <About />
+                        <Skills />
+                        <Projects />
+                        <Certifications />
+                        <Services />
+                        <Experiences />
+                        <Contact />
+                        <Footer />
+                    </ErrorBoundary>
+                </ThemeContext.Provider>
+            );
+        };
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+        
+        // Force scroll to top on page load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                window.scrollTo({ top: 0, behavior: 'instant' });
+            }, 0);
+        });
+        
+        // Also handle browser back/forward
+        window.addEventListener('popstate', () => {
+            window.scrollTo({ top: 0, behavior: 'instant' });
+        });
+    </script>
+</body>
+</html>

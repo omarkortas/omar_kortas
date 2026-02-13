@@ -1,0 +1,81 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    color: black;
+}
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1em;
+    background:linear-gradient(90deg,rgb(0, 195, 255),rgb(255, 255, 255)) ;
+
+}
+.logo{
+    font-size: 2em;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+nav{
+    display: flex;
+    justify-content: space-around;
+    width: 40%;
+}
+a{
+    font-size: 1.2em;
+    transition: 0.5s;
+}
+a:hover{
+    color: blue;
+    letter-spacing: 1px;
+}
+.hero{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    flex-direction: row-reverse;
+    padding: 1em;
+}
+.hero img{
+    width: 30em;
+    height: auto;
+}
+.hero >.des > h2{
+    font-size: 3em;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+
+}
+#a{
+    padding: 1em;
+    background-color: rgb(87, 181, 239);
+    transition: 0.1s;
+    cursor: pointer;
+    border: 0em;
+    border-radius: 50%;
+    box-shadow: 0px 0px 4px 4px rgb(0, 0, 0);
+}
+.project > div{
+    position: relative;
+    height: 30em;
+    overflow: hidden;
+}
+.project > div > a > img{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 30em;
+    width: 30em;
+}
+.project > div > button{
+    border: 0;
+    border-radius: 10%;
+    cursor: wait;
+    box-shadow: 0px 0px 4px 4px rgb(0, 0, 0);
+
+}
+body{
+    background-image: url(https://sirusgaming.com/wp-content/uploads/2020/06/valorant-02.jpg);
+
+}
