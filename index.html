@@ -58,6 +58,15 @@
             padding: 0;
         }
 
+        /* Lock body scroll when modal is open */
+        body.modal-open {
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+        }
+
         /* Cyber Grid Background - Responsive */
         .cyber-grid {
             position: fixed;
@@ -509,12 +518,85 @@
             animation: slideDown 0.3s ease-out;
         }
 
-        /* Modal Responsive Fixes */
-        @media (max-width: 768px) {
-            .modal-content {
-                max-height: 85vh;
-                overflow-y: auto;
+        /* IMPROVED MODAL STYLES - FULLY RESPONSIVE */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .modal-container {
+            position: relative;
+            width: 100%;
+            max-width: 56rem;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+
+        @media (min-width: 640px) {
+            .modal-container {
+                padding: 2rem;
+                min-height: auto;
             }
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            border-radius: 1rem;
+            width: 100%;
+            max-height: calc(100vh - 2rem);
+            overflow-y: auto;
+            position: relative;
+            border: 2px solid var(--accent-primary);
+            box-shadow: 0 25px 50px -12px var(--glow-primary);
+        }
+
+        @media (min-width: 640px) {
+            .modal-content {
+                border-radius: 1.5rem;
+                max-height: calc(100vh - 4rem);
+            }
+        }
+
+        @media (max-width: 639px) {
+            .modal-content {
+                min-height: 100vh;
+                max-height: 100vh;
+                border-radius: 0;
+                border-left: none;
+                border-right: none;
+            }
+            
+            .modal-container {
+                padding: 0;
+                margin: 0;
+            }
+        }
+
+        /* Modal scrollbar */
+        .modal-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .modal-content::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        .modal-content::-webkit-scrollbar-thumb {
+            background: var(--accent-primary);
+            border-radius: 3px;
         }
 
         /* Text Responsive Sizes */
@@ -557,6 +639,22 @@
             .floating-icon {
                 display: none;
             }
+        }
+
+        /* Modal animation */
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .modal-content {
+            animation: modalFadeIn 0.3s ease-out;
         }
     </style>
 </head>
@@ -1023,9 +1121,24 @@
             );
         };
 
-        // Projects Section - RESPONSIVE (continuing from original with modal improvements)
+        // Utility functions for modal scroll management
+        const lockScroll = () => {
+            const scrollY = window.scrollY;
+            document.body.style.top = `-${scrollY}px`;
+            document.body.classList.add('modal-open');
+            return scrollY;
+        };
+        
+        const unlockScroll = (scrollY) => {
+            document.body.classList.remove('modal-open');
+            document.body.style.top = '';
+            window.scrollTo(0, scrollY);
+        };
+
+        // Projects Section - RESPONSIVE with IMPROVED MODAL
         const Projects = () => {
             const [selectedProject, setSelectedProject] = useState(null);
+            const [scrollPosition, setScrollPosition] = useState(0);
             
             const projects = [
                 {
@@ -1080,13 +1193,14 @@
             ];
             
             const openModal = (project) => {
+                const scrollY = lockScroll();
+                setScrollPosition(scrollY);
                 setSelectedProject(project);
-                document.body.style.overflow = 'hidden';
             };
             
             const closeModal = () => {
                 setSelectedProject(null);
-                document.body.style.overflow = 'unset';
+                unlockScroll(scrollPosition);
             };
             
             return (
@@ -1138,81 +1252,83 @@
                             ))}
                         </div>
                         
-                        {/* Modal - RESPONSIVE */}
+                        {/* IMPROVED MODAL - FULLY RESPONSIVE */}
                         {selectedProject && (
-                            <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto" onClick={closeModal}>
-                                <div className="bg-gradient-to-br from-[var(--bg-primary)] to-[var(--bg-secondary)] rounded-2xl sm:rounded-3xl max-w-4xl w-full my-8 p-4 sm:p-6 lg:p-8 relative border-2 border-[var(--accent-primary)] shadow-2xl shadow-[var(--glow-primary)] max-h-[90vh] overflow-y-auto modal-content" onClick={(e) => e.stopPropagation()}>
-                                    <button 
-                                        onClick={closeModal}
-                                        className="absolute top-2 right-2 sm:top-4 sm:right-4 w-10 h-10 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg hover:border-[var(--accent-primary)] transition-all duration-300 z-10"
-                                    >
-                                        <i className="fas fa-times text-[var(--text-primary)]"></i>
-                                    </button>
-                                    
-                                    <div className="mb-4 sm:mb-6">
-                                        <div className="flex items-start justify-between mb-4 pr-12">
-                                            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[var(--text-primary)]">
-                                                {selectedProject.title}
-                                            </h2>
-                                            <span className="px-3 sm:px-4 py-1 sm:py-2 bg-[var(--accent-primary)] text-black text-xs font-bold rounded-full whitespace-nowrap">
-                                                {selectedProject.badge}
-                                            </span>
-                                        </div>
-                                    </div>
-                                    
-                                    <div className="mb-6 sm:mb-8 relative rounded-xl sm:rounded-2xl overflow-hidden border-2 border-[var(--border-color)]">
-                                        <img 
-                                            src={selectedProject.image} 
-                                            alt={selectedProject.title}
-                                            className="w-full h-auto object-cover"
-                                        />
-                                    </div>
-                                    
-                                    <div className="mb-6 sm:mb-8">
-                                        <h3 className="text-lg sm:text-xl font-bold text-[var(--text-primary)] mb-4 flex items-center gap-2">
-                                            <i className="fas fa-info-circle text-[var(--accent-primary)]"></i>
-                                            Description du projet
-                                        </h3>
-                                        <p className="text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed">
-                                            {selectedProject.fullDescription}
-                                        </p>
-                                    </div>
-                                    
-                                    <div className="mb-6 sm:mb-8">
-                                        <h3 className="text-lg sm:text-xl font-bold text-[var(--text-primary)] mb-4 flex items-center gap-2">
-                                            <i className="fas fa-tasks text-[var(--accent-primary)]"></i>
-                                            Fonctionnalités principales
-                                        </h3>
-                                        <ul className="grid gap-3">
-                                            {selectedProject.features.map((feature, index) => (
-                                                <li key={index} className="flex items-start gap-3 text-sm sm:text-base text-[var(--text-secondary)]">
-                                                    <i className="fas fa-check-circle text-[var(--accent-primary)] mt-1 flex-shrink-0"></i>
-                                                    <span>{feature}</span>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                    
-                                    <div className="mb-6 sm:mb-8">
-                                        <h3 className="text-lg sm:text-xl font-bold text-[var(--text-primary)] mb-4 flex items-center gap-2">
-                                            <i className="fas fa-code text-[var(--accent-primary)]"></i>
-                                            Technologies utilisées
-                                        </h3>
-                                        <div className="flex flex-wrap gap-2 sm:gap-3">
-                                            {selectedProject.tech.map((tech) => (
-                                                <span key={tech} className="px-3 sm:px-4 py-1 sm:py-2 bg-gradient-to-r from-[var(--accent-primary)]/20 to-[var(--accent-secondary)]/20 border border-[var(--border-color)] rounded-lg text-[var(--accent-primary)] font-semibold text-sm sm:text-base">
-                                                    {tech}
+                            <div className="modal-overlay" onClick={closeModal}>
+                                <div className="modal-container">
+                                    <div className="modal-content p-4 sm:p-6 lg:p-8" onClick={(e) => e.stopPropagation()}>
+                                        <button 
+                                            onClick={closeModal}
+                                            className="sticky top-2 sm:top-4 float-right w-10 h-10 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg hover:border-[var(--accent-primary)] transition-all duration-300 z-10 mb-4"
+                                        >
+                                            <i className="fas fa-times text-[var(--text-primary)]"></i>
+                                        </button>
+                                        
+                                        <div className="clear-both">
+                                            <div className="flex items-start justify-between mb-4 sm:mb-6">
+                                                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[var(--text-primary)] pr-4">
+                                                    {selectedProject.title}
+                                                </h2>
+                                                <span className="px-3 sm:px-4 py-1 sm:py-2 bg-[var(--accent-primary)] text-black text-xs font-bold rounded-full whitespace-nowrap flex-shrink-0">
+                                                    {selectedProject.badge}
                                                 </span>
-                                            ))}
+                                            </div>
                                         </div>
+                                        
+                                        <div className="mb-6 sm:mb-8 relative rounded-xl sm:rounded-2xl overflow-hidden border-2 border-[var(--border-color)]">
+                                            <img 
+                                                src={selectedProject.image} 
+                                                alt={selectedProject.title}
+                                                className="w-full h-auto object-cover"
+                                            />
+                                        </div>
+                                        
+                                        <div className="mb-6 sm:mb-8">
+                                            <h3 className="text-lg sm:text-xl font-bold text-[var(--text-primary)] mb-4 flex items-center gap-2">
+                                                <i className="fas fa-info-circle text-[var(--accent-primary)]"></i>
+                                                Description du projet
+                                            </h3>
+                                            <p className="text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed">
+                                                {selectedProject.fullDescription}
+                                            </p>
+                                        </div>
+                                        
+                                        <div className="mb-6 sm:mb-8">
+                                            <h3 className="text-lg sm:text-xl font-bold text-[var(--text-primary)] mb-4 flex items-center gap-2">
+                                                <i className="fas fa-tasks text-[var(--accent-primary)]"></i>
+                                                Fonctionnalités principales
+                                            </h3>
+                                            <ul className="grid gap-3">
+                                                {selectedProject.features.map((feature, index) => (
+                                                    <li key={index} className="flex items-start gap-3 text-sm sm:text-base text-[var(--text-secondary)]">
+                                                        <i className="fas fa-check-circle text-[var(--accent-primary)] mt-1 flex-shrink-0"></i>
+                                                        <span>{feature}</span>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                        
+                                        <div className="mb-6 sm:mb-8">
+                                            <h3 className="text-lg sm:text-xl font-bold text-[var(--text-primary)] mb-4 flex items-center gap-2">
+                                                <i className="fas fa-code text-[var(--accent-primary)]"></i>
+                                                Technologies utilisées
+                                            </h3>
+                                            <div className="flex flex-wrap gap-2 sm:gap-3">
+                                                {selectedProject.tech.map((tech) => (
+                                                    <span key={tech} className="px-3 sm:px-4 py-1 sm:py-2 bg-gradient-to-r from-[var(--accent-primary)]/20 to-[var(--accent-secondary)]/20 border border-[var(--border-color)] rounded-lg text-[var(--accent-primary)] font-semibold text-sm sm:text-base">
+                                                        {tech}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        </div>
+                                        
+                                        <button 
+                                            onClick={closeModal}
+                                            className="w-full py-3 sm:py-4 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-black font-bold rounded-lg hover:shadow-lg hover:shadow-[var(--glow-primary)] transition-all text-base sm:text-lg"
+                                        >
+                                            Fermer
+                                        </button>
                                     </div>
-                                    
-                                    <button 
-                                        onClick={closeModal}
-                                        className="w-full py-3 sm:py-4 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-black font-bold rounded-lg hover:shadow-lg hover:shadow-[var(--glow-primary)] transition-all text-base sm:text-lg"
-                                    >
-                                        Fermer
-                                    </button>
                                 </div>
                             </div>
                         )}
@@ -1221,9 +1337,10 @@
             );
         };
 
-        // Certifications Section - RESPONSIVE
+        // Certifications Section - RESPONSIVE with IMPROVED MODAL
         const Certifications = () => {
             const [selectedCert, setSelectedCert] = useState(null);
+            const [scrollPosition, setScrollPosition] = useState(0);
             
             const certifications = [
                 {
@@ -1289,13 +1406,14 @@
             ];
             
             const openModal = (cert) => {
+                const scrollY = lockScroll();
+                setScrollPosition(scrollY);
                 setSelectedCert(cert);
-                document.body.style.overflow = 'hidden';
             };
             
             const closeModal = () => {
                 setSelectedCert(null);
-                document.body.style.overflow = 'unset';
+                unlockScroll(scrollPosition);
             };
             
             return (
@@ -1354,76 +1472,80 @@
                             ))}
                         </div>
                         
-                        {/* Modal - RESPONSIVE */}
+                        {/* IMPROVED MODAL - FULLY RESPONSIVE */}
                         {selectedCert && (
-                            <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto" onClick={closeModal}>
-                                <div className="bg-[var(--bg-primary)] rounded-2xl sm:rounded-3xl max-w-2xl w-full my-8 p-4 sm:p-6 lg:p-8 relative border-2 border-[var(--accent-primary)] shadow-2xl shadow-[var(--glow-primary)] max-h-[90vh] overflow-y-auto modal-content" onClick={(e) => e.stopPropagation()}>
-                                    <button 
-                                        onClick={closeModal}
-                                        className="absolute top-2 right-2 sm:top-4 sm:right-4 w-10 h-10 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg hover:border-[var(--accent-primary)] transition-all duration-300 z-10"
-                                    >
-                                        <i className="fas fa-times text-[var(--text-primary)]"></i>
-                                    </button>
-                                    
-                                    <div className="flex items-start gap-3 sm:gap-4 mb-4 sm:mb-6 pr-12">
-                                        <div className={`w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br ${selectedCert.color} rounded-xl flex items-center justify-center flex-shrink-0`}>
-                                            <i className={`${selectedCert.icon} text-lg sm:text-xl text-white`}></i>
+                            <div className="modal-overlay" onClick={closeModal}>
+                                <div className="modal-container">
+                                    <div className="modal-content p-4 sm:p-6 lg:p-8" onClick={(e) => e.stopPropagation()}>
+                                        <button 
+                                            onClick={closeModal}
+                                            className="sticky top-2 sm:top-4 float-right w-10 h-10 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg hover:border-[var(--accent-primary)] transition-all duration-300 z-10 mb-4"
+                                        >
+                                            <i className="fas fa-times text-[var(--text-primary)]"></i>
+                                        </button>
+                                        
+                                        <div className="clear-both">
+                                            <div className="flex items-start gap-3 sm:gap-4 mb-4 sm:mb-6">
+                                                <div className={`w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br ${selectedCert.color} rounded-xl flex items-center justify-center flex-shrink-0`}>
+                                                    <i className={`${selectedCert.icon} text-lg sm:text-xl text-white`}></i>
+                                                </div>
+                                                <div className="flex-grow min-w-0">
+                                                    <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-[var(--text-primary)] mb-1 break-words">
+                                                        {selectedCert.title}
+                                                    </h3>
+                                                    <p className="text-[var(--accent-primary)] font-semibold text-xs sm:text-sm break-words">
+                                                        {selectedCert.issuer} • {selectedCert.date}
+                                                    </p>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className="flex-grow">
-                                            <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-[var(--text-primary)] mb-1">
-                                                {selectedCert.title}
-                                            </h3>
-                                            <p className="text-[var(--accent-primary)] font-semibold text-xs sm:text-sm">
-                                                {selectedCert.issuer} • {selectedCert.date}
-                                            </p>
+                                        
+                                        <div className="mb-4 sm:mb-6">
+                                            <p className="text-sm sm:text-base text-[var(--text-secondary)]">{selectedCert.description}</p>
                                         </div>
+                                        
+                                        <div className="mb-4 sm:mb-6">
+                                            <h4 className="text-sm sm:text-base font-semibold text-[var(--text-primary)] mb-3 flex items-center gap-2">
+                                                <i className="fas fa-code text-[var(--accent-primary)]"></i>
+                                                Compétences acquises
+                                            </h4>
+                                            <div className="flex flex-wrap gap-2">
+                                                {selectedCert.skills.map((skill) => (
+                                                    <span key={skill} className="px-2 sm:px-3 py-1 bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-full text-xs sm:text-sm text-[var(--accent-primary)]">
+                                                        {skill}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        </div>
+                                        
+                                        <div className="mb-4 sm:mb-6">
+                                            <div className="flex items-center gap-2 mb-3">
+                                                <i className="fas fa-award text-[var(--accent-primary)]"></i>
+                                                <h4 className="text-sm sm:text-base font-semibold text-[var(--text-primary)]">Certificat</h4>
+                                            </div>
+                                            <div className="bg-[var(--card-bg)] rounded-xl sm:rounded-2xl p-3 sm:p-4 border border-[var(--border-color)]">
+                                                <img 
+                                                    src={selectedCert.image} 
+                                                    alt={`Certificat ${selectedCert.title}`}
+                                                    className="w-full max-w-sm mx-auto h-auto rounded-lg cursor-pointer hover:scale-105 transition-transform"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        window.open(selectedCert.image, '_blank');
+                                                    }}
+                                                />
+                                                <p className="text-center text-xs text-[var(--text-secondary)] mt-2">
+                                                    Cliquez pour agrandir
+                                                </p>
+                                            </div>
+                                        </div>
+                                        
+                                        <button 
+                                            onClick={closeModal}
+                                            className="w-full py-2 sm:py-3 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-black font-semibold rounded-lg hover:shadow-lg hover:shadow-[var(--glow-primary)] transition-all text-sm sm:text-base"
+                                        >
+                                            Fermer
+                                        </button>
                                     </div>
-                                    
-                                    <div className="mb-4 sm:mb-6">
-                                        <p className="text-sm sm:text-base text-[var(--text-secondary)]">{selectedCert.description}</p>
-                                    </div>
-                                    
-                                    <div className="mb-4 sm:mb-6">
-                                        <h4 className="text-sm sm:text-base font-semibold text-[var(--text-primary)] mb-3 flex items-center gap-2">
-                                            <i className="fas fa-code text-[var(--accent-primary)]"></i>
-                                            Compétences acquises
-                                        </h4>
-                                        <div className="flex flex-wrap gap-2">
-                                            {selectedCert.skills.map((skill) => (
-                                                <span key={skill} className="px-2 sm:px-3 py-1 bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-full text-xs sm:text-sm text-[var(--accent-primary)]">
-                                                    {skill}
-                                                </span>
-                                            ))}
-                                        </div>
-                                    </div>
-                                    
-                                    <div className="mb-4 sm:mb-6">
-                                        <div className="flex items-center gap-2 mb-3">
-                                            <i className="fas fa-award text-[var(--accent-primary)]"></i>
-                                            <h4 className="text-sm sm:text-base font-semibold text-[var(--text-primary)]">Certificat</h4>
-                                        </div>
-                                        <div className="bg-[var(--card-bg)] rounded-xl sm:rounded-2xl p-3 sm:p-4 border border-[var(--border-color)]">
-                                            <img 
-                                                src={selectedCert.image} 
-                                                alt={`Certificat ${selectedCert.title}`}
-                                                className="w-full max-w-sm mx-auto h-auto rounded-lg cursor-pointer hover:scale-105 transition-transform"
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    window.open(selectedCert.image, '_blank');
-                                                }}
-                                            />
-                                            <p className="text-center text-xs text-[var(--text-secondary)] mt-2">
-                                                Cliquez pour agrandir
-                                            </p>
-                                        </div>
-                                    </div>
-                                    
-                                    <button 
-                                        onClick={closeModal}
-                                        className="w-full py-2 sm:py-3 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-black font-semibold rounded-lg hover:shadow-lg hover:shadow-[var(--glow-primary)] transition-all text-sm sm:text-base"
-                                    >
-                                        Fermer
-                                    </button>
                                 </div>
                             </div>
                         )}
@@ -1514,9 +1636,10 @@
             );
         };
 
-        // Experience Section - RESPONSIVE
+        // Experience Section - RESPONSIVE with IMPROVED MODAL
         const Experiences = () => {
             const [selectedExperience, setSelectedExperience] = useState(null);
+            const [scrollPosition, setScrollPosition] = useState(0);
             
             const experiences = [
                 {
@@ -1556,13 +1679,14 @@
             ];
             
             const openModal = (exp) => {
+                const scrollY = lockScroll();
+                setScrollPosition(scrollY);
                 setSelectedExperience(exp);
-                document.body.style.overflow = 'hidden';
             };
             
             const closeModal = () => {
                 setSelectedExperience(null);
-                document.body.style.overflow = 'unset';
+                unlockScroll(scrollPosition);
             };
             
             return (
@@ -1617,85 +1741,89 @@
                             ))}
                         </div>
                         
-                        {/* Modal - RESPONSIVE */}
+                        {/* IMPROVED MODAL - FULLY RESPONSIVE */}
                         {selectedExperience && (
-                            <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto" onClick={closeModal}>
-                                <div className="bg-[var(--bg-primary)] rounded-2xl sm:rounded-3xl max-w-2xl w-full my-8 p-4 sm:p-6 lg:p-8 relative border-2 border-[var(--accent-primary)] shadow-2xl shadow-[var(--glow-primary)] max-h-[90vh] overflow-y-auto modal-content" onClick={(e) => e.stopPropagation()}>
-                                    <button 
-                                        onClick={closeModal}
-                                        className="absolute top-2 right-2 sm:top-4 sm:right-4 w-10 h-10 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg hover:border-[var(--accent-primary)] transition-all duration-300 z-10"
-                                    >
-                                        <i className="fas fa-times text-[var(--text-primary)]"></i>
-                                    </button>
-                                    
-                                    <div className="flex items-start gap-3 sm:gap-4 mb-4 sm:mb-6 pr-12">
-                                        <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-lg sm:rounded-xl flex items-center justify-center flex-shrink-0">
-                                            <i className={`${selectedExperience.icon} text-lg sm:text-xl text-black`}></i>
+                            <div className="modal-overlay" onClick={closeModal}>
+                                <div className="modal-container">
+                                    <div className="modal-content p-4 sm:p-6 lg:p-8" onClick={(e) => e.stopPropagation()}>
+                                        <button 
+                                            onClick={closeModal}
+                                            className="sticky top-2 sm:top-4 float-right w-10 h-10 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg hover:border-[var(--accent-primary)] transition-all duration-300 z-10 mb-4"
+                                        >
+                                            <i className="fas fa-times text-[var(--text-primary)]"></i>
+                                        </button>
+                                        
+                                        <div className="clear-both">
+                                            <div className="flex items-start gap-3 sm:gap-4 mb-4 sm:mb-6">
+                                                <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-lg sm:rounded-xl flex items-center justify-center flex-shrink-0">
+                                                    <i className={`${selectedExperience.icon} text-lg sm:text-xl text-black`}></i>
+                                                </div>
+                                                <div className="flex-grow min-w-0">
+                                                    <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-[var(--text-primary)] mb-1 break-words">
+                                                        {selectedExperience.company}
+                                                    </h3>
+                                                    <p className="text-[var(--accent-primary)] font-semibold text-xs sm:text-sm lg:text-base break-words">
+                                                        {selectedExperience.role.split(' - ')[0]}
+                                                    </p>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className="flex-grow">
-                                            <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-[var(--text-primary)] mb-1">
-                                                {selectedExperience.company}
-                                            </h3>
-                                            <p className="text-[var(--accent-primary)] font-semibold text-xs sm:text-sm lg:text-base">
-                                                {selectedExperience.role.split(' - ')[0]}
-                                            </p>
+                                        
+                                        <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-[var(--text-secondary)] text-xs sm:text-sm mb-4 sm:mb-6">
+                                            <div className="flex items-center gap-2">
+                                                <i className="fas fa-calendar-alt"></i>
+                                                <span>{selectedExperience.period}</span>
+                                            </div>
+                                            <span className="hidden sm:inline">•</span>
+                                            <div className="flex items-center gap-2">
+                                                <i className="fas fa-map-marker-alt"></i>
+                                                <span>{selectedExperience.location}</span>
+                                            </div>
                                         </div>
+                                        
+                                        <div className="mb-4 sm:mb-6">
+                                            <div className="flex items-center gap-2 mb-3">
+                                                <i className="fas fa-list text-[var(--accent-primary)]"></i>
+                                                <h4 className="text-sm sm:text-base lg:text-lg font-semibold text-[var(--text-primary)]">Responsabilités</h4>
+                                            </div>
+                                            <ul className="space-y-2">
+                                                {selectedExperience.tasks.map((task, index) => (
+                                                    <li key={index} className="flex items-start gap-3 text-[var(--text-secondary)] text-xs sm:text-sm">
+                                                        <i className="fas fa-check text-green-400 mt-1 flex-shrink-0"></i>
+                                                        <span>{task}</span>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                        
+                                        <div className="mb-4 sm:mb-6">
+                                            <div className="flex items-center gap-2 mb-3">
+                                                <i className="fas fa-certificate text-[var(--accent-primary)]"></i>
+                                                <h4 className="text-sm sm:text-base lg:text-lg font-semibold text-[var(--text-primary)]">Attestation</h4>
+                                            </div>
+                                            <div className="bg-[var(--card-bg)] rounded-xl sm:rounded-2xl p-3 sm:p-4 border border-[var(--border-color)]">
+                                                <img 
+                                                    src={selectedExperience.attestation} 
+                                                    alt={`Attestation ${selectedExperience.company}`}
+                                                    className="w-full max-w-sm mx-auto h-auto rounded-lg cursor-pointer hover:scale-105 transition-transform"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        window.open(selectedExperience.attestation, '_blank');
+                                                    }}
+                                                />
+                                                <p className="text-center text-xs text-[var(--text-secondary)] mt-2">
+                                                    Cliquez pour agrandir
+                                                </p>
+                                            </div>
+                                        </div>
+                                        
+                                        <button 
+                                            onClick={closeModal}
+                                            className="w-full py-2 sm:py-3 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-black font-semibold rounded-lg hover:shadow-lg hover:shadow-[var(--glow-primary)] transition-all text-sm sm:text-base"
+                                        >
+                                            Fermer
+                                        </button>
                                     </div>
-                                    
-                                    <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-[var(--text-secondary)] text-xs sm:text-sm mb-4 sm:mb-6">
-                                        <div className="flex items-center gap-2">
-                                            <i className="fas fa-calendar-alt"></i>
-                                            <span>{selectedExperience.period}</span>
-                                        </div>
-                                        <span className="hidden sm:inline">•</span>
-                                        <div className="flex items-center gap-2">
-                                            <i className="fas fa-map-marker-alt"></i>
-                                            <span>{selectedExperience.location}</span>
-                                        </div>
-                                    </div>
-                                    
-                                    <div className="mb-4 sm:mb-6">
-                                        <div className="flex items-center gap-2 mb-3">
-                                            <i className="fas fa-list text-[var(--accent-primary)]"></i>
-                                            <h4 className="text-sm sm:text-base lg:text-lg font-semibold text-[var(--text-primary)]">Responsabilités</h4>
-                                        </div>
-                                        <ul className="space-y-2">
-                                            {selectedExperience.tasks.map((task, index) => (
-                                                <li key={index} className="flex items-start gap-3 text-[var(--text-secondary)] text-xs sm:text-sm">
-                                                    <i className="fas fa-check text-green-400 mt-1 flex-shrink-0"></i>
-                                                    <span>{task}</span>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                    
-                                    <div className="mb-4 sm:mb-6">
-                                        <div className="flex items-center gap-2 mb-3">
-                                            <i className="fas fa-certificate text-[var(--accent-primary)]"></i>
-                                            <h4 className="text-sm sm:text-base lg:text-lg font-semibold text-[var(--text-primary)]">Attestation</h4>
-                                        </div>
-                                        <div className="bg-[var(--card-bg)] rounded-xl sm:rounded-2xl p-3 sm:p-4 border border-[var(--border-color)]">
-                                            <img 
-                                                src={selectedExperience.attestation} 
-                                                alt={`Attestation ${selectedExperience.company}`}
-                                                className="w-full max-w-sm mx-auto h-auto rounded-lg cursor-pointer hover:scale-105 transition-transform"
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    window.open(selectedExperience.attestation, '_blank');
-                                                }}
-                                            />
-                                            <p className="text-center text-xs text-[var(--text-secondary)] mt-2">
-                                                Cliquez pour agrandir
-                                            </p>
-                                        </div>
-                                    </div>
-                                    
-                                    <button 
-                                        onClick={closeModal}
-                                        className="w-full py-2 sm:py-3 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-black font-semibold rounded-lg hover:shadow-lg hover:shadow-[var(--glow-primary)] transition-all text-sm sm:text-base"
-                                    >
-                                        Fermer
-                                    </button>
                                 </div>
                             </div>
                         )}
@@ -1864,9 +1992,6 @@
                             <div className="text-center md:text-left">
                                 <p className="text-sm sm:text-base text-[var(--text-secondary)]">
                                     © 2025 Omar El Farouk Kortas. Tous droits réservés.
-                                </p>
-                                <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-1">
-                                    Développé avec <i className="fas fa-heart text-red-500"></i> et sécurisé par design
                                 </p>
                             </div>
                             
