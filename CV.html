@@ -12,56 +12,48 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         :root {
-            --bg-primary: #1a1a2e;
-            --bg-secondary: #16213e;
-            --text-primary: #ffffff;
-            --text-secondary: #d1d5db;
-            --card-bg: rgba(31, 41, 55, 0.5);
-            --border-color: rgba(96, 165, 250, 0.5);
-            --accent-blue: #60a5fa;
-            --accent-purple: #a855f7;
+            --bg-primary: #f0f4f8;
+            --bg-secondary: #e1e8ed;
+            --bg-tertiary: #d6dfe8;
+            --text-primary: #0a0e27;
+            --text-secondary: #495057;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --border-color: rgba(0, 180, 216, 0.3);
+            --accent-primary: #00b4d8;
+            --accent-secondary: #0077b6;
+            --accent-danger: #d00058;
+            --accent-warning: #f77f00;
+            --glow-primary: rgba(0, 180, 216, 0.2);
+            --glow-secondary: rgba(0, 119, 182, 0.2);
         }
         
-        [data-theme="light"] {
-            --bg-primary: #f3f4f6;
-            --bg-secondary: #e5e7eb;
-            --text-primary: #1f2937;
-            --text-secondary: #4b5563;
-            --card-bg: rgba(255, 255, 255, 0.8);
-            --border-color: rgba(59, 130, 246, 0.3);
-            --accent-blue: #3b82f6;
-            --accent-purple: #7c3aed;
+        [data-theme="dark"] {
+            --bg-primary: #0a0e27;
+            --bg-secondary: #151937;
+            --bg-tertiary: #1a1f45;
+            --text-primary: #ffffff;
+            --text-secondary: #b4c7e7;
+            --card-bg: rgba(26, 31, 69, 0.6);
+            --border-color: rgba(0, 230, 180, 0.3);
+            --accent-primary: #00e6b4;
+            --accent-secondary: #00b4d8;
+            --accent-danger: #ff006e;
+            --accent-warning: #ffbe0b;
+            --glow-primary: rgba(0, 230, 180, 0.4);
+            --glow-secondary: rgba(0, 180, 216, 0.3);
         }
 
         body {
-            background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-tertiary) 100%);
             position: relative;
             overflow-x: hidden;
             color: var(--text-primary);
-            transition: background 0.3s ease, color 0.3s ease;
+            transition: background 0.5s ease, color 0.3s ease;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         }
 
-        .animate-typing {
-            width: 0;
-            animation: typing 4s steps(30, end) forwards, blink 0.5s step-end infinite;
-        }
-        
-        @keyframes typing {
-            from { width: 0; }
-            to { width: 100%; }
-        }
-        
-        @keyframes blink {
-            from, to { border-color: transparent; }
-            50% { border-color: var(--accent-blue); }
-        }
-        
-        #particles-background {
-            opacity: 0.3;
-            background: transparent;
-        }
-
-        .tech-background {
+        /* Cyber Grid Background */
+        .cyber-grid {
             position: fixed;
             top: 0;
             left: 0;
@@ -69,42 +61,164 @@
             height: 100%;
             z-index: -1;
             pointer-events: none;
-            overflow: hidden;
+            background-image: 
+                linear-gradient(var(--border-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border-color) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.15;
+            animation: gridMove 20s linear infinite;
         }
 
-        .circuit-layer {
-            position: absolute;
+        @keyframes gridMove {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(50px); }
+        }
+
+        /* Hexagonal Pattern */
+        .hex-pattern {
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            opacity: 0.15;
+            z-index: -1;
+            opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg width='50' height='43.4' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M25 0l25 14.4v14.5L25 43.4 0 28.9V14.4L25 0z' fill='none' stroke='%2300e6b4' stroke-width='1'/%3E%3C/svg%3E");
+            background-size: 100px 86.6px;
         }
 
-        .circuit-path {
-            stroke: var(--accent-blue);
-            stroke-width: 2;
-            fill: none;
-            stroke-dasharray: 20, 10;
-            animation: circuit-flow 12s linear infinite;
+        /* Security Scan Effect */
+        .scan-line {
+            position: fixed;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, 
+                transparent, 
+                var(--accent-primary) 50%, 
+                transparent);
+            box-shadow: 0 0 20px var(--glow-primary);
+            animation: scan 4s linear infinite;
+            z-index: 9999;
+            pointer-events: none;
         }
 
-        @keyframes circuit-flow {
-            0% { stroke-dashoffset: 0; }
-            100% { stroke-dashoffset: -30; }
+        @keyframes scan {
+            0% { top: -2px; opacity: 0; }
+            50% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+
+        /* Security Badge Animation */
+        .security-badge {
+            position: relative;
+            display: inline-block;
+        }
+
+        .security-badge::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            border: 2px solid var(--accent-primary);
+            border-radius: 50%;
+            animation: pulse-ring 2s infinite;
+        }
+
+        @keyframes pulse-ring {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.3); opacity: 0; }
+        }
+
+        /* Cyber Card */
+        .cyber-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .cyber-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                var(--glow-primary), 
+                transparent);
+            transition: left 0.5s;
+        }
+
+        .cyber-card:hover::before {
+            left: 100%;
+        }
+
+        .cyber-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent-primary);
+            box-shadow: 0 20px 40px var(--glow-primary);
+        }
+
+        /* Terminal Cursor */
+        .terminal-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 16px;
+            background: var(--accent-primary);
+            animation: blink 1s step-end infinite;
+            margin-left: 5px;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        #particles-background {
+            background: transparent;
+        }
+
+        /* Enhanced Navbar */
+        .nav-glassmorphism {
+            background: rgba(10, 14, 39, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-primary);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-secondary);
         }
     </style>
 </head>
-<body class="font-sans antialiased overflow-x-hidden" data-theme="dark">
-    <div class="tech-background">
-        <div class="circuit-layer">
-            <svg viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
-                <path class="circuit-path" d="M100,200 H400 V500 H700 V300 H1000 V600 H1300 V400 H1600 V200 H1800" />
-                <path class="circuit-path" d="M200,300 H500 V600 H800 V400 H1100 V700 H1400 V300 H1700" />
-            </svg>
-        </div>
-    </div>
+<body class="font-sans antialiased overflow-x-hidden" data-theme="light">
+    <!-- Cyber Grid Background -->
+    <div class="cyber-grid"></div>
+    <div class="hex-pattern"></div>
+    <div class="scan-line"></div>
+    
+    <!-- Particles Background -->
     <div id="particles-background" class="fixed top-0 left-0 w-full h-full z-0"></div>
+    
     <div id="root" class="relative z-10"></div>
     <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
@@ -120,7 +234,7 @@
             }
             render() {
                 if (this.state.hasError) {
-                    return <h1 className="text-center text-red-400">Une erreur s'est produite. Veuillez vérifier la console.</h1>;
+                    return <h1 className="text-center text-red-400 p-4">Une erreur s'est produite.</h1>;
                 }
                 return this.props.children;
             }
@@ -225,37 +339,61 @@
                 );
             }, []);
             
-            const navItems = ['Accueil', 'A propos', 'Compétences', 'Projets', 'Expériences', 'Statistiques', 'Contact'];
+            const navItems = ['Accueil', 'À propos', 'Compétences', 'Projets', 'Certifications', 'Services', 'Expériences', 'Contact'];
             
             return (
-                <nav ref={navbarRef} className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-[var(--bg-primary)] shadow-lg backdrop-blur-lg bg-opacity-80' : 'bg-transparent'}`}>
+                <nav ref={navbarRef} className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolled ? 'nav-glassmorphism shadow-2xl' : 'bg-transparent'}`}>
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="flex justify-between h-16 items-center">
-                            <a href="index.html" className="group flex items-center">
-                                <span className="text-2xl font-extrabold text-[var(--text-primary)] tracking-tight group-hover:text-[var(--accent-blue)] transition-colors duration-300">
-                                    <span className="text-[var(--accent-blue)]">&lt;</span>Omar el farouk<span className="text-[var(--accent-blue)]">/&gt;</span>
+                            <a href="index.html" className="group flex items-center space-x-2">
+                                <div className="security-badge">
+                                    <i className={`fas fa-shield-alt text-xl sm:text-2xl transition-colors duration-300 ${
+                                        scrolled ? 'text-sky-400' : 'text-[var(--accent-primary)]'
+                                    }`}></i>
+                                </div>
+                                <span className={`text-lg sm:text-xl font-bold tracking-tight transition-colors duration-300 ${
+                                    scrolled ? 'text-white' : 'text-[var(--text-primary)]'
+                                }`}>
+                                    <span className={`transition-colors duration-300 ${scrolled ? 'text-sky-400' : 'text-[var(--accent-primary)]'}`}>&lt;</span>
+                                    Omar.dev
+                                    <span className={`transition-colors duration-300 ${scrolled ? 'text-sky-400' : 'text-[var(--accent-primary)]'}`}>/&gt;</span>
                                 </span>
                             </a>
                             <div className="hidden md:flex items-center space-x-6">
-                                {navItems.map((item, index) => (
+                                {navItems.map((item) => (
                                     <a
                                         key={item}
                                         href={`index.html#${item.toLowerCase().replace(' ', '-')}`}
-                                        className="text-[var(--text-secondary)] hover:text-[var(--accent-blue)] relative overflow-hidden group text-sm font-medium"
+                                        className={`group flex items-center space-x-2 transition-all duration-300 text-sm font-medium ${
+                                            scrolled 
+                                                ? 'text-sky-300 hover:text-sky-400' 
+                                                : 'text-[var(--text-secondary)] hover:text-[var(--accent-primary)]'
+                                        }`}
                                     >
-                                        {item}
-                                        <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[var(--accent-blue)] group-hover:w-full transition-all duration-300"></span>
+                                        <span>{item}</span>
+                                        <span className={`block h-0.5 w-0 group-hover:w-full transition-all duration-300 ${
+                                            scrolled ? 'bg-sky-400' : 'bg-[var(--accent-primary)]'
+                                        }`}></span>
                                     </a>
                                 ))}
                                 <button
                                     onClick={toggleTheme}
-                                    className="w-10 h-10 rounded-full bg-[var(--card-bg)] border border-[var(--border-color)] flex items-center justify-center text-[var(--text-primary)] hover:text-[var(--accent-blue)] transition-colors"
-                                    title={theme === 'dark' ? 'Passer au mode clair' : 'Passer au mode sombre'}
+                                    className="w-10 h-10 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg hover:border-[var(--accent-primary)] transition-all duration-300"
                                 >
-                                    <i className={theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon'}></i>
+                                    <i className={`${theme === 'light' ? 'fas fa-moon' : 'fas fa-sun'} transition-colors duration-300 ${
+                                        scrolled ? 'text-sky-400' : 'text-[var(--accent-primary)]'
+                                    }`}></i>
                                 </button>
                             </div>
                             <div className="flex items-center md:hidden space-x-4">
+                                <button
+                                    onClick={toggleTheme}
+                                    className="w-10 h-10 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg hover:border-[var(--accent-primary)] transition-all duration-300"
+                                >
+                                    <i className={`${theme === 'light' ? 'fas fa-moon' : 'fas fa-sun'} transition-colors duration-300 ${
+                                        scrolled ? 'text-sky-400' : 'text-[var(--accent-primary)]'
+                                    }`}></i>
+                                </button>
                                 <button onClick={toggleMenu} className="text-[var(--text-primary)] focus:outline-none">
                                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path
@@ -266,23 +404,16 @@
                                         />
                                     </svg>
                                 </button>
-                                <button
-                                    onClick={toggleTheme}
-                                    className="w-10 h-10 rounded-full bg-[var(--card-bg)] border border-[var(--border-color)] flex items-center justify-center text-[var(--text-primary)] hover:text-[var(--accent-blue)] transition-colors"
-                                    title={theme === 'dark' ? 'Passer au mode clair' : 'Passer au mode sombre'}
-                                >
-                                    <i className={theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon'}></i>
-                                </button>
                             </div>
                         </div>
                     </div>
                     {isOpen && (
-                        <div className="md:hidden bg-[var(--bg-primary)] bg-opacity-95 backdrop-blur-lg">
+                        <div className="md:hidden nav-glassmorphism">
                             {navItems.map((item) => (
                                 <a
                                     key={item}
                                     href={`index.html#${item.toLowerCase().replace(' ', '-')}`}
-                                    className="block px-4 py-3 text-[var(--text-secondary)] hover:text-[var(--accent-blue)] hover:bg-[var(--bg-secondary)] text-center border-b border-[var(--border-color)] transition-colors duration-200"
+                                    className="block px-4 py-3 text-[var(--text-secondary)] hover:text-[var(--accent-primary)] hover:bg-[var(--bg-tertiary)] text-center border-b border-[var(--border-color)] transition-colors duration-200"
                                     onClick={toggleMenu}
                                 >
                                     {item}
@@ -308,60 +439,69 @@
             }, []);
 
             return (
-                <section id="cv" ref={sectionRef} className="min-h-screen flex items-center pt-16 relative overflow-hidden">
-                    <div className="absolute inset-0 z-0">
-                        <div className="absolute inset-0 bg-gradient-to-br from-[var(--bg-primary)]/70 via-[var(--accent-blue)]/50 to-[var(--bg-primary)]/70"></div>
-                    </div>
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                        <div className="bg-[var(--card-bg)] backdrop-blur-lg p-8 rounded-xl border border-[var(--border-color)] text-center max-w-4xl mx-auto">
-                            <div className="cv-heading">
-                                <h1 className="text-3xl sm:text-4xl font-extrabold text-[var(--text-primary)] mb-6">
-                                    <span className="text-[var(--accent-blue)]">&lt;</span> CV PDF <span className="text-[var(--accent-blue)]">/&gt;</span>
+                <section id="cv" ref={sectionRef} className="min-h-screen flex items-center pt-24 pb-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+                    <div className="max-w-6xl mx-auto w-full relative z-10">
+                        <div className="cyber-card p-6 sm:p-8 lg:p-12 text-center">
+                            <div className="cv-heading mb-8">
+                                <div className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--accent-primary)]/10 border border-[var(--accent-primary)] rounded-full mb-6">
+                                    <i className="fas fa-file-pdf text-[var(--accent-primary)]"></i>
+                                    <span className="text-[var(--accent-primary)] font-semibold text-sm uppercase tracking-wide">Curriculum Vitae</span>
+                                </div>
+                                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[var(--text-primary)] mb-4">
+                                    <span className="text-[var(--accent-primary)]">&lt;</span> Mon CV <span className="text-[var(--accent-primary)]">/&gt;</span>
                                 </h1>
                             </div>
-                            <FadeIn direction="up" className="cv-text">
-                                <p className="text-lg text-[var(--text-secondary)] mb-6">
-                                    Consultez mon CV en format PDF ou téléchargez-le pour plus de détails sur mon parcours.
+                            
+                            <FadeIn direction="up" className="cv-text mb-8">
+                                <p className="text-base sm:text-lg text-[var(--text-secondary)] max-w-2xl mx-auto">
+                                    Consultez mon CV en format PDF ou téléchargez-le pour découvrir mon parcours professionnel et mes compétences en détail.
                                 </p>
                             </FadeIn>
-                            <FadeIn direction="up" delay={0.2} className="cv-buttons">
-                                <div className="flex flex-col sm:flex-row justify-center gap-4 mb-8">
+                            
+                            <FadeIn direction="up" delay={0.2} className="cv-buttons mb-10">
+                                <div className="flex flex-col sm:flex-row justify-center gap-4">
                                     <a
                                         href="Omar-El-Farouk-KORTAS-Resume.pdf"
                                         download
-                                        className="bg-[var(--accent-blue)] text-[var(--text-primary)] px-6 py-3 rounded-full hover:bg-[var(--accent-blue)]/90 transition duration-300 text-sm font-medium transform hover:scale-105 flex items-center gap-2"
+                                        className="group px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-[var(--glow-primary)] transition-all duration-300 flex items-center justify-center space-x-2 transform hover:scale-105"
                                     >
                                         <i className="fas fa-download"></i>
-                                        Télécharger le CV
+                                        <span>Télécharger le CV</span>
                                     </a>
                                     <a
                                         href="index.html"
-                                        className="bg-transparent border-2 border-[var(--accent-blue)] text-[var(--accent-blue)] px-6 py-3 rounded-full hover:bg-[var(--accent-blue)] hover:text-[var(--text-primary)] transition duration-300 text-sm font-medium transform hover:scale-105 flex items-center gap-2"
+                                        className="group px-6 sm:px-8 py-3 sm:py-4 bg-transparent border-2 border-[var(--accent-primary)] text-[var(--accent-primary)] font-semibold rounded-lg hover:bg-[var(--accent-primary)] hover:text-white transition-all duration-300 flex items-center justify-center space-x-2 transform hover:scale-105"
                                     >
                                         <i className="fas fa-arrow-left"></i>
-                                        Retour
+                                        <span>Retour à l'accueil</span>
                                     </a>
                                 </div>
                             </FadeIn>
+                            
                             <FadeIn direction="up" delay={0.4} className="cv-pdf">
-                                <div className="bg-[var(--bg-primary)] p-1 rounded-lg">
+                                <div className="bg-[var(--bg-primary)] p-2 rounded-xl border-2 border-[var(--border-color)] shadow-xl">
                                     <iframe
                                         src="Omar-El-Farouk-KORTAS-Resume.pdf"
                                         width="100%"
-                                        height="500"
-                                        className="rounded-lg border border-[var(--border-color)]"
-                                        onError={() => console.error("Erreur de chargement de l'iframe PDF")}
+                                        height="600"
+                                        className="rounded-lg"
+                                        title="CV PDF"
+                                        onError={() => console.error("Erreur de chargement du PDF")}
                                     ></iframe>
                                 </div>
                             </FadeIn>
-                            <FadeIn direction="up" delay={0.6} className="cv-alt">
-                                <p className="text-sm text-[var(--text-secondary)] mt-4">
-                                    Si le PDF ne s'affiche pas,{' '}
+                            
+                            <FadeIn direction="up" delay={0.6} className="cv-alt mt-6">
+                                <p className="text-sm text-[var(--text-secondary)]">
+                                    <i className="fas fa-info-circle text-[var(--accent-primary)] mr-2"></i>
+                                    Si le PDF ne s'affiche pas correctement,{' '}
                                     <a
                                         href="Omar-El-Farouk-KORTAS-Resume.pdf"
-                                        className="text-[var(--accent-blue)] hover:text-[var(--accent-blue)]/80"
+                                        className="text-[var(--accent-primary)] hover:text-[var(--accent-secondary)] font-semibold underline"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
                                     >
-                                        cliquez ici pour le voir ou le télécharger
+                                        cliquez ici pour l'ouvrir dans un nouvel onglet
                                     </a>.
                                 </p>
                             </FadeIn>
@@ -374,18 +514,27 @@
         // Footer
         const Footer = () => {
             return (
-                <footer className="bg-[var(--card-bg)] py-8">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                        <AnimatedText delay={0.2}>
-                            <p className="text-[var(--text-secondary)] mb-4">© 2025 Omar El Farouk. Tous droits réservés.</p>
-                        </AnimatedText>
-                        <div className="flex justify-center gap-6">
-                            <a href="https://www.linkedin.com/in/omar-el-farouk-kortas-8b4613294/" className="text-[var(--text-secondary)] hover:text-[var(--accent-blue)] transition transform hover:scale-110">
-                                <i className="fab fa-linkedin text-xl"></i>
-                            </a>
-                            <a href="https://github.com/omarkortas" className="text-[var(--text-secondary)] hover:text-[var(--accent-blue)] transition transform hover:scale-110">
-                                <i className="fab fa-github text-xl"></i>
-                            </a>
+                <footer className="py-8 sm:py-12 px-4 sm:px-6 lg:px-8 border-t border-[var(--border-color)]">
+                    <div className="max-w-7xl mx-auto">
+                        <div className="flex flex-col md:flex-row justify-between items-center gap-4 sm:gap-6">
+                            <div className="text-center md:text-left">
+                                <AnimatedText delay={0.2}>
+                                    <p className="text-sm sm:text-base text-[var(--text-secondary)]">
+                                        © 2025 Omar El Farouk Kortas. Tous droits réservés.
+                                    </p>
+                                    <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-1">
+                                        Développé avec <i className="fas fa-heart text-red-500"></i> et sécurisé par design
+                                    </p>
+                                </AnimatedText>
+                            </div>
+                            <div className="flex gap-3 sm:gap-4">
+                                <a href="https://www.linkedin.com/in/omar-el-farouk-kortas-8b4613294/" className="w-10 h-10 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg hover:border-[var(--accent-primary)] transition-all transform hover:scale-110">
+                                    <i className="fab fa-linkedin text-[var(--accent-primary)]"></i>
+                                </a>
+                                <a href="https://github.com/omarkortas" className="w-10 h-10 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg hover:border-[var(--accent-primary)] transition-all transform hover:scale-110">
+                                    <i className="fab fa-github text-[var(--accent-primary)]"></i>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </footer>
@@ -394,52 +543,32 @@
 
         // Composant principal
         const App = () => {
-            const [theme, setTheme] = useState('dark');
+            const [theme, setTheme] = useState('light');
 
             useEffect(() => {
                 try {
                     Particles.init({
                         selector: '#particles-background',
-                        color: theme === 'dark' ? ['#60A5FA', '#A855F7', '#FFFFFF'] : ['#3B82F6', '#6B21A8', '#000000'],
+                        color: theme === 'light' ? ['#00b4d8', '#0077b6', '#000000'] : ['#00e6b4', '#00b4d8', '#FFFFFF'],
                         connectParticles: true,
-                        maxParticles: 100,
-                        speed: 0.6,
-                        sizeVariations: 4,
-                        minDistance: 100,
+                        maxParticles: window.innerWidth < 768 ? 40 : 80,
+                        speed: 0.5,
+                        sizeVariations: 3,
+                        minDistance: 120,
                         responsive: [
-                            {
-                                breakpoint: 768,
-                                options: { maxParticles: 60, minDistance: 80 }
-                            },
-                            {
-                                breakpoint: 425,
-                                options: { maxParticles: 40, minDistance: 60 }
-                            }
-                        ],
-                        particleOpacity: 0.7
+                            { breakpoint: 768, options: { maxParticles: 40 } },
+                            { breakpoint: 480, options: { maxParticles: 25 } }
+                        ]
                     });
                 } catch (error) {
                     console.error("Erreur lors de l'initialisation de Particles.js:", error);
                 }
-
-                const updateParticles = () => {
-                    try {
-                        Particles.refresh();
-                    } catch (error) {
-                        console.error("Erreur lors de la mise à jour des particules:", error);
-                    }
-                };
-
-                window.addEventListener('themeChange', updateParticles);
-                return () => window.removeEventListener('themeChange', updateParticles);
             }, [theme]);
 
             const toggleTheme = () => {
-                const newTheme = theme === 'dark' ? 'light' : 'dark';
+                const newTheme = theme === 'light' ? 'dark' : 'light';
                 setTheme(newTheme);
                 document.body.setAttribute('data-theme', newTheme);
-                window.dispatchEvent(new Event('themeChange'));
-                window.dispatchEvent(new Event('resize'));
             };
 
             return (
