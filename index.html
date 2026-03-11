@@ -96,7 +96,7 @@
             100% { transform: translateY(50px); }
         }
 
-        /* Security Scan Effect *//* 
+        /* Security Scan Effect 
         .scan-line {
             position: fixed;
             width: 100%;
@@ -109,8 +109,8 @@
             animation: scan 4s linear infinite;
             z-index: 9999;
             pointer-events: none;
-        }*/
-
+        }
+*/
         @keyframes scan {
             0% { top: -2px; opacity: 0; }
             50% { opacity: 1; }
@@ -656,6 +656,104 @@
         .modal-content {
             animation: modalFadeIn 0.3s ease-out;
         }
+
+        /* ═══════════════════════════════════════════
+           LANGUAGE TOGGLE BUTTON - ADDED
+        ═══════════════════════════════════════════ */
+        .lang-toggle {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            overflow: hidden;
+            height: 40px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .lang-toggle:hover {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 12px var(--glow-primary);
+        }
+
+        .lang-btn {
+            position: relative;
+            z-index: 1;
+            width: 46px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            padding: 0;
+            gap: 3px;
+        }
+
+        .lang-btn.active {
+            color: #000000;
+        }
+
+        .lang-slider {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            height: calc(100% - 6px);
+            width: 46px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: 7px;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .lang-slider.en {
+            transform: translateX(43px);
+        }
+
+        @keyframes langSwitch {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.04); }
+            100% { transform: scale(1); }
+        }
+
+        .lang-switching {
+            animation: langSwitch 0.35s ease;
+        }
+
+        .lang-toggle-wrapper {
+            position: relative;
+        }
+
+        .lang-tooltip {
+            position: absolute;
+            bottom: -34px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-primary);
+            border: 1px solid var(--accent-primary);
+            color: var(--accent-primary);
+            font-size: 10px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            z-index: 100;
+        }
+
+        .lang-toggle-wrapper:hover .lang-tooltip {
+            opacity: 1;
+        }
     </style>
 </head>
 <body class="font-sans antialiased overflow-x-hidden" data-theme="light">
@@ -680,6 +778,346 @@
 
         // Theme Context
         const ThemeContext = React.createContext();
+
+        // ── ADDED: Language Context & Translations ──
+        const LangContext = React.createContext();
+
+        const translations = {
+            fr: {
+                nav: ['Accueil', 'À propos', 'Compétences', 'Projets', 'Certifications', 'Services', 'Expériences', 'Contact'],
+                nav_anchors: ['accueil', 'à-propos', 'compétences', 'projets', 'certifications', 'services', 'expériences', 'contact'],
+                hero_badge: 'Cybersecurity Expert',
+                hero_line1: '→ Spécialiste en cybersécurité',
+                hero_line2: '→ Master Services et Sécurité IT',
+                hero_desc1: 'cybersécurité',
+                hero_desc2: 'développement logiciel',
+                hero_desc3: 'services IT',
+                hero_desc_text: 'Passionné par la',
+                hero_desc_mid: ', le',
+                hero_desc_end: ' et les',
+                hero_cv: 'Télécharger CV',
+                hero_contact: 'Me Contacter',
+                about_badge: 'À Propos',
+                about_title: 'Profil',
+                about_title2: 'Professionnel',
+                about_init: '// profil.init()',
+                about_p1a: 'Diplômé en',
+                about_p1b: 'Ingénierie Informatique',
+                about_p1c: 'et actuellement en',
+                about_p1d: 'Master Services & Sécurité Informatique',
+                about_p2a: 'Passionné par les',
+                about_p2b: 'technologies de pointe',
+                about_p2c: 'la',
+                about_p2d: 'cybersécurité',
+                about_p2e: 'et le',
+                about_p2f: 'développement logiciel',
+                about_p3: "Expert dans la conception de solutions IT sécurisées, l'analyse de vulnérabilités et le développement d'applications robustes.",
+                about_btn1: 'Me contacter',
+                about_btn2: 'Voir projets',
+                about_card_id: 'ID_CARD :: 2025',
+                about_stat1_label: 'Formation',    about_stat1_val: 'Master IT',
+                about_stat2_label: 'Spécialité',   about_stat2_val: 'Cybersécurité',
+                about_stat3_label: 'Localisation', about_stat3_val: 'Sousse, Tunisie',
+                about_stat4_label: 'Statut',       about_stat4_val: 'Disponible',
+                about_skills_comment: '// core_skills[]',
+                about_bottom: [
+                    ['5+',   'Projets réalisés',     'fa-folder'],
+                    ['2+',   "Années d'expérience",  'fa-calendar'],
+                    ['10+',  'Technologies',          'fa-microchip'],
+                    ['100%', 'Engagement',            'fa-fire'],
+                ],
+                skills_badge: 'Compétences Techniques',
+                skills_title: 'Expertise',
+                skills_title2: 'Technique',
+                skill_cats: [
+                    { title: 'Cybersécurité',  icon: 'fas fa-shield-alt', color: 'var(--accent-primary)',   skills: [['Sécurité des Réseaux',85],['Tests de Pénétration',80],['Cryptographie',75],['Sécurité Cloud',70]] },
+                    { title: 'Développement',  icon: 'fas fa-code',       color: 'var(--accent-secondary)', skills: [['Python/C',85],['React/Next.js',90],['Node.js/NestJS',85],['SQL/NoSQL',80]] },
+                    { title: 'DevOps & Cloud', icon: 'fas fa-cloud',      color: 'var(--accent-warning)',   skills: [['Docker/Kubernetes',75],['CI/CD',80],['AWS/GCP',70],['Linux',85]] },
+                ],
+                proj_badge: 'Portfolio',
+                proj_title: 'Projets',
+                proj_title2: 'Récents',
+                proj_see: 'Voir détails',
+                proj_close: 'Fermer',
+                proj_desc_label: 'Description du projet',
+                proj_feat_label: 'Fonctionnalités principales',
+                proj_tech_label: 'Technologies utilisées',
+                projects: [
+                    {
+                        title: 'Plateforme de Livraison Sécurisée',
+                        description: "Application web et mobile avec authentification avancée et chiffrement des données.",
+                        fullDescription: "Application web et mobile pour la gestion des livraisons entre clients, fournisseurs et livreurs. Système complet de livraison intégrant l'inscription des utilisateurs, la gestion des commandes, le suivi des livraisons, la soumission de réclamations, la génération automatique des factures et l'envoi de notifications par email.",
+                        features: ["Inscription et authentification des utilisateurs","Gestion complète des commandes","Suivi en temps réel des livraisons","Système de réclamations","Génération automatique des factures","Notifications par email"],
+                        badge: 'Projet',
+                    },
+                    {
+                        title: "Système de Détection d'Intrusion",
+                        description: "IDS/IPS basé sur l'IA pour la détection de menaces en temps réel.",
+                        fullDescription: "Système de détection et de prévention d'intrusions utilisant l'intelligence artificielle pour identifier et bloquer les menaces de sécurité en temps réel.",
+                        features: ["Analyse du trafic réseau en temps réel","Détection des anomalies par IA","Blocage automatique des menaces","Alertes et notifications","Tableaux de bord de monitoring"],
+                        badge: 'Projet',
+                    },
+                    {
+                        title: 'Valorant Tracker',
+                        description: "Application de suivi des statistiques et performances des joueurs Valorant.",
+                        fullDescription: "Application permettant de suivre et d'analyser les statistiques des joueurs de Valorant : performances par match, historique des parties, statistiques par agent et évolution du niveau de jeu.",
+                        features: ["Consultation des statistiques des joueurs","Historique des matchs","Analyse des performances par agent","Tableaux de bord et graphiques","Recherche de joueurs"],
+                        badge: 'Projet',
+                    },
+                ],
+                cert_badge: 'Certifications',
+                cert_title: 'Certifications',
+                cert_title2: 'Professionnelles',
+                cert_close: 'Fermer',
+                cert_skills_label: 'Compétences acquises',
+                cert_cert_label: 'Certificat',
+                cert_click: 'Cliquez pour agrandir',
+                certifications: [
+                    { title:'Responsive Web Design',                      issuer:'freeCodeCamp',              date:'2024',       description:'Certification en conception de sites web adaptatifs.',                        skills:['HTML5','CSS3','Flexbox','Grid'] },
+                    { title:'Introduction de sensibilisation à la cybersécurité', issuer:'HP LIFE',           date:'19/01/2026', description:'Reconnaissance des menaces courantes en matière de cybersécurité.',          skills:['Cybersécurité','Sécurité des données','Menaces en ligne'] },
+                    { title:"L'IA pour les professionnels",               issuer:'HP LIFE',                   date:'19/01/2026', description:"Rôle de l'IA dans les entreprises et utilisation éthique.",                 skills:["Intelligence Artificielle","Prompts IA","Éthique IA"] },
+                    { title:"IA & Big Data dans l'IoT",                   issuer:'Certification Professionnelle', date:'2024',   description:"Traitement intelligent des données IoT à grande échelle.",                  skills:['Python','TensorFlow','Kafka','Spark'] },
+                    { title:'Fondations Avancées du Cloud',               issuer:'Google Cloud',              date:'2024',       description:'Architecture cloud évolutive et sécurisée sur GCP.',                        skills:['Google Cloud','Terraform','Docker'] },
+                    { title:'Introduction to Firewall',                   issuer:'Great Learning Academy',    date:'08/2024',    description:"Introduction aux pare-feu et principes de sécurité réseau.",                skills:['Firewall','Sécurité réseau','Cybersécurité'] },
+                ],
+                srv_badge: 'Services',
+                srv_title: 'Services',
+                srv_title2: 'Proposés',
+                services: [
+                    { icon:'fas fa-shield-alt',       title:'Audit de Sécurité',        description:'Évaluation complète de la sécurité de vos systèmes et infrastructures.',                        color:'from-cyan-500 to-blue-600' },
+                    { icon:'fas fa-bug',              title:'Tests de Pénétration',     description:'Identification et exploitation des vulnérabilités dans un cadre éthique.',                     color:'from-blue-500 to-indigo-600' },
+                    { icon:'fas fa-code',             title:'Développement Sécurisé',   description:"Création d'applications web et mobiles avec les meilleures pratiques de sécurité.",           color:'from-teal-500 to-cyan-600' },
+                    { icon:'fas fa-network-wired',    title:'Sécurité Réseau',          description:'Configuration et sécurisation des infrastructures réseau.',                                    color:'from-green-500 to-teal-600' },
+                    { icon:'fas fa-cloud-upload-alt', title:'Cloud Security',           description:'Sécurisation des environnements cloud (AWS, Azure, GCP).',                                     color:'from-sky-500 to-blue-600' },
+                    { icon:'fas fa-user-shield',      title:'Formation',                description:'Sensibilisation et formation en cybersécurité pour équipes.',                                   color:'from-indigo-500 to-purple-600' },
+                ],
+                exp_badge: 'Parcours',
+                exp_title: 'Expériences',
+                exp_title2: 'Professionnelles',
+                exp_resp_label: 'Responsabilités',
+                exp_attest_label: 'Attestation',
+                exp_click: 'Cliquez pour agrandir',
+                exp_close: 'Fermer',
+                experiences: [
+                    {
+                        company: 'Groupe Allemand Dieter Braun',
+                        role: "Stage d'été - Administration Systèmes",
+                        period: '08/2024 – 09/2024',
+                        location: 'Messadine, Sousse',
+                        icon: 'fas fa-server',
+                        tasks: ["Gestion et mise en fonctionnement des serveurs dans un environnement d'entreprise.","Initiation à la vie professionnelle : travail en équipe et développement des compétences professionnelles."],
+                        responsibilities: ["Gestion et sécurisation des serveurs d'entreprise","Mise en place de politiques de sécurité","Maintenance des infrastructures IT"],
+                        attestation: 'ATTESTATION1.png',
+                    },
+                    {
+                        company: 'ZOOMY Business & Technologie IT',
+                        role: 'Stage de fin d\'études - Full Stack Developer',
+                        period: '02/2025 - 05/2025',
+                        location: 'Akouda, Sousse',
+                        icon: 'fas fa-code',
+                        tasks: ["Conception et développement d'une plateforme de livraison intelligente.","Mise en place de fonctionnalités permettant aux clients et fournisseurs de soumettre des commandes."],
+                        responsibilities: ["Développement plateforme de livraison sécurisée","Implémentation authentification JWT","Architecture microservices"],
+                        attestation: 'ATTESTATION.png',
+                    },
+                ],
+                contact_badge: 'Contact',
+                contact_title: 'Contactez',
+                contact_title2: '-Moi',
+                contact_name: 'Nom complet',
+                contact_email: 'Email',
+                contact_message: 'Message',
+                contact_submit: 'Envoyer le message',
+                contact_sending: 'Envoi en cours...',
+                contact_success: 'Message envoyé avec succès!',
+                contact_error: "Erreur lors de l'envoi",
+                footer_rights: '© 2025 Omar El Farouk Kortas. Tous droits réservés.',
+                lang_tooltip: 'Switch to English',
+            },
+            en: {
+                nav: ['Home', 'About', 'Skills', 'Projects', 'Certifications', 'Services', 'Experience', 'Contact'],
+                nav_anchors: ['accueil', 'à-propos', 'compétences', 'projets', 'certifications', 'services', 'expériences', 'contact'],
+                hero_badge: 'Cybersecurity Expert',
+                hero_line1: '→ Cybersecurity Specialist',
+                hero_line2: '→ Master IT Services & Security',
+                hero_desc1: 'cybersecurity',
+                hero_desc2: 'software development',
+                hero_desc3: 'IT services',
+                hero_desc_text: 'Passionate about',
+                hero_desc_mid: ',',
+                hero_desc_end: ' and',
+                hero_cv: 'Download CV',
+                hero_contact: 'Contact Me',
+                about_badge: 'About',
+                about_title: 'Professional',
+                about_title2: 'Profile',
+                about_init: '// profile.init()',
+                about_p1a: 'Graduate in',
+                about_p1b: 'Computer Engineering',
+                about_p1c: 'currently pursuing a',
+                about_p1d: "Master's in IT Services & Security",
+                about_p2a: 'Passionate about',
+                about_p2b: 'cutting-edge technologies',
+                about_p2c: '',
+                about_p2d: 'cybersecurity',
+                about_p2e: 'and',
+                about_p2f: 'software development',
+                about_p3: 'Expert in designing secure IT solutions, vulnerability analysis and robust application development.',
+                about_btn1: 'Contact me',
+                about_btn2: 'View projects',
+                about_card_id: 'ID_CARD :: 2025',
+                about_stat1_label: 'Education',    about_stat1_val: 'Master IT',
+                about_stat2_label: 'Specialty',    about_stat2_val: 'Cybersecurity',
+                about_stat3_label: 'Location',     about_stat3_val: 'Sousse, Tunisia',
+                about_stat4_label: 'Status',       about_stat4_val: 'Available',
+                about_skills_comment: '// core_skills[]',
+                about_bottom: [
+                    ['5+',   'Projects completed',    'fa-folder'],
+                    ['2+',   'Years of experience',   'fa-calendar'],
+                    ['10+',  'Technologies',          'fa-microchip'],
+                    ['100%', 'Commitment',            'fa-fire'],
+                ],
+                skills_badge: 'Technical Skills',
+                skills_title: 'Technical',
+                skills_title2: 'Expertise',
+                skill_cats: [
+                    { title: 'Cybersecurity',  icon: 'fas fa-shield-alt', color: 'var(--accent-primary)',   skills: [['Network Security',85],['Penetration Testing',80],['Cryptography',75],['Cloud Security',70]] },
+                    { title: 'Development',    icon: 'fas fa-code',       color: 'var(--accent-secondary)', skills: [['Python/C',85],['React/Next.js',90],['Node.js/NestJS',85],['SQL/NoSQL',80]] },
+                    { title: 'DevOps & Cloud', icon: 'fas fa-cloud',      color: 'var(--accent-warning)',   skills: [['Docker/Kubernetes',75],['CI/CD',80],['AWS/GCP',70],['Linux',85]] },
+                ],
+                proj_badge: 'Portfolio',
+                proj_title: 'Recent',
+                proj_title2: 'Projects',
+                proj_see: 'View details',
+                proj_close: 'Close',
+                proj_desc_label: 'Project description',
+                proj_feat_label: 'Key features',
+                proj_tech_label: 'Technologies used',
+                projects: [
+                    {
+                        title: 'Secure Delivery Platform',
+                        description: 'Web and mobile application with advanced authentication and data encryption.',
+                        fullDescription: 'Web and mobile application for delivery management between clients, suppliers and couriers. Complete delivery system with user registration, order management, delivery tracking, complaint submission, automatic invoice generation and email notifications.',
+                        features: ['User registration and authentication','Complete order management','Real-time delivery tracking','Complaint system','Automatic invoice generation','Email notifications'],
+                        badge: 'Project',
+                    },
+                    {
+                        title: 'Intrusion Detection System',
+                        description: 'AI-powered IDS/IPS for real-time threat detection.',
+                        fullDescription: 'Intrusion detection and prevention system using artificial intelligence to identify and block security threats in real time.',
+                        features: ['Real-time network traffic analysis','AI-based anomaly detection','Automatic threat blocking','Alerts and notifications','Monitoring dashboards'],
+                        badge: 'Project',
+                    },
+                    {
+                        title: 'Valorant Tracker',
+                        description: 'Application for tracking Valorant player statistics and performance.',
+                        fullDescription: 'Application for tracking and analyzing Valorant player statistics: match performance, game history, agent-specific stats and skill progression.',
+                        features: ['Player statistics lookup','Match history','Agent performance analysis','Dashboards and graphs','Player search'],
+                        badge: 'Project',
+                    },
+                ],
+                cert_badge: 'Certifications',
+                cert_title: 'Professional',
+                cert_title2: 'Certifications',
+                cert_close: 'Close',
+                cert_skills_label: 'Skills acquired',
+                cert_cert_label: 'Certificate',
+                cert_click: 'Click to enlarge',
+                certifications: [
+                    { title:'Responsive Web Design',              issuer:'freeCodeCamp',              date:'2024',       description:'Certification in adaptive website design.',                              skills:['HTML5','CSS3','Flexbox','Grid'] },
+                    { title:'Introduction to Cybersecurity Awareness', issuer:'HP LIFE',             date:'19/01/2026', description:'Recognition of common cybersecurity threats.',                           skills:['Cybersecurity','Data Security','Online Threats'] },
+                    { title:'AI for Professionals',               issuer:'HP LIFE',                   date:'19/01/2026', description:'Role of AI in business and ethical usage.',                             skills:['Artificial Intelligence','AI Prompts','AI Ethics'] },
+                    { title:'AI & Big Data in IoT',               issuer:'Professional Certification', date:'2024',      description:'Intelligent large-scale IoT data processing.',                          skills:['Python','TensorFlow','Kafka','Spark'] },
+                    { title:'Advanced Cloud Foundations',         issuer:'Google Cloud',              date:'2024',       description:'Scalable and secure cloud architecture on GCP.',                         skills:['Google Cloud','Terraform','Docker'] },
+                    { title:'Introduction to Firewall',           issuer:'Great Learning Academy',    date:'08/2024',    description:'Introduction to firewalls and network security principles.',              skills:['Firewall','Network Security','Cybersecurity'] },
+                ],
+                srv_badge: 'Services',
+                srv_title: 'Services',
+                srv_title2: 'Offered',
+                services: [
+                    { icon:'fas fa-shield-alt',       title:'Security Audit',       description:'Comprehensive security assessment of your systems and infrastructure.',          color:'from-cyan-500 to-blue-600' },
+                    { icon:'fas fa-bug',              title:'Penetration Testing',  description:'Identification and exploitation of vulnerabilities in an ethical framework.',    color:'from-blue-500 to-indigo-600' },
+                    { icon:'fas fa-code',             title:'Secure Development',   description:'Building web and mobile applications with best security practices.',             color:'from-teal-500 to-cyan-600' },
+                    { icon:'fas fa-network-wired',    title:'Network Security',     description:'Configuration and hardening of network infrastructures.',                        color:'from-green-500 to-teal-600' },
+                    { icon:'fas fa-cloud-upload-alt', title:'Cloud Security',       description:'Securing cloud environments (AWS, Azure, GCP).',                                color:'from-sky-500 to-blue-600' },
+                    { icon:'fas fa-user-shield',      title:'Training',             description:'Cybersecurity awareness and training for teams.',                                color:'from-indigo-500 to-purple-600' },
+                ],
+                exp_badge: 'Career',
+                exp_title: 'Professional',
+                exp_title2: 'Experience',
+                exp_resp_label: 'Responsibilities',
+                exp_attest_label: 'Certificate',
+                exp_click: 'Click to enlarge',
+                exp_close: 'Close',
+                experiences: [
+                    {
+                        company: 'German Group Dieter Braun',
+                        role: 'Summer Internship - Systems Administration',
+                        period: '08/2024 – 09/2024',
+                        location: 'Messadine, Sousse',
+                        icon: 'fas fa-server',
+                        tasks: ['Server management and deployment in a corporate environment.','Introduction to professional life: teamwork and development of professional skills.'],
+                        responsibilities: ['Corporate server management and security','Implementation of security policies','IT infrastructure maintenance'],
+                        attestation: 'ATTESTATION1.png',
+                    },
+                    {
+                        company: 'ZOOMY Business & Technology IT',
+                        role: 'Final Year Internship - Full Stack Developer',
+                        period: '02/2025 - 05/2025',
+                        location: 'Akouda, Sousse',
+                        icon: 'fas fa-code',
+                        tasks: ['Design and development of a smart delivery platform.','Implementation of features allowing clients and suppliers to submit orders.'],
+                        responsibilities: ['Secure delivery platform development','JWT authentication implementation','Microservices architecture'],
+                        attestation: 'ATTESTATION.png',
+                    },
+                ],
+                contact_badge: 'Contact',
+                contact_title: 'Contact',
+                contact_title2: 'Me',
+                contact_name: 'Full name',
+                contact_email: 'Email',
+                contact_message: 'Message',
+                contact_submit: 'Send message',
+                contact_sending: 'Sending...',
+                contact_success: 'Message sent successfully!',
+                contact_error: 'Error sending message',
+                footer_rights: '© 2025 Omar El Farouk Kortas. All rights reserved.',
+                lang_tooltip: 'Passer en français',
+            },
+        };
+
+        // ── ADDED: Language Toggle Component ──
+        const LangToggle = ({ scrolled }) => {
+            const { lang, setLang } = React.useContext(LangContext);
+            const [switching, setSwitching] = useState(false);
+
+            const toggle = () => {
+                setSwitching(true);
+                setTimeout(() => {
+                    setLang(lang === 'fr' ? 'en' : 'fr');
+                    setSwitching(false);
+                }, 150);
+            };
+
+            return (
+                <div className="lang-toggle-wrapper">
+                    <div
+                        className={`lang-toggle ${switching ? 'lang-switching' : ''}`}
+                        onClick={toggle}
+                    >
+                        <div className={`lang-slider ${lang === 'en' ? 'en' : ''}`}></div>
+                        <button className={`lang-btn ${lang === 'fr' ? 'active' : ''}`}>
+                            FR
+                        </button>
+                        <button className={`lang-btn ${lang === 'en' ? 'active' : ''}`}>
+                            EN
+                        </button>
+                    </div>
+                    <div className="lang-tooltip">
+                        {translations[lang].lang_tooltip}
+                    </div>
+                </div>
+            );
+        };
 
         // Error Boundary
         class ErrorBoundary extends React.Component {
@@ -727,6 +1165,8 @@
             const [isOpen, setIsOpen] = useState(false);
             const [scrolled, setScrolled] = useState(false);
             const { theme, toggleTheme } = React.useContext(ThemeContext);
+            const { lang } = React.useContext(LangContext);
+            const t = translations[lang];
             
             useEffect(() => {
                 const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -734,15 +1174,10 @@
                 return () => window.removeEventListener('scroll', handleScroll);
             }, []);
             
-            const navItems = [
-                { name: 'Accueil', icon: 'fas fa-home' },
-                { name: 'À propos', icon: 'fas fa-user-shield' },
-                { name: 'Compétences', icon: 'fas fa-code' },
-                { name: 'Projets', icon: 'fas fa-project-diagram' },
-                { name: 'Certifications', icon: 'fas fa-award' },
-                { name: 'Services', icon: 'fas fa-server' },
-                { name: 'Expériences', icon: 'fas fa-briefcase' },
-                { name: 'Contact', icon: 'fas fa-envelope-open-text' }
+            const navIcons = [
+                'fas fa-home', 'fas fa-user-shield', 'fas fa-code',
+                'fas fa-project-diagram', 'fas fa-award', 'fas fa-server',
+                'fas fa-briefcase', 'fas fa-envelope-open-text'
             ];
             
             return (
@@ -767,25 +1202,28 @@
                                 </span>
                             </a>
                             
-                            <div className="hidden lg:flex items-center space-x-4 xl:space-x-8">
-                                {navItems.map((item) => (
+                            <div className="hidden lg:flex items-center space-x-4 xl:space-x-6">
+                                {t.nav.map((item, i) => (
                                     <a
-                                        key={item.name}
-                                        href={`#${item.name.toLowerCase().replace(' ', '-')}`}
+                                        key={item}
+                                        href={`#${t.nav_anchors[i]}`}
                                         className={`group flex items-center space-x-2 transition-all duration-300 text-sm font-medium ${
                                             scrolled 
                                                 ? 'text-sky-300 hover:text-sky-400' 
                                                 : 'text-[var(--text-secondary)] hover:text-[var(--accent-primary)]'
                                         }`}
                                     >
-                                        <i className={`${item.icon} text-xs`}></i>
-                                        <span>{item.name}</span>
+                                        <i className={`${navIcons[i]} text-xs`}></i>
+                                        <span>{item}</span>
                                         <span className={`block h-0.5 w-0 group-hover:w-full transition-all duration-300 ${
                                             scrolled ? 'bg-sky-400' : 'bg-[var(--accent-primary)]'
                                         }`}></span>
                                     </a>
                                 ))}
                                 
+                                {/* ADDED: Language Toggle */}
+                                <LangToggle scrolled={scrolled} />
+
                                 <button
                                     onClick={toggleTheme}
                                     className="w-10 h-10 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg hover:border-[var(--accent-primary)] transition-all duration-300"
@@ -797,6 +1235,9 @@
                             </div>
                             
                             <div className="flex items-center gap-2 lg:hidden">
+                                {/* ADDED: Language Toggle mobile */}
+                                <LangToggle scrolled={scrolled} />
+
                                 <button
                                     onClick={toggleTheme}
                                     className="w-10 h-10 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg hover:border-[var(--accent-primary)] transition-all duration-300"
@@ -817,10 +1258,10 @@
                     
                     {isOpen && (
                         <div className="lg:hidden nav-glassmorphism mobile-menu-enter">
-                            {navItems.map((item) => (
+                            {t.nav.map((item, i) => (
                                 <a
-                                    key={item.name}
-                                    href={`#${item.name.toLowerCase().replace(' ', '-')}`}
+                                    key={item}
+                                    href={`#${t.nav_anchors[i]}`}
                                     className={`flex items-center space-x-3 px-4 py-3 border-b border-[var(--border-color)] transition-all ${
                                         scrolled
                                             ? 'text-sky-300 hover:text-sky-400 hover:bg-[var(--bg-tertiary)]'
@@ -828,8 +1269,8 @@
                                     }`}
                                     onClick={() => setIsOpen(false)}
                                 >
-                                    <i className={item.icon}></i>
-                                    <span>{item.name}</span>
+                                    <i className={navIcons[i]}></i>
+                                    <span>{item}</span>
                                 </a>
                             ))}
                         </div>
@@ -840,6 +1281,9 @@
 
         // Hero Section with Cybersecurity Focus - RESPONSIVE
         const Home = () => {
+            const { lang } = React.useContext(LangContext);
+            const t = translations[lang];
+
             useEffect(() => {
                 window.scrollTo({ top: 0, behavior: 'instant' });
                 
@@ -858,7 +1302,7 @@
                             <div className="hero-heading">
                                 <div className="security-level mb-4 justify-center lg:justify-start">
                                     <i className="fas fa-lock lock-icon"></i>
-                                    <span>Cybersecurity Expert</span>
+                                    <span>{t.hero_badge}</span>
                                 </div>
                                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 leading-tight">
                                     <span className="text-[var(--accent-primary)]">Omar El Farouk</span>
@@ -880,10 +1324,10 @@
                                             <span className="text-[var(--accent-secondary)]">$</span> whoami
                                         </div>
                                         <div className="mb-2">
-                                            → <span className="text-white">Spécialiste en cybersécurité</span>
+                                            <span className="text-white">{t.hero_line1}</span>
                                         </div>
                                         <div className="mb-2">
-                                            → <span className="text-white">Master Services et Sécurité IT</span>
+                                            <span className="text-white">{t.hero_line2}</span>
                                         </div>
                                         <div className="flex items-center">
                                             <span className="text-[var(--accent-secondary)]">$</span>
@@ -895,9 +1339,7 @@
                             
                             <div className="hero-description space-y-4">
                                 <p className="text-[var(--text-secondary)] text-base sm:text-lg leading-relaxed">
-                                    Passionné par la <span className="text-[var(--accent-primary)] font-semibold">cybersécurité</span>, 
-                                    le <span className="text-[var(--accent-secondary)] font-semibold">développement logiciel</span> et 
-                                    les <span className="text-[var(--accent-primary)] font-semibold">services IT</span>.
+                                    {t.hero_desc_text} <span className="text-[var(--accent-primary)] font-semibold">{t.hero_desc1}</span>{t.hero_desc_mid} <span className="text-[var(--accent-secondary)] font-semibold">{t.hero_desc2}</span>{t.hero_desc_end} <span className="text-[var(--accent-primary)] font-semibold">{t.hero_desc3}</span>.
                                 </p>
                                 <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
                                     <span className="px-3 sm:px-4 py-2 bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg text-xs sm:text-sm text-[var(--accent-primary)]">
@@ -915,11 +1357,11 @@
                             <div className="hero-buttons flex flex-col sm:flex-row flex-wrap gap-4 justify-center lg:justify-start">
                                 <a href="CV.html" className="group px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-black font-semibold rounded-lg hover:shadow-lg hover:shadow-[var(--glow-primary)] transition-all duration-300 flex items-center justify-center space-x-2">
                                     <i className="fas fa-file-download"></i>
-                                    <span>Télécharger CV</span>
+                                    <span>{t.hero_cv}</span>
                                 </a>
                                 <a href="#contact" className="group px-6 sm:px-8 py-3 sm:py-4 bg-transparent border-2 border-[var(--accent-primary)] text-[var(--accent-primary)] font-semibold rounded-lg hover:bg-[var(--accent-primary)] hover:text-black transition-all duration-300 flex items-center justify-center space-x-2">
                                     <i className="fas fa-envelope"></i>
-                                    <span>Me Contacter</span>
+                                    <span>{t.hero_contact}</span>
                                 </a>
                             </div>
                             
@@ -958,245 +1400,108 @@
 
         // About Section - RESPONSIVE
         const About = () => {
+            const { lang } = React.useContext(LangContext);
+            const t = translations[lang];
+
             return (
-            // Improved À Propos Section
-// Replace your existing <section id="à-propos"> with this component
-
-<section id="à-propos" className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-
-  {/* Decorative background grid lines */}
-  <div style={{
-    position: 'absolute', inset: 0, pointerEvents: 'none',
-    backgroundImage: `linear-gradient(var(--accent-primary)11 1px, transparent 1px),
-                      linear-gradient(90deg, var(--accent-primary)11 1px, transparent 1px)`,
-    backgroundSize: '60px 60px', opacity: 0.15
-  }} />
-
-  {/* Glowing orb top-right */}
-  <div style={{
-    position: 'absolute', top: '-80px', right: '-80px', width: '400px', height: '400px',
-    borderRadius: '50%',
-    background: 'radial-gradient(circle, var(--accent-primary)22 0%, transparent 70%)',
-    pointerEvents: 'none'
-  }} />
-
-  <div className="max-w-7xl mx-auto relative">
-
-    {/* ── HEADER ── */}
-    <FadeIn>
-      <div className="text-center mb-16">
-        <div className="security-level inline-flex mb-4">
-          <i className="fas fa-user-shield"></i>
-          <span>À Propos</span>
-        </div>
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[var(--text-primary)] mb-4">
-          Profil <span className="text-[var(--accent-primary)]">Professionnel</span>
-        </h2>
-        {/* Animated underline */}
-        <div style={{
-          width: '80px', height: '3px', margin: '0 auto',
-          background: 'linear-gradient(90deg, transparent, var(--accent-primary), transparent)',
-          animation: 'pulse 2s ease-in-out infinite'
-        }} />
-      </div>
-    </FadeIn>
-
-    {/* ── MAIN LAYOUT: left bio + right identity card ── */}
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-
-      {/* LEFT: Bio */}
-      <FadeIn direction="left" delay={0.1}>
-        <div className="space-y-8">
-
-          {/* Name with glitch-style accent */}
-          <div>
-            <p className="text-xs tracking-[0.3em] uppercase text-[var(--accent-secondary)] mb-2 font-mono">
-              // profil.init()
-            </p>
-            <h3 className="text-3xl sm:text-4xl font-bold text-[var(--text-primary)] leading-tight">
-              Omar El Farouk<br />
-              <span className="text-[var(--accent-primary)]">Kortas</span>
-            </h3>
-          </div>
-
-          {/* Bio paragraphs */}
-          <div className="space-y-4 text-[var(--text-secondary)] leading-relaxed text-sm sm:text-base">
-            <p>
-              Diplômé en{' '}
-              <span className="text-[var(--accent-primary)] font-semibold border-b border-[var(--accent-primary)] border-opacity-40">
-                Ingénierie Informatique
-              </span>{' '}
-              et actuellement en{' '}
-              <span className="text-[var(--accent-primary)] font-semibold border-b border-[var(--accent-primary)] border-opacity-40">
-                Master Services & Sécurité Informatique
-              </span>.
-            </p>
-            <p>
-              Passionné par les{' '}
-              <span className="text-[var(--accent-secondary)] font-semibold">technologies de pointe</span>,
-              la{' '}
-              <span className="text-[var(--accent-secondary)] font-semibold">cybersécurité</span> et
-              le{' '}
-              <span className="text-[var(--accent-secondary)] font-semibold">développement logiciel</span>.
-            </p>
-            <p>
-              Expert dans la conception de solutions IT sécurisées, l'analyse de vulnérabilités
-              et le développement d'applications robustes.
-            </p>
-          </div>
-
-          {/* CTA Buttons */}
-          <div className="flex flex-wrap gap-3 pt-2">
-            <a href="#contact" className="cyber-card px-5 py-2.5 text-sm font-semibold text-[var(--accent-primary)] hover:bg-[var(--accent-primary)] hover:text-black transition-all duration-300 cursor-pointer inline-flex items-center gap-2">
-              <i className="fas fa-envelope text-xs"></i>
-              Me contacter
-            </a>
-            <a href="#projets" className="px-5 py-2.5 text-sm font-semibold text-[var(--text-secondary)] border border-[var(--text-secondary)] border-opacity-30 hover:border-[var(--accent-secondary)] hover:text-[var(--accent-secondary)] transition-all duration-300 cursor-pointer inline-flex items-center gap-2">
-              <i className="fas fa-folder-open text-xs"></i>
-              Voir projets
-            </a>
-          </div>
-        </div>
-      </FadeIn>
-
-      {/* RIGHT: Identity Card */}
-      <FadeIn direction="right" delay={0.3}>
-        <div className="cyber-card relative p-6 sm:p-8 overflow-hidden">
-
-          {/* Card top accent bar */}
-          <div style={{
-            position: 'absolute', top: 0, left: 0, right: 0, height: '3px',
-            background: 'linear-gradient(90deg, var(--accent-primary), var(--accent-secondary), var(--accent-primary))',
-          }} />
-
-          {/* Card header */}
-          <div className="flex items-center justify-between mb-6 pb-4"
-            style={{ borderBottom: '1px solid var(--accent-primary)', borderBottomOpacity: 0.2 }}>
-            <div className="font-mono text-xs text-[var(--accent-secondary)] tracking-widest uppercase">
-              ID_CARD :: 2025
-            </div>
-            <div className="flex gap-1.5">
-              {['var(--accent-primary)', 'var(--accent-secondary)', '#ef4444'].map((c, i) => (
-                <div key={i} style={{
-                  width: '10px', height: '10px', borderRadius: '50%',
-                  background: `var(${c.slice(4, -1)})`, opacity: 0.8
-                }} />
-              ))}
-            </div>
-          </div>
-
-          {/* Stats grid */}
-          <div className="grid grid-cols-2 gap-4 mb-6">
-            {[
-              { icon: 'fa-graduation-cap', label: 'Formation', value: 'Master IT', color: 'accent-primary' },
-              { icon: 'fa-shield-alt', label: 'Spécialité', value: 'Cybersécurité', color: 'accent-primary' },
-              { icon: 'fa-map-marker-alt', label: 'Localisation', value: 'Sousse, Tunisie', color: 'accent-secondary' },
-              { icon: 'fa-code', label: 'Statut', value: 'Disponible', color: 'accent-secondary' },
-            ].map(({ icon, label, value, color }) => (
-              <div key={label} className="cyber-card p-4 text-center group hover:scale-105 transition-transform duration-300">
-                <i className={`fas ${icon} text-xl mb-2 text-[var(--${color})] block`}></i>
-                <div className="text-xs text-[var(--text-secondary)] mb-1">{label}</div>
-                <div className="font-semibold text-sm text-[var(--text-primary)]">{value}</div>
-              </div>
-            ))}
-          </div>
-
-          {/* Skills tags */}
-          <div>
-            <div className="text-xs text-[var(--text-secondary)] font-mono mb-3 uppercase tracking-widest">
-              // core_skills[]
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {['Pentest', 'devops', 'Python', 'React', 'Linux', 'Docker', 'Network'].map(skill => (
-                <span key={skill}
-                  className="px-3 py-1 text-xs font-mono font-semibold text-[var(--accent-primary)] transition-all duration-300 hover:bg-[var(--accent-primary)] hover:text-black cursor-default"
-                  style={{
-                    border: '1px solid var(--accent-primary)',
-                    borderOpacity: 0.5,
-                    background: 'var(--accent-primary)11',
-                  }}>
-                  {skill}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          {/* Corner decoration */}
-          <div style={{
-            position: 'absolute', bottom: '12px', right: '12px',
-            width: '40px', height: '40px',
-            borderRight: '2px solid var(--accent-primary)',
-            borderBottom: '2px solid var(--accent-primary)',
-            opacity: 0.3
-          }} />
-        </div>
-      </FadeIn>
-
-    </div>
-
-    {/* ── BOTTOM STATS BAR ── */}
-    <FadeIn direction="up" delay={0.5}>
-      <div className="mt-16 grid grid-cols-2 sm:grid-cols-4 gap-px"
-        style={{ background: 'var(--accent-primary)', backgroundOpacity: 0.2 }}>
-        {[
-          { value: '5+', label: 'Projets réalisés', icon: 'fa-folder' },
-          { value: '2+', label: 'Années d\'expérience', icon: 'fa-calendar' },
-          { value: '10+', label: 'Technologies', icon: 'fa-microchip' },
-          { value: '100%', label: 'Engagement', icon: 'fa-fire' },
-        ].map(({ value, label, icon }) => (
-          <div key={label} className="cyber-card py-6 px-4 text-center">
-            <i className={`fas ${icon} text-[var(--accent-secondary)] text-lg mb-2 block`}></i>
-            <div className="text-2xl sm:text-3xl font-bold text-[var(--accent-primary)] font-mono mb-1">
-              {value}
-            </div>
-            <div className="text-xs text-[var(--text-secondary)] uppercase tracking-wide">{label}</div>
-          </div>
-        ))}
-      </div>
-    </FadeIn>
-
-  </div>
-</section>
+                <section id="à-propos" className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+                  <div style={{position:'absolute',inset:0,pointerEvents:'none',backgroundImage:`linear-gradient(var(--accent-primary)11 1px,transparent 1px),linear-gradient(90deg,var(--accent-primary)11 1px,transparent 1px)`,backgroundSize:'60px 60px',opacity:0.15}}/>
+                  <div style={{position:'absolute',top:'-80px',right:'-80px',width:'400px',height:'400px',borderRadius:'50%',background:'radial-gradient(circle,var(--accent-primary)22 0%,transparent 70%)',pointerEvents:'none'}}/>
+                  <div className="max-w-7xl mx-auto relative">
+                    <FadeIn>
+                      <div className="text-center mb-16">
+                        <div className="security-level inline-flex mb-4"><i className="fas fa-user-shield"></i><span>{t.about_badge}</span></div>
+                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[var(--text-primary)] mb-4">
+                          {t.about_title} <span className="text-[var(--accent-primary)]">{t.about_title2}</span>
+                        </h2>
+                        <div style={{width:'80px',height:'3px',margin:'0 auto',background:'linear-gradient(90deg,transparent,var(--accent-primary),transparent)',animation:'pulse 2s ease-in-out infinite'}}/>
+                      </div>
+                    </FadeIn>
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+                      <FadeIn direction="left" delay={0.1}>
+                        <div className="space-y-8">
+                          <div>
+                            <p className="text-xs tracking-[0.3em] uppercase text-[var(--accent-secondary)] mb-2 font-mono">{t.about_init}</p>
+                            <h3 className="text-3xl sm:text-4xl font-bold text-[var(--text-primary)] leading-tight">
+                              Omar El Farouk<br/><span className="text-[var(--accent-primary)]">Kortas</span>
+                            </h3>
+                          </div>
+                          <div className="space-y-4 text-[var(--text-secondary)] leading-relaxed text-sm sm:text-base">
+                            <p>
+                              {t.about_p1a} <span className="text-[var(--accent-primary)] font-semibold border-b border-[var(--accent-primary)] border-opacity-40">{t.about_p1b}</span> {t.about_p1c} <span className="text-[var(--accent-primary)] font-semibold border-b border-[var(--accent-primary)] border-opacity-40">{t.about_p1d}</span>.
+                            </p>
+                            <p>
+                              {t.about_p2a} <span className="text-[var(--accent-secondary)] font-semibold">{t.about_p2b}</span>{t.about_p2c && `, ${t.about_p2c}`} <span className="text-[var(--accent-secondary)] font-semibold">{t.about_p2d}</span> {t.about_p2e} <span className="text-[var(--accent-secondary)] font-semibold">{t.about_p2f}</span>.
+                            </p>
+                            <p>{t.about_p3}</p>
+                          </div>
+                          <div className="flex flex-wrap gap-3 pt-2">
+                            <a href="#contact" className="cyber-card px-5 py-2.5 text-sm font-semibold text-[var(--accent-primary)] hover:bg-[var(--accent-primary)] hover:text-black transition-all duration-300 cursor-pointer inline-flex items-center gap-2">
+                              <i className="fas fa-envelope text-xs"></i>{t.about_btn1}
+                            </a>
+                            <a href="#projets" className="px-5 py-2.5 text-sm font-semibold text-[var(--text-secondary)] border border-[var(--text-secondary)] border-opacity-30 hover:border-[var(--accent-secondary)] hover:text-[var(--accent-secondary)] transition-all duration-300 cursor-pointer inline-flex items-center gap-2">
+                              <i className="fas fa-folder-open text-xs"></i>{t.about_btn2}
+                            </a>
+                          </div>
+                        </div>
+                      </FadeIn>
+                      <FadeIn direction="right" delay={0.3}>
+                        <div className="cyber-card relative p-6 sm:p-8 overflow-hidden">
+                          <div style={{position:'absolute',top:0,left:0,right:0,height:'3px',background:'linear-gradient(90deg,var(--accent-primary),var(--accent-secondary),var(--accent-primary))'}}/>
+                          <div className="flex items-center justify-between mb-6 pb-4" style={{borderBottom:'1px solid var(--border-color)'}}>
+                            <div className="font-mono text-xs text-[var(--accent-secondary)] tracking-widest uppercase">{t.about_card_id}</div>
+                            <div className="flex gap-1.5">
+                              {['#00e6b4','#00b4d8','#ef4444'].map((c,i)=><div key={i} style={{width:'10px',height:'10px',borderRadius:'50%',background:c,opacity:0.8}}/>)}
+                            </div>
+                          </div>
+                          <div className="grid grid-cols-2 gap-4 mb-6">
+                            {[
+                              { icon:'fa-graduation-cap', label:t.about_stat1_label, value:t.about_stat1_val },
+                              { icon:'fa-shield-alt',     label:t.about_stat2_label, value:t.about_stat2_val },
+                              { icon:'fa-map-marker-alt', label:t.about_stat3_label, value:t.about_stat3_val },
+                              { icon:'fa-code',           label:t.about_stat4_label, value:t.about_stat4_val },
+                            ].map(({icon,label,value})=>(
+                              <div key={label} className="cyber-card p-4 text-center group hover:scale-105 transition-transform duration-300">
+                                <i className={`fas ${icon} text-xl mb-2 text-[var(--accent-primary)] block`}></i>
+                                <div className="text-xs text-[var(--text-secondary)] mb-1">{label}</div>
+                                <div className="font-semibold text-sm text-[var(--text-primary)]">{value}</div>
+                              </div>
+                            ))}
+                          </div>
+                          <div>
+                            <div className="text-xs text-[var(--text-secondary)] font-mono mb-3 uppercase tracking-widest">{t.about_skills_comment}</div>
+                            <div className="flex flex-wrap gap-2">
+                              {['Pentest','devops','Python','React','Linux','Docker','Network'].map(skill=>(
+                                <span key={skill} className="px-3 py-1 text-xs font-mono font-semibold text-[var(--accent-primary)] transition-all duration-300 hover:bg-[var(--accent-primary)] hover:text-black cursor-default" style={{border:'1px solid var(--accent-primary)',background:'rgba(0,230,180,0.07)'}}>
+                                  {skill}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                          <div style={{position:'absolute',bottom:'12px',right:'12px',width:'40px',height:'40px',borderRight:'2px solid var(--accent-primary)',borderBottom:'2px solid var(--accent-primary)',opacity:0.3}}/>
+                        </div>
+                      </FadeIn>
+                    </div>
+                    <FadeIn direction="up" delay={0.5}>
+                      <div className="mt-16 grid grid-cols-2 sm:grid-cols-4 gap-px" style={{background:'var(--border-color)'}}>
+                        {t.about_bottom.map(([val,label,icon])=>(
+                          <div key={label} className="cyber-card py-6 px-4 text-center">
+                            <i className={`fas ${icon} text-[var(--accent-secondary)] text-lg mb-2 block`}></i>
+                            <div className="text-2xl sm:text-3xl font-bold text-[var(--accent-primary)] font-mono mb-1">{val}</div>
+                            <div className="text-xs text-[var(--text-secondary)] uppercase tracking-wide">{label}</div>
+                          </div>
+                        ))}
+                      </div>
+                    </FadeIn>
+                  </div>
+                </section>
             );
         };
 
         // Skills Section - RESPONSIVE
         const Skills = () => {
-            const skillCategories = [
-                {
-                    title: "Cybersécurité",
-                    icon: "fas fa-shield-alt",
-                    color: "var(--accent-primary)",
-                    skills: [
-                        { name: "Sécurité des Réseaux", level: 85 },
-                        { name: "Tests de Pénétration", level: 80 },
-                        { name: "Cryptographie", level: 75 },
-                        { name: "Sécurité Cloud", level: 70 }
-                    ]
-                },
-                {
-                    title: "Développement",
-                    icon: "fas fa-code",
-                    color: "var(--accent-secondary)",
-                    skills: [
-                        { name: "Python/C", level: 85 },
-                        { name: "React/Next.js", level: 90 },
-                        { name: "Node.js/NestJS", level: 85 },
-                        { name: "SQL/NoSQL", level: 80 }
-                    ]
-                },
-                {
-                    title: "DevOps & Cloud",
-                    icon: "fas fa-cloud",
-                    color: "var(--accent-warning)",
-                    skills: [
-                        { name: "Docker/Kubernetes", level: 75 },
-                        { name: "CI/CD", level: 80 },
-                        { name: "AWS/GCP", level: 70 },
-                        { name: "Linux", level: 85 }
-                    ]
-                }
-            ];
+            const { lang } = React.useContext(LangContext);
+            const t = translations[lang];
             
             return (
                 <section id="compétences" className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-[var(--bg-secondary)]">
@@ -1205,16 +1510,16 @@
                             <div className="text-center mb-12 sm:mb-16">
                                 <div className="security-level inline-flex mb-4">
                                     <i className="fas fa-code"></i>
-                                    <span>Compétences Techniques</span>
+                                    <span>{t.skills_badge}</span>
                                 </div>
                                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[var(--text-primary)]">
-                                    Expertise <span className="text-[var(--accent-primary)]">Technique</span>
+                                    {t.skills_title} <span className="text-[var(--accent-primary)]">{t.skills_title2}</span>
                                 </h2>
                             </div>
                         </FadeIn>
                         
                         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-                            {skillCategories.map((category, idx) => (
+                            {t.skill_cats.map((category, idx) => (
                                 <FadeIn key={category.title} delay={idx * 0.2}>
                                     <div className="cyber-card p-6 sm:p-8 h-full">
                                         <div className="flex items-center space-x-3 mb-6">
@@ -1225,17 +1530,14 @@
                                         </div>
                                         
                                         <div className="space-y-4 sm:space-y-6">
-                                            {category.skills.map((skill) => (
-                                                <div key={skill.name}>
+                                            {category.skills.map(([name, level]) => (
+                                                <div key={name}>
                                                     <div className="flex justify-between mb-2">
-                                                        <span className="text-xs sm:text-sm text-[var(--text-secondary)]">{skill.name}</span>
-                                                        <span className="text-xs sm:text-sm font-semibold text-[var(--accent-primary)]">{skill.level}%</span>
+                                                        <span className="text-xs sm:text-sm text-[var(--text-secondary)]">{name}</span>
+                                                        <span className="text-xs sm:text-sm font-semibold text-[var(--accent-primary)]">{level}%</span>
                                                     </div>
                                                     <div className="skill-bar">
-                                                        <div 
-                                                            className="skill-bar-fill" 
-                                                            style={{ width: `${skill.level}%` }}
-                                                        ></div>
+                                                        <div className="skill-bar-fill" style={{ width: `${level}%` }}></div>
                                                     </div>
                                                 </div>
                                             ))}
@@ -1265,60 +1567,14 @@
 
         // Projects Section - RESPONSIVE with IMPROVED MODAL
         const Projects = () => {
+            const { lang } = React.useContext(LangContext);
+            const t = translations[lang];
             const [selectedProject, setSelectedProject] = useState(null);
             const [scrollPosition, setScrollPosition] = useState(0);
-            
-            const projects = [
-                {
-                    title: "Plateforme de Livraison Sécurisée",
-                    description: "Application web et mobile avec authentification avancée et chiffrement des données.",
-                    fullDescription: "Application web et mobile pour la gestion des livraisons entre clients, fournisseurs et livreurs. Système complet de livraison intégrant l'inscription des utilisateurs, la gestion des commandes, le suivi des livraisons, la soumission de réclamations, la génération automatique des factures et l'envoi de notifications par email.",
-                    tech: ["Next.js", "NestJS", "MySQL", "JWT"],
-                    features: [
-                        "Inscription et authentification des utilisateurs",
-                        "Gestion complète des commandes",
-                        "Suivi en temps réel des livraisons",
-                        "Système de réclamations",
-                        "Génération automatique des factures",
-                        "Notifications par email"
-                    ],
-                    icon: "fas fa-truck",
-                    image: "work4.png",
-                    badge: "Projet"
-                },
-                {
-                    title: "Système de Détection d'Intrusion",
-                    description: "IDS/IPS basé sur l'IA pour la détection de menaces en temps réel.",
-                    fullDescription: "Système de détection et de prévention d'intrusions utilisant l'intelligence artificielle pour identifier et bloquer les menaces de sécurité en temps réel.",
-                    tech: ["Python", "TensorFlow", "Scapy", "ML"],
-                    features: [
-                        "Analyse du trafic réseau en temps réel",
-                        "Détection des anomalies par IA",
-                        "Blocage automatique des menaces",
-                        "Alertes et notifications",
-                        "Tableaux de bord de monitoring"
-                    ],
-                    icon: "fas fa-shield-virus",
-                    image: "work5.png",
-                    badge: "Projet"
-                },
-                {
-                    title: "Valorant Tracker",
-                    description: "Application de suivi des statistiques et performances des joueurs Valorant.",
-                    fullDescription: "Application permettant de suivre et d'analyser les statistiques des joueurs de Valorant : performances par match, historique des parties, statistiques par agent et évolution du niveau de jeu.",
-                    tech: ["React", "Node.js", "API REST", "Chart.js"],
-                    features: [
-                        "Consultation des statistiques des joueurs",
-                        "Historique des matchs",
-                        "Analyse des performances par agent",
-                        "Tableaux de bord et graphiques",
-                        "Recherche de joueurs"
-                    ],
-                    icon: "fas fa-gamepad",
-                    image: "work6.png",
-                    badge: "Projet"
-                }
-            ];
+
+            const projectImages = ["work4.png", "work5.png", "work6.png"];
+            const projectIcons  = ["fas fa-truck", "fas fa-shield-virus", "fas fa-gamepad"];
+            const projectTechs  = [["Next.js","NestJS","MySQL","JWT"], ["Python","TensorFlow","Scapy","ML"], ["React","Node.js","API REST","Chart.js"]];
             
             const openModal = (project) => {
                 const scrollY = lockScroll();
@@ -1338,24 +1594,24 @@
                             <div className="text-center mb-12 sm:mb-16">
                                 <div className="security-level inline-flex mb-4">
                                     <i className="fas fa-project-diagram"></i>
-                                    <span>Portfolio</span>
+                                    <span>{t.proj_badge}</span>
                                 </div>
                                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[var(--text-primary)]">
-                                    Projets <span className="text-[var(--accent-primary)]">Récents</span>
+                                    {t.proj_title} <span className="text-[var(--accent-primary)]">{t.proj_title2}</span>
                                 </h2>
                             </div>
                         </FadeIn>
                         
                         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-                            {projects.map((project, idx) => (
-                                <FadeIn key={project.title} delay={idx * 0.15}>
+                            {t.projects.map((project, idx) => (
+                                <FadeIn key={idx} delay={idx * 0.15}>
                                     <div 
                                         className="cyber-card p-4 sm:p-6 group h-full flex flex-col cursor-pointer"
-                                        onClick={() => openModal(project)}
+                                        onClick={() => openModal({ ...project, idx })}
                                     >
                                         <div className="w-full h-40 sm:h-48 mb-4 sm:mb-6 rounded-xl overflow-hidden border-2 border-[var(--border-color)] group-hover:border-[var(--accent-primary)] transition-all">
                                             <img 
-                                                src={project.image} 
+                                                src={projectImages[idx]} 
                                                 alt={project.title}
                                                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                             />
@@ -1365,7 +1621,7 @@
                                         <p className="text-sm sm:text-base text-[var(--text-secondary)] mb-4 flex-grow">{project.description}</p>
                                         
                                         <div className="flex flex-wrap gap-2 mb-4">
-                                            {project.tech.map((tech) => (
+                                            {projectTechs[idx].map((tech) => (
                                                 <span key={tech} className="px-2 sm:px-3 py-1 bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-full text-xs text-[var(--accent-primary)]">
                                                     {tech}
                                                 </span>
@@ -1373,7 +1629,7 @@
                                         </div>
                                         
                                         <button className="w-full py-2 sm:py-3 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-black font-semibold rounded-lg hover:shadow-lg hover:shadow-[var(--glow-primary)] transition-all text-sm sm:text-base">
-                                            Voir détails
+                                            {t.proj_see}
                                         </button>
                                     </div>
                                 </FadeIn>
@@ -1405,7 +1661,7 @@
                                         
                                         <div className="mb-6 sm:mb-8 relative rounded-xl sm:rounded-2xl overflow-hidden border-2 border-[var(--border-color)]">
                                             <img 
-                                                src={selectedProject.image} 
+                                                src={projectImages[selectedProject.idx]} 
                                                 alt={selectedProject.title}
                                                 className="w-full h-auto object-cover"
                                             />
@@ -1414,7 +1670,7 @@
                                         <div className="mb-6 sm:mb-8">
                                             <h3 className="text-lg sm:text-xl font-bold text-[var(--text-primary)] mb-4 flex items-center gap-2">
                                                 <i className="fas fa-info-circle text-[var(--accent-primary)]"></i>
-                                                Description du projet
+                                                {t.proj_desc_label}
                                             </h3>
                                             <p className="text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed">
                                                 {selectedProject.fullDescription}
@@ -1424,7 +1680,7 @@
                                         <div className="mb-6 sm:mb-8">
                                             <h3 className="text-lg sm:text-xl font-bold text-[var(--text-primary)] mb-4 flex items-center gap-2">
                                                 <i className="fas fa-tasks text-[var(--accent-primary)]"></i>
-                                                Fonctionnalités principales
+                                                {t.proj_feat_label}
                                             </h3>
                                             <ul className="grid gap-3">
                                                 {selectedProject.features.map((feature, index) => (
@@ -1439,10 +1695,10 @@
                                         <div className="mb-6 sm:mb-8">
                                             <h3 className="text-lg sm:text-xl font-bold text-[var(--text-primary)] mb-4 flex items-center gap-2">
                                                 <i className="fas fa-code text-[var(--accent-primary)]"></i>
-                                                Technologies utilisées
+                                                {t.proj_tech_label}
                                             </h3>
                                             <div className="flex flex-wrap gap-2 sm:gap-3">
-                                                {selectedProject.tech.map((tech) => (
+                                                {projectTechs[selectedProject.idx].map((tech) => (
                                                     <span key={tech} className="px-3 sm:px-4 py-1 sm:py-2 bg-gradient-to-r from-[var(--accent-primary)]/20 to-[var(--accent-secondary)]/20 border border-[var(--border-color)] rounded-lg text-[var(--accent-primary)] font-semibold text-sm sm:text-base">
                                                         {tech}
                                                     </span>
@@ -1454,7 +1710,7 @@
                                             onClick={closeModal}
                                             className="w-full py-3 sm:py-4 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-black font-bold rounded-lg hover:shadow-lg hover:shadow-[var(--glow-primary)] transition-all text-base sm:text-lg"
                                         >
-                                            Fermer
+                                            {t.proj_close}
                                         </button>
                                     </div>
                                 </div>
@@ -1467,71 +1723,14 @@
 
         // Certifications Section - RESPONSIVE with IMPROVED MODAL
         const Certifications = () => {
+            const { lang } = React.useContext(LangContext);
+            const t = translations[lang];
             const [selectedCert, setSelectedCert] = useState(null);
             const [scrollPosition, setScrollPosition] = useState(0);
-            
-            const certifications = [
-                {
-                    title: "Responsive Web Design",
-                    issuer: "freeCodeCamp",
-                    date: "2024",
-                    description: "Certification en conception de sites web adaptatifs.",
-                    skills: ["HTML5", "CSS3", "Flexbox", "Grid"],
-                    icon: "fas fa-code",
-                    image: "work1.png",
-                    color: "from-blue-500 to-cyan-500"
-                },
-                {
-                    title: "Introduction de sensibilisation à la cybersécurité",
-                    issuer: "HP LIFE",
-                    date: "19/01/2026",
-                    description: "Reconnaissance des menaces courantes en matière de cybersécurité.",
-                    skills: ["Cybersécurité", "Sécurité des données", "Menaces en ligne"],
-                    icon: "fas fa-shield-alt",
-                    image: "certif.png",
-                    color: "from-red-500 to-orange-500"
-                },
-                {
-                    title: "L'IA pour les professionnels",
-                    issuer: "HP LIFE",
-                    date: "19/01/2026",
-                    description: "Rôle de l'IA dans les entreprises et utilisation éthique.",
-                    skills: ["Intelligence Artificielle", "Prompts IA", "Éthique IA"],
-                    icon: "fas fa-robot",
-                    image: "certif1.png",
-                    color: "from-indigo-500 to-purple-500"
-                },
-                {
-                    title: "IA & Big Data dans l'IoT",
-                    issuer: "Certification Professionnelle",
-                    date: "2024",
-                    description: "Traitement intelligent des données IoT à grande échelle.",
-                    skills: ["Python", "TensorFlow", "Kafka", "Spark"],
-                    icon: "fas fa-brain",
-                    image: "work2.png",
-                    color: "from-purple-500 to-pink-500"
-                },
-                {
-                    title: "Fondations Avancées du Cloud",
-                    issuer: "Google Cloud",
-                    date: "2024",
-                    description: "Architecture cloud évolutive et sécurisée sur GCP.",
-                    skills: ["Google Cloud", "Terraform", "Docker"],
-                    icon: "fas fa-cloud",
-                    image: "work3.png",
-                    color: "from-green-500 to-emerald-500"
-                },
-                {
-                    title: "Introduction to Firewall",
-                    issuer: "Great Learning Academy",
-                    date: "08/2024",
-                    description: "Introduction aux pare-feu et principes de sécurité réseau.",
-                    skills: ["Firewall", "Sécurité réseau", "Cybersécurité"],
-                    icon: "fas fa-shield-alt",
-                    image: "certif2.png",
-                    color: "from-blue-500 to-cyan-500"
-                }
-            ];
+
+            const certImages  = ["work1.png","certif.png","certif1.png","work2.png","work3.png","certif2.png"];
+            const certIcons   = ["fas fa-code","fas fa-shield-alt","fas fa-robot","fas fa-brain","fas fa-cloud","fas fa-shield-alt"];
+            const certColors  = ["from-blue-500 to-cyan-500","from-red-500 to-orange-500","from-indigo-500 to-purple-500","from-purple-500 to-pink-500","from-green-500 to-emerald-500","from-blue-500 to-cyan-500"];
             
             const openModal = (cert) => {
                 const scrollY = lockScroll();
@@ -1551,24 +1750,24 @@
                             <div className="text-center mb-12 sm:mb-16">
                                 <div className="security-level inline-flex mb-4">
                                     <i className="fas fa-award"></i>
-                                    <span>Certifications</span>
+                                    <span>{t.cert_badge}</span>
                                 </div>
                                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[var(--text-primary)]">
-                                    Certifications <span className="text-[var(--accent-primary)]">Professionnelles</span>
+                                    {t.cert_title} <span className="text-[var(--accent-primary)]">{t.cert_title2}</span>
                                 </h2>
                             </div>
                         </FadeIn>
                         
                         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-                            {certifications.map((cert, idx) => (
-                                <FadeIn key={cert.title} delay={idx * 0.15}>
+                            {t.certifications.map((cert, idx) => (
+                                <FadeIn key={idx} delay={idx * 0.15}>
                                     <div 
                                         className="cyber-card p-4 sm:p-6 group cursor-pointer h-full flex flex-col"
-                                        onClick={() => openModal(cert)}
+                                        onClick={() => openModal({ ...cert, idx })}
                                     >
                                         <div className="w-full h-40 sm:h-48 mb-4 sm:mb-6 rounded-xl overflow-hidden border-2 border-[var(--border-color)] group-hover:border-[var(--accent-primary)] transition-all">
                                             <img 
-                                                src={cert.image} 
+                                                src={certImages[idx]} 
                                                 alt={cert.title}
                                                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                             />
@@ -1614,8 +1813,8 @@
                                         
                                         <div className="clear-both">
                                             <div className="flex items-start gap-3 sm:gap-4 mb-4 sm:mb-6">
-                                                <div className={`w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br ${selectedCert.color} rounded-xl flex items-center justify-center flex-shrink-0`}>
-                                                    <i className={`${selectedCert.icon} text-lg sm:text-xl text-white`}></i>
+                                                <div className={`w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br ${certColors[selectedCert.idx]} rounded-xl flex items-center justify-center flex-shrink-0`}>
+                                                    <i className={`${certIcons[selectedCert.idx]} text-lg sm:text-xl text-white`}></i>
                                                 </div>
                                                 <div className="flex-grow min-w-0">
                                                     <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-[var(--text-primary)] mb-1 break-words">
@@ -1635,7 +1834,7 @@
                                         <div className="mb-4 sm:mb-6">
                                             <h4 className="text-sm sm:text-base font-semibold text-[var(--text-primary)] mb-3 flex items-center gap-2">
                                                 <i className="fas fa-code text-[var(--accent-primary)]"></i>
-                                                Compétences acquises
+                                                {t.cert_skills_label}
                                             </h4>
                                             <div className="flex flex-wrap gap-2">
                                                 {selectedCert.skills.map((skill) => (
@@ -1649,20 +1848,20 @@
                                         <div className="mb-4 sm:mb-6">
                                             <div className="flex items-center gap-2 mb-3">
                                                 <i className="fas fa-award text-[var(--accent-primary)]"></i>
-                                                <h4 className="text-sm sm:text-base font-semibold text-[var(--text-primary)]">Certificat</h4>
+                                                <h4 className="text-sm sm:text-base font-semibold text-[var(--text-primary)]">{t.cert_cert_label}</h4>
                                             </div>
                                             <div className="bg-[var(--card-bg)] rounded-xl sm:rounded-2xl p-3 sm:p-4 border border-[var(--border-color)]">
                                                 <img 
-                                                    src={selectedCert.image} 
+                                                    src={certImages[selectedCert.idx]} 
                                                     alt={`Certificat ${selectedCert.title}`}
                                                     className="w-full max-w-sm mx-auto h-auto rounded-lg cursor-pointer hover:scale-105 transition-transform"
                                                     onClick={(e) => {
                                                         e.stopPropagation();
-                                                        window.open(selectedCert.image, '_blank');
+                                                        window.open(certImages[selectedCert.idx], '_blank');
                                                     }}
                                                 />
                                                 <p className="text-center text-xs text-[var(--text-secondary)] mt-2">
-                                                    Cliquez pour agrandir
+                                                    {t.cert_click}
                                                 </p>
                                             </div>
                                         </div>
@@ -1671,7 +1870,7 @@
                                             onClick={closeModal}
                                             className="w-full py-2 sm:py-3 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-black font-semibold rounded-lg hover:shadow-lg hover:shadow-[var(--glow-primary)] transition-all text-sm sm:text-base"
                                         >
-                                            Fermer
+                                            {t.cert_close}
                                         </button>
                                     </div>
                                 </div>
@@ -1684,44 +1883,8 @@
 
         // Services Section - RESPONSIVE
         const Services = () => {
-            const services = [
-                {
-                    icon: "fas fa-shield-alt",
-                    title: "Audit de Sécurité",
-                    description: "Évaluation complète de la sécurité de vos systèmes et infrastructures.",
-                    color: "from-cyan-500 to-blue-600"
-                },
-                {
-                    icon: "fas fa-bug",
-                    title: "Tests de Pénétration",
-                    description: "Identification et exploitation des vulnérabilités dans un cadre éthique.",
-                    color: "from-blue-500 to-indigo-600"
-                },
-                {
-                    icon: "fas fa-code",
-                    title: "Développement Sécurisé",
-                    description: "Création d'applications web et mobiles avec les meilleures pratiques de sécurité.",
-                    color: "from-teal-500 to-cyan-600"
-                },
-                {
-                    icon: "fas fa-network-wired",
-                    title: "Sécurité Réseau",
-                    description: "Configuration et sécurisation des infrastructures réseau.",
-                    color: "from-green-500 to-teal-600"
-                },
-                {
-                    icon: "fas fa-cloud-upload-alt",
-                    title: "Cloud Security",
-                    description: "Sécurisation des environnements cloud (AWS, Azure, GCP).",
-                    color: "from-sky-500 to-blue-600"
-                },
-                {
-                    icon: "fas fa-user-shield",
-                    title: "Formation",
-                    description: "Sensibilisation et formation en cybersécurité pour équipes.",
-                    color: "from-indigo-500 to-purple-600"
-                }
-            ];
+            const { lang } = React.useContext(LangContext);
+            const t = translations[lang];
             
             return (
                 <section id="services" className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-[var(--bg-secondary)]">
@@ -1730,17 +1893,17 @@
                             <div className="text-center mb-12 sm:mb-16">
                                 <div className="security-level inline-flex mb-4">
                                     <i className="fas fa-server"></i>
-                                    <span>Services</span>
+                                    <span>{t.srv_badge}</span>
                                 </div>
                                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[var(--text-primary)]">
-                                    Services <span className="text-[var(--accent-primary)]">Proposés</span>
+                                    {t.srv_title} <span className="text-[var(--accent-primary)]">{t.srv_title2}</span>
                                 </h2>
                             </div>
                         </FadeIn>
                         
                         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-                            {services.map((service, idx) => (
-                                <FadeIn key={service.title} delay={idx * 0.1}>
+                            {t.services.map((service, idx) => (
+                                <FadeIn key={idx} delay={idx * 0.1}>
                                     <div className="cyber-card p-6 sm:p-8 group hover:scale-105 transition-all duration-300 h-full flex flex-col">
                                         <div className={`w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br ${service.color} rounded-xl sm:rounded-2xl flex items-center justify-center mb-4 sm:mb-6 group-hover:rotate-6 group-hover:scale-110 transition-all duration-300 shadow-lg`}>
                                             <i className={`${service.icon} text-2xl sm:text-3xl text-white`}></i>
@@ -1766,45 +1929,10 @@
 
         // Experience Section - RESPONSIVE with IMPROVED MODAL
         const Experiences = () => {
+            const { lang } = React.useContext(LangContext);
+            const t = translations[lang];
             const [selectedExperience, setSelectedExperience] = useState(null);
             const [scrollPosition, setScrollPosition] = useState(0);
-            
-            const experiences = [
-                {
-                    company: "Groupe Allemand Dieter Braun",
-                    role: "Stage d'été - Administration Systèmes",
-                    period: "08/2024 – 09/2024",
-                    location: "Messadine, Sousse",
-                    icon: "fas fa-server",
-                    tasks: [
-                        "Gestion et mise en fonctionnement des serveurs dans un environnement d'entreprise.",
-                        "Initiation à la vie professionnelle : travail en équipe et développement des compétences professionnelles."
-                    ],
-                    responsibilities: [
-                        "Gestion et sécurisation des serveurs d'entreprise",
-                        "Mise en place de politiques de sécurité",
-                        "Maintenance des infrastructures IT"
-                    ],
-                    attestation: "ATTESTATION1.png"
-                },
-                {
-                    company: "ZOOMY Business & Technologie IT",
-                    role: "Stage de fin d'études - Full Stack Developer",
-                    period: "02/2025 - 05/2025",
-                    location: "Akouda, Sousse",
-                    icon: "fas fa-code",
-                    tasks: [
-                        "Conception et développement d'une plateforme de livraison intelligente.",
-                        "Mise en place de fonctionnalités permettant aux clients et fournisseurs de soumettre des commandes."
-                    ],
-                    responsibilities: [
-                        "Développement plateforme de livraison sécurisée",
-                        "Implémentation authentification JWT",
-                        "Architecture microservices"
-                    ],
-                    attestation: "ATTESTATION.png"
-                }
-            ];
             
             const openModal = (exp) => {
                 const scrollY = lockScroll();
@@ -1824,17 +1952,17 @@
                             <div className="text-center mb-12 sm:mb-16">
                                 <div className="security-level inline-flex mb-4">
                                     <i className="fas fa-briefcase"></i>
-                                    <span>Parcours</span>
+                                    <span>{t.exp_badge}</span>
                                 </div>
                                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[var(--text-primary)]">
-                                    Expériences <span className="text-[var(--accent-primary)]">Professionnelles</span>
+                                    {t.exp_title} <span className="text-[var(--accent-primary)]">{t.exp_title2}</span>
                                 </h2>
                             </div>
                         </FadeIn>
                         
                         <div className="space-y-6 sm:space-y-8">
-                            {experiences.map((exp, idx) => (
-                                <FadeIn key={exp.company} delay={idx * 0.2}>
+                            {t.experiences.map((exp, idx) => (
+                                <FadeIn key={idx} delay={idx * 0.2}>
                                     <div className="cyber-card p-4 sm:p-6 lg:p-8 cursor-pointer" onClick={() => openModal(exp)}>
                                         <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6">
                                             <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-lg sm:rounded-xl flex items-center justify-center flex-shrink-0">
@@ -1912,7 +2040,7 @@
                                         <div className="mb-4 sm:mb-6">
                                             <div className="flex items-center gap-2 mb-3">
                                                 <i className="fas fa-list text-[var(--accent-primary)]"></i>
-                                                <h4 className="text-sm sm:text-base lg:text-lg font-semibold text-[var(--text-primary)]">Responsabilités</h4>
+                                                <h4 className="text-sm sm:text-base lg:text-lg font-semibold text-[var(--text-primary)]">{t.exp_resp_label}</h4>
                                             </div>
                                             <ul className="space-y-2">
                                                 {selectedExperience.tasks.map((task, index) => (
@@ -1927,7 +2055,7 @@
                                         <div className="mb-4 sm:mb-6">
                                             <div className="flex items-center gap-2 mb-3">
                                                 <i className="fas fa-certificate text-[var(--accent-primary)]"></i>
-                                                <h4 className="text-sm sm:text-base lg:text-lg font-semibold text-[var(--text-primary)]">Attestation</h4>
+                                                <h4 className="text-sm sm:text-base lg:text-lg font-semibold text-[var(--text-primary)]">{t.exp_attest_label}</h4>
                                             </div>
                                             <div className="bg-[var(--card-bg)] rounded-xl sm:rounded-2xl p-3 sm:p-4 border border-[var(--border-color)]">
                                                 <img 
@@ -1940,7 +2068,7 @@
                                                     }}
                                                 />
                                                 <p className="text-center text-xs text-[var(--text-secondary)] mt-2">
-                                                    Cliquez pour agrandir
+                                                    {t.exp_click}
                                                 </p>
                                             </div>
                                         </div>
@@ -1949,7 +2077,7 @@
                                             onClick={closeModal}
                                             className="w-full py-2 sm:py-3 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-black font-semibold rounded-lg hover:shadow-lg hover:shadow-[var(--glow-primary)] transition-all text-sm sm:text-base"
                                         >
-                                            Fermer
+                                            {t.exp_close}
                                         </button>
                                     </div>
                                 </div>
@@ -1962,6 +2090,8 @@
 
         // Contact Section - RESPONSIVE
         const Contact = () => {
+            const { lang } = React.useContext(LangContext);
+            const t = translations[lang];
             const [formData, setFormData] = useState({ name: "", email: "", message: "" });
             const [status, setStatus] = useState({ message: "", type: "" });
             const [isSubmitting, setIsSubmitting] = useState(false);
@@ -1978,13 +2108,13 @@
                     });
                     
                     if (response.ok) {
-                        setStatus({ message: "Message envoyé avec succès!", type: "success" });
+                        setStatus({ message: t.contact_success, type: "success" });
                         setFormData({ name: "", email: "", message: "" });
                     } else {
                         throw new Error("Erreur d'envoi");
                     }
                 } catch (error) {
-                    setStatus({ message: "Erreur lors de l'envoi", type: "error" });
+                    setStatus({ message: t.contact_error, type: "error" });
                 } finally {
                     setIsSubmitting(false);
                     setTimeout(() => setStatus({ message: "", type: "" }), 5000);
@@ -1998,10 +2128,10 @@
                             <div className="text-center mb-12 sm:mb-16">
                                 <div className="security-level inline-flex mb-4">
                                     <i className="fas fa-envelope-open-text"></i>
-                                    <span>Contact</span>
+                                    <span>{t.contact_badge}</span>
                                 </div>
                                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[var(--text-primary)]">
-                                    Contactez <span className="text-[var(--accent-primary)]">-Moi</span>
+                                    {t.contact_title} <span className="text-[var(--accent-primary)]">{t.contact_title2}</span>
                                 </h2>
                             </div>
                         </FadeIn>
@@ -2049,7 +2179,7 @@
                                 <form onSubmit={handleSubmit} className="cyber-card p-4 sm:p-6 lg:p-8 space-y-4 sm:space-y-6">
                                     <div>
                                         <label className="block text-sm font-semibold text-[var(--text-secondary)] mb-2">
-                                            Nom complet
+                                            {t.contact_name}
                                         </label>
                                         <input
                                             type="text"
@@ -2062,7 +2192,7 @@
                                     
                                     <div>
                                         <label className="block text-sm font-semibold text-[var(--text-secondary)] mb-2">
-                                            Email
+                                            {t.contact_email}
                                         </label>
                                         <input
                                             type="email"
@@ -2075,7 +2205,7 @@
                                     
                                     <div>
                                         <label className="block text-sm font-semibold text-[var(--text-secondary)] mb-2">
-                                            Message
+                                            {t.contact_message}
                                         </label>
                                         <textarea
                                             rows="5"
@@ -2091,7 +2221,7 @@
                                         disabled={isSubmitting}
                                         className="w-full py-3 sm:py-4 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-black font-semibold rounded-lg hover:shadow-lg hover:shadow-[var(--glow-primary)] transition-all disabled:opacity-50 text-sm sm:text-base"
                                     >
-                                        {isSubmitting ? "Envoi en cours..." : "Envoyer le message"}
+                                        {isSubmitting ? t.contact_sending : t.contact_submit}
                                     </button>
                                     
                                     {status.message && (
@@ -2113,13 +2243,16 @@
 
         // Footer - RESPONSIVE
         const Footer = () => {
+            const { lang } = React.useContext(LangContext);
+            const t = translations[lang];
+
             return (
                 <footer className="py-8 sm:py-12 px-4 sm:px-6 lg:px-8 border-t border-[var(--border-color)]">
                     <div className="max-w-7xl mx-auto">
                         <div className="flex flex-col md:flex-row justify-between items-center gap-4 sm:gap-6">
                             <div className="text-center md:text-left">
                                 <p className="text-sm sm:text-base text-[var(--text-secondary)]">
-                                    © 2025 Omar El Farouk Kortas. Tous droits réservés.
+                                    {t.footer_rights}
                                 </p>
                             </div>
                             
@@ -2140,6 +2273,7 @@
         // Main App Component
         const App = () => {
             const [theme, setTheme] = useState('light');
+            const [lang, setLang] = useState('fr'); // ADDED
             
             useEffect(() => {
                 window.scrollTo(0, 0);
@@ -2173,18 +2307,21 @@
             
             return (
                 <ThemeContext.Provider value={{ theme, toggleTheme }}>
-                    <ErrorBoundary>
-                        <Navbar />
-                        <Home />
-                        <About />
-                        <Skills />
-                        <Projects />
-                        <Certifications />
-                        <Services />
-                        <Experiences />
-                        <Contact />
-                        <Footer />
-                    </ErrorBoundary>
+                    {/* ADDED: LangContext wrapper */}
+                    <LangContext.Provider value={{ lang, setLang }}>
+                        <ErrorBoundary>
+                            <Navbar />
+                            <Home />
+                            <About />
+                            <Skills />
+                            <Projects />
+                            <Certifications />
+                            <Services />
+                            <Experiences />
+                            <Contact />
+                            <Footer />
+                        </ErrorBoundary>
+                    </LangContext.Provider>
                 </ThemeContext.Provider>
             );
         };
