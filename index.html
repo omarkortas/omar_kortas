@@ -843,28 +843,44 @@
                 proj_feat_label: 'Fonctionnalités principales',
                 proj_tech_label: 'Technologies utilisées',
                 projects: [
-                    {
-                        title: 'Plateforme de Livraison Sécurisée',
-                        description: "Application web et mobile avec authentification avancée et chiffrement des données.",
-                        fullDescription: "Application web et mobile pour la gestion des livraisons entre clients, fournisseurs et livreurs. Système complet de livraison intégrant l'inscription des utilisateurs, la gestion des commandes, le suivi des livraisons, la soumission de réclamations, la génération automatique des factures et l'envoi de notifications par email.",
-                        features: ["Inscription et authentification des utilisateurs","Gestion complète des commandes","Suivi en temps réel des livraisons","Système de réclamations","Génération automatique des factures","Notifications par email"],
-                        badge: 'Projet',
-                    },
-                    {
-                        title: "Système de Détection d'Intrusion",
-                        description: "IDS/IPS basé sur l'IA pour la détection de menaces en temps réel.",
-                        fullDescription: "Système de détection et de prévention d'intrusions utilisant l'intelligence artificielle pour identifier et bloquer les menaces de sécurité en temps réel.",
-                        features: ["Analyse du trafic réseau en temps réel","Détection des anomalies par IA","Blocage automatique des menaces","Alertes et notifications","Tableaux de bord de monitoring"],
-                        badge: 'Projet',
-                    },
-                    {
-                        title: 'Valorant Tracker',
-                        description: "Application de suivi des statistiques et performances des joueurs Valorant.",
-                        fullDescription: "Application permettant de suivre et d'analyser les statistiques des joueurs de Valorant : performances par match, historique des parties, statistiques par agent et évolution du niveau de jeu.",
-                        features: ["Consultation des statistiques des joueurs","Historique des matchs","Analyse des performances par agent","Tableaux de bord et graphiques","Recherche de joueurs"],
-                        badge: 'Projet',
-                    },
-                ],
+    {
+        title: 'Secure Delivery Platform',
+        description: 'Web and mobile application with advanced authentication and data encryption.',
+        fullDescription: 'Web and mobile application for delivery management between clients, suppliers and couriers. Complete delivery system with user registration, order management, delivery tracking, complaint submission, automatic invoice generation and email notifications.',
+        features: ['User registration and authentication','Complete order management','Real-time delivery tracking','Complaint system','Automatic invoice generation','Email notifications'],
+        badge: 'Project',
+    },
+        {
+        title: 'Accounting Application',
+        description: 'Accounting management app with dashboards and financial reports.',
+        fullDescription: 'Web-based accounting application allowing businesses to manage their finances, track expenses and revenues, generate automated financial reports and visualize data through interactive dashboards.',
+        features: ['Revenue and expense management','Automatic report generation','Interactive dashboards','Data export','Multi-account management'],
+        badge: 'Project',
+    },
+    {
+        title: 'Vybe – Social Platform',
+        description: 'Modern social platform with news feed and real-time messaging.',
+        fullDescription: 'Complete social platform allowing users to share content, interact via a dynamic news feed, send real-time messages and customize their profile.',
+        features: ['Dynamic news feed','Real-time messaging','Profile management','Likes and comments system','Push notifications'],
+        badge: 'Project',
+    },
+    {
+
+    title: 'CV Templates Platform',
+    description: 'Professional CV templates platform with modern and customizable designs.',
+    fullDescription: 'Web platform offering a collection of professional and modern CV templates. Users can browse, preview and download ready-to-use CV templates tailored for different industries and career levels.',
+    features: ['Collection of professional templates','Live preview of templates','Download in multiple formats','Templates by industry/field','Modern and responsive designs'],
+    badge: 'Project',
+},
+    {
+        title: 'Valorant Tracker',
+        description: 'Application for tracking Valorant player statistics and performance.',
+        fullDescription: 'Application for tracking and analyzing Valorant player statistics: match performance, game history, agent-specific stats and skill progression.',
+        features: ['Player statistics lookup','Match history','Agent performance analysis','Dashboards and graphs','Player search'],
+        badge: 'Project',
+    },
+
+],
                 cert_badge: 'Certifications',
                 cert_title: 'Certifications',
                 cert_title2: 'Professionnelles',
@@ -1135,30 +1151,49 @@
 
         // Animation Components
         const FadeIn = ({ children, direction = "up", delay = 0, className = "" }) => {
-            const ref = useRef(null);
-            
-            useEffect(() => {
-                const element = ref.current;
-                if (!element) return;
-                
-                let fromVars = { opacity: 0 };
-                if (direction === "up") fromVars.y = 40;
-                if (direction === "down") fromVars.y = -40;
-                if (direction === "left") fromVars.x = 40;
-                if (direction === "right") fromVars.x = -40;
-                
-                gsap.fromTo(element, fromVars, {
-                    opacity: 1, x: 0, y: 0, duration: 0.8, delay,
-                    ease: "power3.out",
-                    scrollTrigger: {
-                        trigger: element,
-                        start: "top 85%"
-                    }
-                });
-            }, [direction, delay]);
-            
-            return <div ref={ref} className={`opacity-0 ${className}`}>{children}</div>;
-        };
+    const ref = useRef(null);
+    
+    useEffect(() => {
+        const element = ref.current;
+        if (!element) return;
+
+        // Sur mobile, désactiver les animations pour performance
+        const isMobile = window.innerWidth < 768;
+        if (isMobile) {
+            element.style.opacity = '1';
+            element.style.transform = 'none';
+            return;
+        }
+
+        let fromVars = { opacity: 0 };
+        if (direction === "up") fromVars.y = 40;
+        if (direction === "down") fromVars.y = -40;
+        if (direction === "left") fromVars.x = 40;
+        if (direction === "right") fromVars.x = -40;
+        
+        gsap.fromTo(element, fromVars, {
+            opacity: 1, x: 0, y: 0,
+            duration: 0.6,
+            delay: delay * 0.5, // réduit le délai
+            ease: "power2.out",
+            scrollTrigger: {
+                trigger: element,
+                start: "top 95%", // se déclenche plus tôt
+                once: true,       // ne rejoue pas
+            }
+        });
+    }, [direction, delay]);
+    
+    return (
+        <div
+            ref={ref}
+            className={className}
+            style={{ opacity: window.innerWidth < 768 ? 1 : 0 }}
+        >
+            {children}
+        </div>
+    );
+};
 
         // Enhanced Navbar with Cybersecurity Theme - RESPONSIVE
         const Navbar = () => {
@@ -1567,159 +1602,204 @@
 
         // Projects Section - RESPONSIVE with IMPROVED MODAL
         const Projects = () => {
-            const { lang } = React.useContext(LangContext);
-            const t = translations[lang];
-            const [selectedProject, setSelectedProject] = useState(null);
-            const [scrollPosition, setScrollPosition] = useState(0);
+    const { lang } = React.useContext(LangContext);
+    const t = translations[lang];
+    const [selectedProject, setSelectedProject] = useState(null);
+    const [scrollPosition, setScrollPosition] = useState(0);
 
-            const projectImages = ["work4.png", "work5.png", "work6.png"];
-            const projectIcons  = ["fas fa-truck", "fas fa-shield-virus", "fas fa-gamepad"];
-            const projectTechs  = [["Next.js","NestJS","MySQL","JWT"], ["Python","TensorFlow","Scapy","ML"], ["React","Node.js","API REST","Chart.js"]];
-            
-            const openModal = (project) => {
-                const scrollY = lockScroll();
-                setScrollPosition(scrollY);
-                setSelectedProject(project);
-            };
-            
-            const closeModal = () => {
-                setSelectedProject(null);
-                unlockScroll(scrollPosition);
-            };
-            
-            return (
-                <section id="projets" className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8">
-                    <div className="max-w-7xl mx-auto">
-                        <FadeIn>
-                            <div className="text-center mb-12 sm:mb-16">
-                                <div className="security-level inline-flex mb-4">
-                                    <i className="fas fa-project-diagram"></i>
-                                    <span>{t.proj_badge}</span>
+    const projectImages = [null, null,null, "work5.png", "work6.png", ];
+    const projectVideos = [ "compta.mp4", "vybe.mp4","liv.mp4", null, null,];
+    const projectIcons  = ["fas fa-truck", "fas fa-shield-virus", "fas fa-gamepad", "fas fa-robot", "fas fa-globe"];
+    const projectTechs  = [
+        ["Next.js","NestJS","MySQL","JWT"],
+        ["Next.js","NestJS"],
+        ["React","Node.js","API REST","Chart.js"],
+        ["React","Node.js"],   // ← tes techs projet 4
+        ["TypeScript","Express","MongoDB"],   // ← tes techs projet 5
+    ];
+
+    const openModal = (project) => {
+        const scrollY = lockScroll();
+        setScrollPosition(scrollY);
+        setSelectedProject(project);
+    };
+
+    const closeModal = () => {
+        setSelectedProject(null);
+        unlockScroll(scrollPosition);
+    };
+
+    // Composant media réutilisable : rendu image ou vidéo selon le projet
+    const ProjectMedia = ({ idx, className, isModal = false }) => {
+    const video = projectVideos[idx];
+    const image = projectImages[idx];
+
+    if (video) {
+        return (
+            <video
+                key={video}
+                className={className}
+                autoPlay
+                muted
+                loop
+                playsInline
+                controls={isModal}
+                preload="auto"
+                style={{ display: 'block', width: '100%', height: '100%', objectFit: 'cover' }}
+            >
+                <source src={video} type="video/mp4" />
+            </video>
+        );
+    }
+    return (
+        <img
+            src={image}
+            alt={t.projects?.[idx]?.title || ""}
+            className={className}
+        />
+    );
+};
+
+
+    return (
+        <section id="projets" className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8">
+            <div className="max-w-7xl mx-auto">
+                <FadeIn>
+                    <div className="text-center mb-12 sm:mb-16">
+                        <div className="security-level inline-flex mb-4">
+                            <i className="fas fa-project-diagram"></i>
+                            <span>{t.proj_badge}</span>
+                        </div>
+                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[var(--text-primary)]">
+                            {t.proj_title} <span className="text-[var(--accent-primary)]">{t.proj_title2}</span>
+                        </h2>
+                    </div>
+                </FadeIn>
+
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                    {t.projects.map((project, idx) => (
+                        <FadeIn key={idx} delay={idx * 0.15}>
+                            <div
+                                className="cyber-card p-4 sm:p-6 group h-full flex flex-col cursor-pointer"
+                                onClick={() => openModal({ ...project, idx })}
+                            >
+                                <div className="w-full h-40 sm:h-48 mb-4 sm:mb-6 rounded-xl overflow-hidden border-2 border-[var(--border-color)] group-hover:border-[var(--accent-primary)] transition-all relative">
+                                    <ProjectMedia
+                                        idx={idx}
+                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                    />
+                                    {/* Badge vidéo affiché sur la card */}
+                                    {projectVideos[idx] && (
+                                        <span className="absolute top-2 right-2 px-2 py-0.5 bg-black/70 text-[var(--accent-primary)] text-xs font-bold rounded-full flex items-center gap-1">
+                                            <i className="fas fa-play text-[0.6rem]"></i> Vidéo
+                                        </span>
+                                    )}
                                 </div>
-                                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[var(--text-primary)]">
-                                    {t.proj_title} <span className="text-[var(--accent-primary)]">{t.proj_title2}</span>
-                                </h2>
+
+                                <h3 className="text-lg sm:text-xl font-bold text-[var(--text-primary)] mb-3">{project.title}</h3>
+                                <p className="text-sm sm:text-base text-[var(--text-secondary)] mb-4 flex-grow">{project.description}</p>
+
+                                <div className="flex flex-wrap gap-2 mb-4">
+                                    {projectTechs[idx].map((tech) => (
+                                        <span key={tech} className="px-2 sm:px-3 py-1 bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-full text-xs text-[var(--accent-primary)]">
+                                            {tech}
+                                        </span>
+                                    ))}
+                                </div>
+
+                                <button className="w-full py-2 sm:py-3 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-black font-semibold rounded-lg hover:shadow-lg hover:shadow-[var(--glow-primary)] transition-all text-sm sm:text-base">
+                                    {t.proj_see}
+                                </button>
                             </div>
                         </FadeIn>
-                        
-                        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-                            {t.projects.map((project, idx) => (
-                                <FadeIn key={idx} delay={idx * 0.15}>
-                                    <div 
-                                        className="cyber-card p-4 sm:p-6 group h-full flex flex-col cursor-pointer"
-                                        onClick={() => openModal({ ...project, idx })}
-                                    >
-                                        <div className="w-full h-40 sm:h-48 mb-4 sm:mb-6 rounded-xl overflow-hidden border-2 border-[var(--border-color)] group-hover:border-[var(--accent-primary)] transition-all">
-                                            <img 
-                                                src={projectImages[idx]} 
-                                                alt={project.title}
-                                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                                            />
-                                        </div>
-                                        
-                                        <h3 className="text-lg sm:text-xl font-bold text-[var(--text-primary)] mb-3">{project.title}</h3>
-                                        <p className="text-sm sm:text-base text-[var(--text-secondary)] mb-4 flex-grow">{project.description}</p>
-                                        
-                                        <div className="flex flex-wrap gap-2 mb-4">
-                                            {projectTechs[idx].map((tech) => (
-                                                <span key={tech} className="px-2 sm:px-3 py-1 bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-full text-xs text-[var(--accent-primary)]">
-                                                    {tech}
-                                                </span>
-                                            ))}
-                                        </div>
-                                        
-                                        <button className="w-full py-2 sm:py-3 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-black font-semibold rounded-lg hover:shadow-lg hover:shadow-[var(--glow-primary)] transition-all text-sm sm:text-base">
-                                            {t.proj_see}
-                                        </button>
-                                    </div>
-                                </FadeIn>
-                            ))}
-                        </div>
-                        
-                        {/* IMPROVED MODAL - FULLY RESPONSIVE */}
-                        {selectedProject && (
-                            <div className="modal-overlay" onClick={closeModal}>
-                                <div className="modal-container">
-                                    <div className="modal-content p-4 sm:p-6 lg:p-8" onClick={(e) => e.stopPropagation()}>
-                                        <button 
-                                            onClick={closeModal}
-                                            className="sticky top-2 sm:top-4 float-right w-10 h-10 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg hover:border-[var(--accent-primary)] transition-all duration-300 z-10 mb-4"
-                                        >
-                                            <i className="fas fa-times text-[var(--text-primary)]"></i>
-                                        </button>
-                                        
-                                        <div className="clear-both">
-                                            <div className="flex items-start justify-between mb-4 sm:mb-6">
-                                                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[var(--text-primary)] pr-4">
-                                                    {selectedProject.title}
-                                                </h2>
-                                                <span className="px-3 sm:px-4 py-1 sm:py-2 bg-[var(--accent-primary)] text-black text-xs font-bold rounded-full whitespace-nowrap flex-shrink-0">
-                                                    {selectedProject.badge}
-                                                </span>
-                                            </div>
-                                        </div>
-                                        
-                                        <div className="mb-6 sm:mb-8 relative rounded-xl sm:rounded-2xl overflow-hidden border-2 border-[var(--border-color)]">
-                                            <img 
-                                                src={projectImages[selectedProject.idx]} 
-                                                alt={selectedProject.title}
-                                                className="w-full h-auto object-cover"
-                                            />
-                                        </div>
-                                        
-                                        <div className="mb-6 sm:mb-8">
-                                            <h3 className="text-lg sm:text-xl font-bold text-[var(--text-primary)] mb-4 flex items-center gap-2">
-                                                <i className="fas fa-info-circle text-[var(--accent-primary)]"></i>
-                                                {t.proj_desc_label}
-                                            </h3>
-                                            <p className="text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed">
-                                                {selectedProject.fullDescription}
-                                            </p>
-                                        </div>
-                                        
-                                        <div className="mb-6 sm:mb-8">
-                                            <h3 className="text-lg sm:text-xl font-bold text-[var(--text-primary)] mb-4 flex items-center gap-2">
-                                                <i className="fas fa-tasks text-[var(--accent-primary)]"></i>
-                                                {t.proj_feat_label}
-                                            </h3>
-                                            <ul className="grid gap-3">
-                                                {selectedProject.features.map((feature, index) => (
-                                                    <li key={index} className="flex items-start gap-3 text-sm sm:text-base text-[var(--text-secondary)]">
-                                                        <i className="fas fa-check-circle text-[var(--accent-primary)] mt-1 flex-shrink-0"></i>
-                                                        <span>{feature}</span>
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        </div>
-                                        
-                                        <div className="mb-6 sm:mb-8">
-                                            <h3 className="text-lg sm:text-xl font-bold text-[var(--text-primary)] mb-4 flex items-center gap-2">
-                                                <i className="fas fa-code text-[var(--accent-primary)]"></i>
-                                                {t.proj_tech_label}
-                                            </h3>
-                                            <div className="flex flex-wrap gap-2 sm:gap-3">
-                                                {projectTechs[selectedProject.idx].map((tech) => (
-                                                    <span key={tech} className="px-3 sm:px-4 py-1 sm:py-2 bg-gradient-to-r from-[var(--accent-primary)]/20 to-[var(--accent-secondary)]/20 border border-[var(--border-color)] rounded-lg text-[var(--accent-primary)] font-semibold text-sm sm:text-base">
-                                                        {tech}
-                                                    </span>
-                                                ))}
-                                            </div>
-                                        </div>
-                                        
-                                        <button 
-                                            onClick={closeModal}
-                                            className="w-full py-3 sm:py-4 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-black font-bold rounded-lg hover:shadow-lg hover:shadow-[var(--glow-primary)] transition-all text-base sm:text-lg"
-                                        >
-                                            {t.proj_close}
-                                        </button>
+                    ))}
+                </div>
+
+                {/* MODAL */}
+                {selectedProject && (
+                    <div className="modal-overlay" onClick={closeModal}>
+                        <div className="modal-container">
+                            <div className="modal-content p-4 sm:p-6 lg:p-8" onClick={(e) => e.stopPropagation()}>
+                                <button
+                                    onClick={closeModal}
+                                    className="sticky top-2 sm:top-4 float-right w-10 h-10 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg hover:border-[var(--accent-primary)] transition-all duration-300 z-10 mb-4"
+                                >
+                                    <i className="fas fa-times text-[var(--text-primary)]"></i>
+                                </button>
+
+                                <div className="clear-both">
+                                    <div className="flex items-start justify-between mb-4 sm:mb-6">
+                                        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[var(--text-primary)] pr-4">
+                                            {selectedProject.title}
+                                        </h2>
+                                        <span className="px-3 sm:px-4 py-1 sm:py-2 bg-[var(--accent-primary)] text-black text-xs font-bold rounded-full whitespace-nowrap flex-shrink-0">
+                                            {selectedProject.badge}
+                                        </span>
                                     </div>
                                 </div>
+
+                                {/* Media modal : vidéo avec contrôles ou image */}
+                                <div className="mb-6 sm:mb-8 relative rounded-xl sm:rounded-2xl overflow-hidden border-2 border-[var(--border-color)]">
+                                    <ProjectMedia
+                                        idx={selectedProject.idx}
+                                        isModal={true}
+                                        className="w-full h-auto object-cover"
+                                    />
+                                </div>
+
+                                <div className="mb-6 sm:mb-8">
+                                    <h3 className="text-lg sm:text-xl font-bold text-[var(--text-primary)] mb-4 flex items-center gap-2">
+                                        <i className="fas fa-info-circle text-[var(--accent-primary)]"></i>
+                                        {t.proj_desc_label}
+                                    </h3>
+                                    <p className="text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed">
+                                        {selectedProject.fullDescription}
+                                    </p>
+                                </div>
+
+                                <div className="mb-6 sm:mb-8">
+                                    <h3 className="text-lg sm:text-xl font-bold text-[var(--text-primary)] mb-4 flex items-center gap-2">
+                                        <i className="fas fa-tasks text-[var(--accent-primary)]"></i>
+                                        {t.proj_feat_label}
+                                    </h3>
+                                    <ul className="grid gap-3">
+                                        {selectedProject.features.map((feature, index) => (
+                                            <li key={index} className="flex items-start gap-3 text-sm sm:text-base text-[var(--text-secondary)]">
+                                                <i className="fas fa-check-circle text-[var(--accent-primary)] mt-1 flex-shrink-0"></i>
+                                                <span>{feature}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+
+                                <div className="mb-6 sm:mb-8">
+                                    <h3 className="text-lg sm:text-xl font-bold text-[var(--text-primary)] mb-4 flex items-center gap-2">
+                                        <i className="fas fa-code text-[var(--accent-primary)]"></i>
+                                        {t.proj_tech_label}
+                                    </h3>
+                                    <div className="flex flex-wrap gap-2 sm:gap-3">
+                                        {projectTechs[selectedProject.idx].map((tech) => (
+                                            <span key={tech} className="px-3 sm:px-4 py-1 sm:py-2 bg-gradient-to-r from-[var(--accent-primary)]/20 to-[var(--accent-secondary)]/20 border border-[var(--border-color)] rounded-lg text-[var(--accent-primary)] font-semibold text-sm sm:text-base">
+                                                {tech}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                <button
+                                    onClick={closeModal}
+                                    className="w-full py-3 sm:py-4 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-black font-bold rounded-lg hover:shadow-lg hover:shadow-[var(--glow-primary)] transition-all text-base sm:text-lg"
+                                >
+                                    {t.proj_close}
+                                </button>
                             </div>
-                        )}
+                        </div>
                     </div>
-                </section>
-            );
-        };
+                )}
+            </div>
+        </section>
+    );
+};
 
         // Certifications Section - RESPONSIVE with IMPROVED MODAL
         const Certifications = () => {
