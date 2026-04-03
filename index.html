@@ -789,6 +789,7 @@
                 hero_badge: 'Cybersecurity Expert',
                 hero_line1: '→ Spécialiste en cybersécurité',
                 hero_line2: '→ Master Services et Sécurité IT',
+                hero_line3: '→ Fullstack Developer',                
                 hero_desc1: 'cybersécurité',
                 hero_desc2: 'développement logiciel',
                 hero_desc3: 'services IT',
@@ -1359,10 +1360,13 @@
                                             <span className="text-[var(--accent-secondary)]">$</span> whoami
                                         </div>
                                         <div className="mb-2">
-                                            <span className="text-white">{t.hero_line1}</span>
+                                            <span className="text-white">{t.hero_line2}</span>
                                         </div>
                                         <div className="mb-2">
-                                            <span className="text-white">{t.hero_line2}</span>
+                                            <span className="text-white">{t.hero_line1}</span>
+                                        </div>
+                                                                                <div className="mb-2">
+                                            <span className="text-white">{t.hero_line3}</span>
                                         </div>
                                         <div className="flex items-center">
                                             <span className="text-[var(--accent-secondary)]">$</span>
@@ -1389,16 +1393,16 @@
                                 </div>
                             </div>
                             
-                            <div className="hero-buttons flex flex-col sm:flex-row flex-wrap gap-4 justify-center lg:justify-start">
-                                <a href="CV.html" className="group px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-black font-semibold rounded-lg hover:shadow-lg hover:shadow-[var(--glow-primary)] transition-all duration-300 flex items-center justify-center space-x-2">
-                                    <i className="fas fa-file-download"></i>
-                                    <span>{t.hero_cv}</span>
-                                </a>
-                                <a href="#contact" className="group px-6 sm:px-8 py-3 sm:py-4 bg-transparent border-2 border-[var(--accent-primary)] text-[var(--accent-primary)] font-semibold rounded-lg hover:bg-[var(--accent-primary)] hover:text-black transition-all duration-300 flex items-center justify-center space-x-2">
-                                    <i className="fas fa-envelope"></i>
-                                    <span>{t.hero_contact}</span>
-                                </a>
-                            </div>
+<div className="hero-buttons flex flex-col sm:flex-row flex-wrap gap-2 justify-center lg:justify-start">
+    <a href="CV.html" className="group px-4 sm:px-5 py-2 sm:py-2.5 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-black font-medium rounded-md hover:shadow-lg hover:shadow-[var(--glow-primary)] transition-all duration-300 flex items-center justify-center space-x-1.5">
+        <i className="fas fa-file-download text-sm"></i>
+        <span className="text-sm">{t.hero_cv}</span>
+    </a>
+    <a href="#contact" className="group px-4 sm:px-5 py-2 sm:py-2.5 bg-transparent border border-[var(--accent-primary)] text-[var(--accent-primary)] font-medium rounded-md hover:bg-[var(--accent-primary)] hover:text-black transition-all duration-300 flex items-center justify-center space-x-1.5">
+        <i className="fas fa-envelope text-sm"></i>
+        <span className="text-sm">{t.hero_contact}</span>
+    </a>
+</div>
                             
                             <div className="flex gap-4 justify-center lg:justify-start">
                                 <a href="https://www.linkedin.com/in/omar-el-farouk-kortas-8b4613294/" className="w-12 h-12 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg hover:border-[var(--accent-primary)] hover:shadow-lg hover:shadow-[var(--glow-primary)] transition-all duration-300">
