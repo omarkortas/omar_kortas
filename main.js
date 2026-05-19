@@ -1,57 +1,71 @@
-/*===== MENU SHOW =====*/ 
-const showMenu = (toggleId, navId) =>{
-    const toggle = document.getElementById(toggleId),
-    nav = document.getElementById(navId)
+const express = require('express');
+const fs      = require('fs');
+const path    = require('path');
+const cors    = require('cors');
 
-    if(toggle && nav){
-        toggle.addEventListener('click', ()=>{
-            nav.classList.toggle('show')
-        })
+const app = express();
+const PORT = 5000;
+const DB   = path.join(__dirname, 'contacts.json');
+
+// ── Middleware ──────────────────────────────────────────
+app.use(cors());                          // autorise les requêtes depuis index.html
+app.use(express.json());                  // parse le body JSON
+app.use(express.static(__dirname));       // sert les fichiers statiques (index.html, images…)
+
+// ── Helper : lire / écrire le fichier JSON ──────────────
+const readDB  = () => JSON.parse(fs.readFileSync(DB, 'utf-8'));
+const writeDB = (data) => fs.writeFileSync(DB, JSON.stringify(data, null, 2), 'utf-8');
+
+// Crée contacts.json s'il n'existe pas encore
+if (!fs.existsSync(DB)) {
+    writeDB({ contacts: [] });
+    console.log('📁 contacts.json créé.');
+}
+
+// ── POST /api/contact ───────────────────────────────────
+app.post('/api/contact', (req, res) => {
+    const { name, email, message } = req.body;
+
+    // Validation basique
+    if (!name || !email || !message) {
+        return res.status(400).json({ success: false, error: 'Champs manquants.' });
     }
-}
-showMenu('nav-toggle','nav-menu')
 
-/*==================== REMOVE MENU MOBILE ====================*/
-const navLink = document.querySelectorAll('.nav__link')
+    try {
+        const data  = readDB();
+        const entry = {
+            id:      Date.now(),
+            name:    name.trim(),
+            email:   email.trim().toLowerCase(),
+            message: message.trim(),
+            date:    new Date().toISOString(),
+            read:    false,
+        };
 
-function linkAction(){
-    const navMenu = document.getElementById('nav-menu')
-    // When we click on each nav__link, we remove the show-menu class
-    navMenu.classList.remove('show')
-}
-navLink.forEach(n => n.addEventListener('click', linkAction))
+        data.contacts.push(entry);
+        writeDB(data);
 
-/*==================== SCROLL SECTIONS ACTIVE LINK ====================*/
-const sections = document.querySelectorAll('section[id]')
-
-const scrollActive = () =>{
-    const scrollDown = window.scrollY
-
-  sections.forEach(current =>{
-        const sectionHeight = current.offsetHeight,
-              sectionTop = current.offsetTop - 58,
-              sectionId = current.getAttribute('id'),
-              sectionsClass = document.querySelector('.nav__menu a[href*=' + sectionId + ']')
-        
-        if(scrollDown > sectionTop && scrollDown <= sectionTop + sectionHeight){
-            sectionsClass.classList.add('active-link')
-        }else{
-            sectionsClass.classList.remove('active-link')
-        }                                                    
-    })
-}
-window.addEventListener('scroll', scrollActive)
-
-/*===== SCROLL REVEAL ANIMATION =====*/
-const sr = ScrollReveal({
-    origin: 'top',
-    distance: '60px',
-    duration: 2000,
-    delay: 200,
-//     reset: true
+        console.log(`✅ Nouveau message de ${entry.name} <${entry.email}>`);
+        res.json({ success: true, id: entry.id });
+    } catch (err) {
+        console.error('Erreur écriture JSON :', err);
+        res.status(500).json({ success: false, error: 'Erreur serveur.' });
+    }
 });
 
-sr.reveal('.home__data, .about__img, .skills__subtitle, .skills__text',{}); 
-sr.reveal('.home__img, .about__subtitle, .about__text, .skills__img',{delay: 400}); 
-sr.reveal('.home__social-icon',{ interval: 200}); 
-sr.reveal('.skills__data, .work__img, .contact__input',{interval: 200}); 
+// ── GET /api/contacts  (optionnel – pour consulter les messages) ──
+app.get('/api/contacts', (req, res) => {
+    try {
+        const data = readDB();
+        res.json(data);
+    } catch (err) {
+        res.status(500).json({ success: false, error: 'Erreur lecture.' });
+    }
+});
+
+// ── Démarrage ───────────────────────────────────────────
+app.listen(PORT, () => {
+    console.log(`🚀 Serveur démarré sur http://localhost:${PORT}`);
+    console.log(`📬 API contact  : POST http://localhost:${PORT}/api/contact`);
+    console.log(`📋 Voir messages: GET  http://localhost:${PORT}/api/contacts`);
+});
