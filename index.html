@@ -793,15 +793,16 @@
             opacity: 0;
             pointer-events: none;
         }
-        .loading-spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid var(--border-color);
-            border-top-color: var(--accent-primary);
+        .loading-logo {
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
-            animation: spin 0.8s linear infinite;
+            animation: pulse-logo 1.2s ease-in-out infinite;
         }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes pulse-logo {
+            0%, 100% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
         .loading-text {
             margin-top: 1.5rem;
             color: var(--text-secondary);
@@ -825,7 +826,7 @@
 
     <!-- Loading Screen -->
     <div id="loading-screen">
-        <div class="loading-spinner"></div>
+        <img src="farouk.png" alt="Logo" class="loading-logo" />
         <div class="loading-text">Chargement en cours...</div>
     </div>
     
@@ -892,9 +893,13 @@
                 skills_title: 'Expertise',
                 skills_title2: 'Technique',
                 skill_cats: [
-                    { title: 'Cybersécurité',  icon: 'fas fa-shield-alt', color: 'var(--accent-primary)',   skills: [['Sécurité des Réseaux',85],['Tests de Pénétration',80],['Cryptographie',75],['Sécurité Cloud',70]] },
-                    { title: 'Développement',  icon: 'fas fa-code',       color: 'var(--accent-secondary)', skills: [['Python/C',85],['React/Next.js',90],['Node.js/NestJS',85],['SQL/NoSQL',80]] },
-                    { title: 'DevOps & Cloud', icon: 'fas fa-cloud',      color: 'var(--accent-warning)',   skills: [['Docker/Kubernetes',75],['CI/CD',80],['AWS/GCP',70],['Linux',85]] },
+                    { title: 'Sécurité & Réseaux', icon: 'fas fa-shield-alt', skills: [['Authentification JWT',85],['HTTPS & SSL/TLS',85],['Audit applications',80],['Gestion accès & rôles',85],['Sécurité des API',80],['Protocoles réseau',80],['Monitoring (Wireshark)',75]] },
+                    { title: 'Langages', icon: 'fas fa-code', skills: [['JavaScript',90],['TypeScript',88],['Python',85],['SQL',82],['C',78]] },
+                    { title: 'Frameworks & Bibliothèques', icon: 'fas fa-layer-group', skills: [['React.js',92],['Next.js',90],['NestJS',85],['React Native',80],['Laravel',78]] },
+                    { title: 'Bases de données', icon: 'fas fa-database', skills: [['MySQL',85],['MongoDB',80]] },
+                    { title: 'Backend', icon: 'fas fa-server', skills: [['API REST (NestJS)',88],['Authentification JWT',85],['Refresh Token',85],['Gestion des rôles',82]] },
+                    { title: 'Frontend', icon: 'fas fa-palette', skills: [['React.js',92],['Next.js',90],['Interfaces dynamiques',88]] },
+                    { title: 'DevOps & Outils', icon: 'fas fa-tools', skills: [['Git & GitHub',90],['Docker',82],['EasyPHP',80],['Android Studio',78]] },
                 ],
                 proj_badge: 'Portfolio',
                 proj_title: 'Projets',
@@ -1090,9 +1095,13 @@ attestation: 'attestation.jpeg',},
                 skills_title: 'Technical',
                 skills_title2: 'Expertise',
                 skill_cats: [
-                    { title: 'Cybersecurity',  icon: 'fas fa-shield-alt', color: 'var(--accent-primary)',   skills: [['Network Security',85],['Penetration Testing',80],['Cryptography',75],['Cloud Security',70]] },
-                    { title: 'Development',    icon: 'fas fa-code',       color: 'var(--accent-secondary)', skills: [['Python/C',85],['React/Next.js',90],['Node.js/NestJS',85],['SQL/NoSQL',80]] },
-                    { title: 'DevOps & Cloud', icon: 'fas fa-cloud',      color: 'var(--accent-warning)',   skills: [['Docker/Kubernetes',75],['CI/CD',80],['AWS/GCP',70],['Linux',85]] },
+                    { title: 'Security & Networks', icon: 'fas fa-shield-alt', skills: [['JWT Authentication',85],['HTTPS & SSL/TLS',85],['App Auditing',80],['Access & Roles Mgmt',85],['API Security',80],['Network Protocols',80],['Monitoring (Wireshark)',75]] },
+                    { title: 'Languages', icon: 'fas fa-code', skills: [['JavaScript',90],['TypeScript',88],['Python',85],['SQL',82],['C',78]] },
+                    { title: 'Frameworks & Libraries', icon: 'fas fa-layer-group', skills: [['React.js',92],['Next.js',90],['NestJS',85],['React Native',80],['Laravel',78]] },
+                    { title: 'Databases', icon: 'fas fa-database', skills: [['MySQL',85],['MongoDB',80]] },
+                    { title: 'Backend', icon: 'fas fa-server', skills: [['REST API (NestJS)',88],['JWT Authentication',85],['Refresh Token',85],['Roles Management',82]] },
+                    { title: 'Frontend', icon: 'fas fa-palette', skills: [['React.js',92],['Next.js',90],['Dynamic Interfaces',88]] },
+                    { title: 'DevOps & Tools', icon: 'fas fa-tools', skills: [['Git & GitHub',90],['Docker',82],['EasyPHP',80],['Android Studio',78]] },
                 ],
                 proj_badge: 'Portfolio',
                 proj_title: 'Recent',
@@ -1679,7 +1688,7 @@ attestation: 'attestation.jpeg',},
             );
         };
 
-        // Skills Section - RESPONSIVE
+        // Skills Section - MODERN LIST
         const Skills = () => {
             const { lang } = React.useContext(LangContext);
             const t = translations[lang];
@@ -1698,30 +1707,36 @@ attestation: 'attestation.jpeg',},
                                 </h2>
                             </div>
                         </FadeIn>
-                        
-                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+
+                        <div className="max-w-5xl mx-auto space-y-5">
                             {t.skill_cats.map((category, idx) => (
-                                <FadeIn key={category.title} delay={idx * 0.2}>
-                                    <div className="cyber-card p-6 sm:p-8 h-full">
-                                        <div className="flex items-center space-x-3 mb-6">
-                                            <div className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-lg">
-                                                <i className={`${category.icon} text-lg sm:text-xl text-black`}></i>
-                                            </div>
-                                            <h3 className="text-xl sm:text-2xl font-bold text-[var(--text-primary)]">{category.title}</h3>
-                                        </div>
-                                        
-                                        <div className="space-y-4 sm:space-y-6">
-                                            {category.skills.map(([name, level]) => (
-                                                <div key={name}>
-                                                    <div className="flex justify-between mb-2">
-                                                        <span className="text-xs sm:text-sm text-[var(--text-secondary)]">{name}</span>
-                                                        <span className="text-xs sm:text-sm font-semibold text-[var(--accent-primary)]">{level}%</span>
-                                                    </div>
-                                                    <div className="skill-bar">
-                                                        <div className="skill-bar-fill" style={{ width: `${level}%` }}></div>
-                                                    </div>
+                                <FadeIn key={category.title} delay={idx * 0.15}>
+                                    <div className="cyber-card p-5 sm:p-7 group hover:-translate-y-0.5 transition-all duration-300">
+                                        <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
+                                            <div className="flex items-center gap-3 sm:w-56 flex-shrink-0">
+                                                <div className={`w-10 h-10 flex items-center justify-center bg-gradient-to-br ${
+                                                    ['from-[var(--accent-primary)] to-blue-600','from-[var(--accent-secondary)] to-purple-600','from-[var(--accent-warning)] to-orange-600','from-emerald-500 to-teal-600','from-pink-500 to-rose-600','from-cyan-500 to-sky-600','from-amber-500 to-yellow-600'][idx % 7]
+                                                } rounded-xl`}>
+                                                    <i className={`${category.icon} text-base text-black`}></i>
                                                 </div>
-                                            ))}
+                                                <h3 className="text-base font-bold text-[var(--text-primary)]">{category.title}</h3>
+                                            </div>
+                                            <div className="flex flex-wrap gap-2 flex-1">
+                                                {category.skills.map(([name, level]) => (
+                                                    <div key={name} className="group/skill relative">
+                                                        <span className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-lg text-sm font-medium border transition-all duration-200 hover:scale-105 ${
+                                                            level >= 85
+                                                                ? 'bg-[var(--accent-primary)]/10 text-[var(--accent-primary)] border-[var(--accent-primary)]/30 hover:bg-[var(--accent-primary)]/20'
+                                                                : level >= 75
+                                                                ? 'bg-[var(--accent-secondary)]/10 text-[var(--accent-secondary)] border-[var(--accent-secondary)]/30 hover:bg-[var(--accent-secondary)]/20'
+                                                                : 'bg-[var(--bg-tertiary)] text-[var(--text-secondary)] border-[var(--border-color)] hover:bg-[var(--bg-primary)]'
+                                                        }`}>
+                                                            <span>{name}</span>
+                                                            <span className="text-[10px] opacity-60 font-mono">{level}%</span>
+                                                        </span>
+                                                    </div>
+                                                ))}
+                                            </div>
                                         </div>
                                     </div>
                                 </FadeIn>
