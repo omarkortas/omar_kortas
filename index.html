@@ -223,6 +223,28 @@
                 var(--glow-primary), 
                 transparent);
             transition: left 0.5s;
+            z-index: 1;
+        }
+
+        .card-bg-image {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            opacity: 0.08;
+            pointer-events: none;
+            z-index: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        @media (max-width: 768px) {
+            .card-bg-image {
+                opacity: 0.06;
+            }
+        }
+
+        .cyber-card:hover .card-bg-image {
+            opacity: 0.18;
         }
 
         .cyber-card:hover::before {
@@ -845,17 +867,34 @@
                 proj_tech_label: 'Technologies utilisées',
                 projects: [
     {
+        title: 'AutoLux Motors - Concession Premium',
+        description: 'Site vitrine pour concession automobile premium avec catalogue de véhicules et réservation d\'essais.',
+        fullDescription: 'Plateforme web interactive pour une concession automobile de luxe. Présentation de véhicules premium (Mercedes, BMW, Porsche, Tesla), catalogue avec filtres, fiches détaillées, réservation d\'essais en ligne, galerie photo, témoignages clients et formulaire de contact.',
+        features: ['Catalogue de véhicules premium avec filtres','Fiches détaillées avec spécifications','Réservation d\'essais en ligne','Galerie photo et showroom virtuel','Formulaire de contact et FAQ','Design responsive et animations fluides'],
+        badge: 'Project',
+        link: 'https://premium-auto-view.vercel.app',
+    },
+    {
+        title: 'Maison Éclipse - Restaurant Gastronomique',
+        description: 'Site vitrine pour restaurant gastronomique avec menu, réservation et galerie.',
+        fullDescription: 'Site web élégant pour un restaurant gastronomique étoilé. Présentation de la carte (petit-déjeuner, déjeuner, dîner), plats signatures, histoire du chef, galerie photo immersive, formulaire de réservation en ligne et services traiteur.',
+        features: ['Menu dynamique avec catégories et prix','Plats signatures avec descriptions','Galerie photo immersive','Formulaire de réservation en ligne','Section chef et histoire','Services : sur place, à emporter, livraison, événements'],
+        badge: 'Project',
+        link: 'https://maison-clipse-premiere.vercel.app',
+    },
+    {
+        title: 'Cabinet Anouar KORTAS - Comptabilité',
+        description: 'Site vitrine pour cabinet comptable avec services, blog et consultation en ligne.',
+        fullDescription: 'Site web professionnel pour un cabinet d\'expertise comptable. Présentation des services (comptabilité générale, optimisation fiscale, conseil en gestion, audit), blog d\'actualités, formulaire de consultation en ligne, tableau de bord client et module de recrutement.',
+        features: ['Services comptables détaillés','Blog d\'actualités fiscales','Formulaire de consultation','Tableau de bord client','Section recrutement','Design moderne et responsive'],
+        badge: 'Project',
+        link: 'https://site-comptabilit-bjtc.vercel.app',
+    },
+    {
         title: 'Secure Delivery Platform',
         description: 'Web and mobile application with advanced authentication and data encryption.',
         fullDescription: 'Web and mobile application for delivery management between clients, suppliers and couriers. Complete delivery system with user registration, order management, delivery tracking, complaint submission, automatic invoice generation and email notifications.',
         features: ['User registration and authentication','Complete order management','Real-time delivery tracking','Complaint system','Automatic invoice generation','Email notifications'],
-        badge: 'Project',
-    },
-        {
-        title: 'Accounting Application',
-        description: 'Accounting management app with dashboards and financial reports.',
-        fullDescription: 'Web-based accounting application allowing businesses to manage their finances, track expenses and revenues, generate automated financial reports and visualize data through interactive dashboards.',
-        features: ['Revenue and expense management','Automatic report generation','Interactive dashboards','Data export','Multi-account management'],
         badge: 'Project',
     },
     {
@@ -864,23 +903,16 @@
         fullDescription: 'Complete social platform allowing users to share content, interact via a dynamic news feed, send real-time messages and customize their profile.',
         features: ['Dynamic news feed','Real-time messaging','Profile management','Likes and comments system','Push notifications'],
         badge: 'Project',
+        link: 'https://vybe-roan.vercel.app',
     },
     {
-
-    title: 'CV Templates Platform',
-    description: 'Professional CV templates platform with modern and customizable designs.',
-    fullDescription: 'Web platform offering a collection of professional and modern CV templates. Users can browse, preview and download ready-to-use CV templates tailored for different industries and career levels.',
-    features: ['Collection of professional templates','Live preview of templates','Download in multiple formats','Templates by industry/field','Modern and responsive designs'],
-    badge: 'Project',
-},
-    {
-        title: 'Valorant Tracker',
-        description: 'Application for tracking Valorant player statistics and performance.',
-        fullDescription: 'Application for tracking and analyzing Valorant player statistics: match performance, game history, agent-specific stats and skill progression.',
-        features: ['Player statistics lookup','Match history','Agent performance analysis','Dashboards and graphs','Player search'],
+        title: 'Zoomy – Plateforme Dashboard Admin',
+        description: 'Plateforme interactive avec dashboard admin, analytics et gestion utilisateurs.',
+        fullDescription: 'Plateforme web complète avec un tableau de bord administrateur avancé : gestion des utilisateurs, rapports analytiques, visualisation de données en temps réel, gestion des rôles et permissions, et interface moderne responsive.',
+        features: ['Dashboard admin interactif','Analytics en temps réel','Gestion des utilisateurs et rôles','Rapports et visualisations','Système de permissions','Interface responsive'],
         badge: 'Project',
+        link: 'https://zoomy.com.tn',
     },
-
 ],
                 cert_badge: 'Certifications',
                 cert_title: 'Certifications',
@@ -896,14 +928,16 @@
                     { title:"IA & Big Data dans l'IoT",                   issuer:'Certification Professionnelle', date:'2024',   description:"Traitement intelligent des données IoT à grande échelle.",                  skills:['Python','TensorFlow','Kafka','Spark'] },
                     { title:'Fondations Avancées du Cloud',               issuer:'Google Cloud',              date:'2024',       description:'Architecture cloud évolutive et sécurisée sur GCP.',                        skills:['Google Cloud','Terraform','Docker'] },
                     { title:'Introduction to Firewall',                   issuer:'Great Learning Academy',    date:'08/2024',    description:"Introduction aux pare-feu et principes de sécurité réseau.",                skills:['Firewall','Sécurité réseau','Cybersécurité'] },
+                    { title:'Certification Cyber',                        issuer:'Certification',             date:'2025',       description:'Certification avancée en cybersécurité et protection des systèmes.',        skills:['Cybersécurité','Analyse des menaces','Sécurité des réseaux'] },
+                    { title:'Certification IA',                           issuer:'Certification',             date:'2025',       description:'Certification en intelligence artificielle et apprentissage automatique.',   skills:['IA','Machine Learning','Deep Learning'] },
                 ],
                 srv_badge: 'Services',
                 srv_title: 'Services',
                 srv_title2: 'Proposés',
                 services: [
+                    { icon:'fas fa-code',             title:'Développement Sécurisé',   description:"Création d'applications web et mobiles avec les meilleures pratiques de sécurité.",           color:'from-teal-500 to-cyan-600' },
                     { icon:'fas fa-shield-alt',       title:'Audit de Sécurité',        description:'Évaluation complète de la sécurité de vos systèmes et infrastructures.',                        color:'from-cyan-500 to-blue-600' },
                     { icon:'fas fa-bug',              title:'Tests de Pénétration',     description:'Identification et exploitation des vulnérabilités dans un cadre éthique.',                     color:'from-blue-500 to-indigo-600' },
-                    { icon:'fas fa-code',             title:'Développement Sécurisé',   description:"Création d'applications web et mobiles avec les meilleures pratiques de sécurité.",           color:'from-teal-500 to-cyan-600' },
                     { icon:'fas fa-network-wired',    title:'Sécurité Réseau',          description:'Configuration et sécurisation des infrastructures réseau.',                                    color:'from-green-500 to-teal-600' },
                     { icon:'fas fa-cloud-upload-alt', title:'Cloud Security',           description:'Sécurisation des environnements cloud (AWS, Azure, GCP).',                                     color:'from-sky-500 to-blue-600' },
                     { icon:'fas fa-user-shield',      title:'Formation',                description:'Sensibilisation et formation en cybersécurité pour équipes.',                                   color:'from-indigo-500 to-purple-600' },
@@ -916,12 +950,31 @@
                 exp_click: 'Cliquez pour agrandir',
                 exp_close: 'Fermer',
                 experiences: [
+                {
+    company: 'BusSoftware',
+    role: "Stage d'été Master - Sécurité & Génération d'Accès (RBAC)",
+    period: '06/2026 – 07/2026',
+    location: 'Akouda, Sousse',
+    icon: 'fas fa-user-lock',
+    bgImage: 'exp-security.jpg',
+    tasks: [
+        "Développement d'un module de découverte automatique (auto-discovery) récupérant dynamiquement les pages et les boutons d'action de l'application pour construire la matrice de permissions.",
+        "Conception d'un générateur d'accès basé sur les rôles (RBAC) : attribution automatique des droits par page et par bouton selon le rôle, en appliquant le principe du moindre privilège.",
+        "Centralisation de la gestion des rôles et mise en place de l'audit/traçabilité des droits (intégration JWT) pour faciliter les revues de permissions."
+    ],
+    responsibilities: [
+        "Auto-discovery des pages et boutons de l'application",
+        "Générateur d'accès RBAC (droits par page / par bouton)",
+        "Gestion centralisée des rôles + audit & traçabilité (JWT)"
+    ],
+attestation: 'attestation.jpeg',},
                     {
                         company: 'Groupe Allemand Dieter Braun',
                         role: "Stage d'été - Administration Systèmes",
                         period: '08/2024 – 09/2024',
                         location: 'Messadine, Sousse',
                         icon: 'fas fa-server',
+                        bgImage: 'exp-server.jpg',
                         tasks: ["Gestion et mise en fonctionnement des serveurs dans un environnement d'entreprise.","Initiation à la vie professionnelle : travail en équipe et développement des compétences professionnelles."],
                         responsibilities: ["Gestion et sécurisation des serveurs d'entreprise","Mise en place de politiques de sécurité","Maintenance des infrastructures IT"],
                         attestation: 'ATTESTATION1.png',
@@ -932,6 +985,7 @@
                         period: '02/2025 - 05/2025',
                         location: 'Akouda, Sousse',
                         icon: 'fas fa-code',
+                        bgImage: 'exp-code.jpg',
                         tasks: ["Conception et développement d'une plateforme de livraison intelligente.","Mise en place de fonctionnalités permettant aux clients et fournisseurs de soumettre des commandes."],
                         responsibilities: ["Développement plateforme de livraison sécurisée","Implémentation authentification JWT","Architecture microservices"],
                         attestation: 'ATTESTATION.png',
@@ -1011,6 +1065,30 @@
                 proj_tech_label: 'Technologies used',
                 projects: [
                     {
+                        title: 'AutoLux Motors - Premium Dealership',
+                        description: 'Premium car dealership showcase with vehicle catalog and test drive booking.',
+                        fullDescription: 'Interactive web platform for a luxury car dealership. Showcases premium vehicles (Mercedes, BMW, Porsche, Tesla), catalog with filters, detailed specs sheets, online test drive booking, photo gallery, customer testimonials and contact form.',
+                        features: ['Premium vehicle catalog with filters','Detailed specs sheets','Online test drive booking','Photo gallery and virtual showroom','Contact form and FAQ','Responsive design with smooth animations'],
+                        badge: 'Project',
+                        link: 'https://premium-auto-view.vercel.app',
+                    },
+                    {
+                        title: 'Maison Éclipse - Gastronomic Restaurant',
+                        description: 'Showcase site for a fine dining restaurant with menu, booking and gallery.',
+                        fullDescription: 'Elegant website for a Michelin-starred gastronomic restaurant. Features dynamic menu (breakfast, lunch, dinner), signature dishes, chef story, immersive photo gallery, online reservation form and catering services.',
+                        features: ['Dynamic menu with categories and prices','Signature dishes with descriptions','Immersive photo gallery','Online reservation form','Chef and history section','Services: dine-in, takeaway, delivery, events'],
+                        badge: 'Project',
+                        link: 'https://maison-clipse-premiere.vercel.app',
+                    },
+                    {
+                        title: 'Cabinet Anouar KORTAS - Accounting Firm',
+                        description: 'Professional showcase for an accounting firm with services, blog and online consultation.',
+                        fullDescription: 'Professional website for a chartered accounting firm. Features detailed services (general accounting, tax optimization, management consulting, audit), news blog, online consultation form, client dashboard and recruitment section.',
+                        features: ['Detailed accounting services','Tax news blog','Online consultation form','Client dashboard','Recruitment section','Modern responsive design'],
+                        badge: 'Project',
+                        link: 'https://site-comptabilit-bjtc.vercel.app',
+                    },
+                    {
                         title: 'Secure Delivery Platform',
                         description: 'Web and mobile application with advanced authentication and data encryption.',
                         fullDescription: 'Web and mobile application for delivery management between clients, suppliers and couriers. Complete delivery system with user registration, order management, delivery tracking, complaint submission, automatic invoice generation and email notifications.',
@@ -1018,18 +1096,20 @@
                         badge: 'Project',
                     },
                     {
-                        title: 'Intrusion Detection System',
-                        description: 'AI-powered IDS/IPS for real-time threat detection.',
-                        fullDescription: 'Intrusion detection and prevention system using artificial intelligence to identify and block security threats in real time.',
-                        features: ['Real-time network traffic analysis','AI-based anomaly detection','Automatic threat blocking','Alerts and notifications','Monitoring dashboards'],
+                        title: 'Vybe – Social Platform',
+                        description: 'Modern social platform with news feed and real-time messaging.',
+                        fullDescription: 'Complete social platform allowing users to share content, interact via a dynamic news feed, send real-time messages and customize their profile.',
+                        features: ['Dynamic news feed','Real-time messaging','Profile management','Likes and comments system','Push notifications'],
                         badge: 'Project',
+                        link: 'https://vybe-roan.vercel.app',
                     },
                     {
-                        title: 'Valorant Tracker',
-                        description: 'Application for tracking Valorant player statistics and performance.',
-                        fullDescription: 'Application for tracking and analyzing Valorant player statistics: match performance, game history, agent-specific stats and skill progression.',
-                        features: ['Player statistics lookup','Match history','Agent performance analysis','Dashboards and graphs','Player search'],
+                        title: 'Zoomy – Admin Dashboard Platform',
+                        description: 'Interactive platform with admin dashboard, analytics and user management.',
+                        fullDescription: 'Complete web platform featuring an advanced admin dashboard: user management, analytics reports, real-time data visualization, roles and permissions management, and modern responsive interface.',
+                        features: ['Interactive admin dashboard','Real-time analytics','User & role management','Reports & visualizations','Permission system','Responsive interface'],
                         badge: 'Project',
+                        link: 'https://zoomy.com.tn',
                     },
                 ],
                 cert_badge: 'Certifications',
@@ -1046,14 +1126,16 @@
                     { title:'AI & Big Data in IoT',               issuer:'Professional Certification', date:'2024',      description:'Intelligent large-scale IoT data processing.',                          skills:['Python','TensorFlow','Kafka','Spark'] },
                     { title:'Advanced Cloud Foundations',         issuer:'Google Cloud',              date:'2024',       description:'Scalable and secure cloud architecture on GCP.',                         skills:['Google Cloud','Terraform','Docker'] },
                     { title:'Introduction to Firewall',           issuer:'Great Learning Academy',    date:'08/2024',    description:'Introduction to firewalls and network security principles.',              skills:['Firewall','Network Security','Cybersecurity'] },
+                    { title:'Cyber Certification',                 issuer:'Certification',             date:'2025',       description:'Advanced certification in cybersecurity and system protection.',           skills:['Cybersecurity','Threat Analysis','Network Security'] },
+                    { title:'AI Certification',                    issuer:'Certification',             date:'2025',       description:'Certification in artificial intelligence and machine learning.',           skills:['AI','Machine Learning','Deep Learning'] },
                 ],
                 srv_badge: 'Services',
                 srv_title: 'Services',
                 srv_title2: 'Offered',
                 services: [
+                    { icon:'fas fa-code',             title:'Secure Development',   description:'Building web and mobile applications with best security practices.',             color:'from-teal-500 to-cyan-600' },
                     { icon:'fas fa-shield-alt',       title:'Security Audit',       description:'Comprehensive security assessment of your systems and infrastructure.',          color:'from-cyan-500 to-blue-600' },
                     { icon:'fas fa-bug',              title:'Penetration Testing',  description:'Identification and exploitation of vulnerabilities in an ethical framework.',    color:'from-blue-500 to-indigo-600' },
-                    { icon:'fas fa-code',             title:'Secure Development',   description:'Building web and mobile applications with best security practices.',             color:'from-teal-500 to-cyan-600' },
                     { icon:'fas fa-network-wired',    title:'Network Security',     description:'Configuration and hardening of network infrastructures.',                        color:'from-green-500 to-teal-600' },
                     { icon:'fas fa-cloud-upload-alt', title:'Cloud Security',       description:'Securing cloud environments (AWS, Azure, GCP).',                                color:'from-sky-500 to-blue-600' },
                     { icon:'fas fa-user-shield',      title:'Training',             description:'Cybersecurity awareness and training for teams.',                                color:'from-indigo-500 to-purple-600' },
@@ -1066,12 +1148,32 @@
                 exp_click: 'Click to enlarge',
                 exp_close: 'Close',
                 experiences: [
+                {
+    company: 'BusSoftware',
+    role: "Master's Summer Internship - Security & Access Generation (RBAC)",
+    period: '06/2026 – 07/2026',
+    location: 'Akouda, Sousse',
+    icon: 'fas fa-user-lock',
+    bgImage: 'exp-security.jpg',
+    tasks: [
+        "Built an auto-discovery module that dynamically retrieves the application's pages and action buttons to construct the permission matrix.",
+        "Designed a role-based access generator (RBAC): automatic assignment of rights per page and per button according to role, applying the principle of least privilege.",
+        "Centralized role management and implemented audit and traceability of rights (JWT integration) to streamline permission reviews."
+    ],
+    responsibilities: [
+        "Auto-discovery of the application's pages and buttons",
+        "RBAC access generator (rights per page / per button)",
+        "Centralized role management + audit & traceability (JWT)"
+    ],
+    attestation: null,
+},
                     {
                         company: 'German Group Dieter Braun',
                         role: 'Summer Internship - Systems Administration',
                         period: '08/2024 – 09/2024',
                         location: 'Messadine, Sousse',
                         icon: 'fas fa-server',
+                        bgImage: 'exp-server.jpg',
                         tasks: ['Server management and deployment in a corporate environment.','Introduction to professional life: teamwork and development of professional skills.'],
                         responsibilities: ['Corporate server management and security','Implementation of security policies','IT infrastructure maintenance'],
                         attestation: 'ATTESTATION1.png',
@@ -1082,6 +1184,7 @@
                         period: '02/2025 - 05/2025',
                         location: 'Akouda, Sousse',
                         icon: 'fas fa-code',
+                        bgImage: 'exp-code.jpg',
                         tasks: ['Design and development of a smart delivery platform.','Implementation of features allowing clients and suppliers to submit orders.'],
                         responsibilities: ['Secure delivery platform development','JWT authentication implementation','Microservices architecture'],
                         attestation: 'ATTESTATION.png',
@@ -1611,15 +1714,16 @@
     const [selectedProject, setSelectedProject] = useState(null);
     const [scrollPosition, setScrollPosition] = useState(0);
 
-    const projectImages = [null, null,null, "work5.png", "work6.png", ];
-    const projectVideos = [  "liv.mp4","compta.mp4","vybe.mp4", null, null,];
-    const projectIcons  = ["fas fa-truck", "fas fa-shield-virus", "fas fa-gamepad", "fas fa-robot", "fas fa-globe"];
+    const projectImages = ["car1.png", "resto1.png", null, null, null, "zoomy1.png"];
+    const projectVideos = [null, null, "compta.mp4", "liv.mp4", "vybe.mp4", null];
+    const projectIcons  = ["fas fa-car", "fas fa-utensils", "fas fa-calculator", "fas fa-truck", "fas fa-gamepad", "fas fa-tachometer-alt"];
     const projectTechs  = [
+        ["Next.js","Tailwind CSS","Vercel"],
+        ["Next.js","Tailwind CSS","Vercel"],
+        ["Next.js","Tailwind CSS","Vercel"],
         ["Next.js","NestJS","MySQL","JWT"],
-        ["Next.js","NestJS"],
         ["React","Node.js","API REST","Chart.js"],
-        ["React","Node.js"],   // ← tes techs projet 4
-        ["TypeScript","Express","MongoDB"],   // ← tes techs projet 5
+        ["TypeScript","Express","MongoDB"],
     ];
 
     const openModal = (project) => {
@@ -1711,9 +1815,16 @@
                                     ))}
                                 </div>
 
-                                <button className="w-full py-2 sm:py-3 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-black font-semibold rounded-lg hover:shadow-lg hover:shadow-[var(--glow-primary)] transition-all text-sm sm:text-base">
-                                    {t.proj_see}
-                                </button>
+                                <div className="flex gap-2">
+                                    {project.link && (
+                                        <a href={project.link} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="flex-1 py-2 sm:py-3 bg-[var(--bg-tertiary)] border border-[var(--accent-primary)] text-[var(--accent-primary)] font-semibold rounded-lg hover:shadow-lg hover:shadow-[var(--glow-primary)] transition-all text-sm sm:text-base flex items-center justify-center gap-2">
+                                            <i className="fas fa-external-link-alt"></i> Visiter
+                                        </a>
+                                    )}
+                                    <button className="flex-1 py-2 sm:py-3 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-black font-semibold rounded-lg hover:shadow-lg hover:shadow-[var(--glow-primary)] transition-all text-sm sm:text-base">
+                                        {t.proj_see}
+                                    </button>
+                                </div>
                             </div>
                         </FadeIn>
                     ))}
@@ -1750,6 +1861,27 @@
                                         className="w-full h-auto object-cover"
                                     />
                                 </div>
+
+                                {(selectedProject.idx === 0 || selectedProject.idx === 1 || selectedProject.idx === 5) && (
+                                    <div className="mb-6 sm:mb-8">
+                                        <h3 className="text-lg sm:text-xl font-bold text-[var(--text-primary)] mb-4 flex items-center gap-2">
+                                            <i className="fas fa-images text-[var(--accent-primary)]"></i>
+                                            Galerie
+                                        </h3>
+                                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                                            {(selectedProject.idx === 0
+                                                ? ["car1.png","car2.png","car3.png","car4.png"]
+                                                : selectedProject.idx === 1
+                                                ? ["resto1.png","resto2.png","resto3.png","resto4.png","resto5.png"]
+                                                : ["zoomy1.png","zoomy2.png"]
+                                            ).map((img, i) => (
+                                                <div key={i} className="rounded-xl overflow-hidden border-2 border-[var(--border-color)] hover:border-[var(--accent-primary)] transition-all">
+                                                    <img src={img} alt={`Image ${i + 1}`} className="w-full h-24 sm:h-32 object-cover cursor-pointer hover:scale-110 transition-transform" onClick={() => window.open(img, '_blank')} />
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
 
                                 <div className="mb-6 sm:mb-8">
                                     <h3 className="text-lg sm:text-xl font-bold text-[var(--text-primary)] mb-4 flex items-center gap-2">
@@ -1805,17 +1937,21 @@
     );
 };
 
-        // Certifications Section - RESPONSIVE with IMPROVED MODAL
+        // Certifications Section - CAROUSEL with ARROW NAVIGATION
         const Certifications = () => {
             const { lang } = React.useContext(LangContext);
             const t = translations[lang];
+            const [currentCert, setCurrentCert] = useState(0);
             const [selectedCert, setSelectedCert] = useState(null);
             const [scrollPosition, setScrollPosition] = useState(0);
 
-            const certImages  = ["work1.png","certif.png","certif1.png","work2.png","work3.png","certif2.png"];
-            const certIcons   = ["fas fa-code","fas fa-shield-alt","fas fa-robot","fas fa-brain","fas fa-cloud","fas fa-shield-alt"];
-            const certColors  = ["from-blue-500 to-cyan-500","from-red-500 to-orange-500","from-indigo-500 to-purple-500","from-purple-500 to-pink-500","from-green-500 to-emerald-500","from-blue-500 to-cyan-500"];
+            const certImages  = ["work1.png","certif.png","certif1.png","work2.png","work3.png","certif2.png","certif cyber.jpg","cetif ia.jpg"];
+            const certIcons   = ["fas fa-code","fas fa-shield-alt","fas fa-robot","fas fa-brain","fas fa-cloud","fas fa-shield-alt","fas fa-shield-halved","fas fa-microchip"];
+            const certColors  = ["from-blue-500 to-cyan-500","from-red-500 to-orange-500","from-indigo-500 to-purple-500","from-purple-500 to-pink-500","from-green-500 to-emerald-500","from-blue-500 to-cyan-500","from-red-600 to-orange-500","from-indigo-600 to-purple-600"];
             
+            const prevCert = () => setCurrentCert((prev) => (prev === 0 ? t.certifications.length - 1 : prev - 1));
+            const nextCert = () => setCurrentCert((prev) => (prev === t.certifications.length - 1 ? 0 : prev + 1));
+
             const openModal = (cert) => {
                 const scrollY = lockScroll();
                 setScrollPosition(scrollY);
@@ -1826,6 +1962,9 @@
                 setSelectedCert(null);
                 unlockScroll(scrollPosition);
             };
+            
+            const cert = t.certifications[currentCert];
+            const idx = currentCert;
             
             return (
                 <section id="certifications" className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-[var(--bg-secondary)]">
@@ -1841,47 +1980,38 @@
                                 </h2>
                             </div>
                         </FadeIn>
-                        
-                        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-                            {t.certifications.map((cert, idx) => (
-                                <FadeIn key={idx} delay={idx * 0.15}>
-                                    <div 
-                                        className="cyber-card p-4 sm:p-6 group cursor-pointer h-full flex flex-col"
-                                        onClick={() => openModal({ ...cert, idx })}
-                                    >
-                                        <div className="w-full h-40 sm:h-48 mb-4 sm:mb-6 rounded-xl overflow-hidden border-2 border-[var(--border-color)] group-hover:border-[var(--accent-primary)] transition-all">
-                                            <img 
-                                                src={certImages[idx]} 
-                                                alt={cert.title}
-                                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                                            />
-                                        </div>
-                                        
-                                        <h3 className="text-lg sm:text-xl font-bold text-[var(--text-primary)] mb-2">{cert.title}</h3>
-                                        <p className="text-[var(--accent-primary)] text-sm font-semibold mb-3">{cert.issuer}</p>
-                                        <p className="text-xs sm:text-sm text-[var(--text-secondary)] mb-4 flex-grow">{cert.description}</p>
-                                        
-                                        <div className="flex flex-wrap gap-2 mb-4">
-                                            {cert.skills.slice(0, 3).map((skill) => (
-                                                <span key={skill} className="px-2 py-1 bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-full text-xs text-[var(--accent-primary)]">
-                                                    {skill}
-                                                </span>
-                                            ))}
-                                            {cert.skills.length > 3 && (
-                                                <span className="px-2 py-1 bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-full text-xs text-[var(--accent-primary)]">
-                                                    +{cert.skills.length - 3}
-                                                </span>
-                                            )}
-                                        </div>
-                                        
-                                        <div className="flex items-center justify-between text-xs text-[var(--text-secondary)]">
-                                            <span><i className="fas fa-calendar mr-1"></i>{cert.date}</span>
-                                            <span className="text-[var(--accent-primary)]">Voir →</span>
-                                        </div>
+
+                        <FadeIn key={idx}>
+                            <div className="max-w-2xl mx-auto">
+                                <div className="cyber-card p-4 sm:p-6 group cursor-pointer" onClick={() => openModal({ ...cert, idx })}>
+                                    <div className="w-full h-48 sm:h-56 mb-4 rounded-xl overflow-hidden border-2 border-[var(--border-color)] group-hover:border-[var(--accent-primary)] transition-all">
+                                        <img src={certImages[idx]} alt={cert.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                                     </div>
-                                </FadeIn>
-                            ))}
-                        </div>
+                                    <h3 className="text-lg sm:text-xl font-bold text-[var(--text-primary)] mb-2">{cert.title}</h3>
+                                    <p className="text-[var(--accent-primary)] text-sm font-semibold mb-3">{cert.issuer} • {cert.date}</p>
+                                    <p className="text-sm text-[var(--text-secondary)] mb-4">{cert.description}</p>
+                                    <div className="flex flex-wrap gap-2 mb-4">
+                                        {cert.skills.map((skill) => (
+                                            <span key={skill} className="px-2 py-1 bg-[var(--bg-tertiary)] border border-[var(--border-color)] rounded-full text-xs text-[var(--accent-primary)]">{skill}</span>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                <div className="flex items-center justify-center gap-6 mt-6">
+                                    <button onClick={prevCert} className="w-12 h-12 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-full hover:border-[var(--accent-primary)] hover:text-[var(--accent-primary)] transition-all text-[var(--text-secondary)]">
+                                        <i className="fas fa-chevron-left"></i>
+                                    </button>
+                                    <div className="flex gap-2">
+                                        {t.certifications.map((_, i) => (
+                                            <button key={i} onClick={() => setCurrentCert(i)} className={`w-2.5 h-2.5 rounded-full transition-all ${i === currentCert ? 'bg-[var(--accent-primary)] w-6' : 'bg-[var(--border-color)] hover:bg-[var(--text-secondary)]'}`}></button>
+                                        ))}
+                                    </div>
+                                    <button onClick={nextCert} className="w-12 h-12 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-full hover:border-[var(--accent-primary)] hover:text-[var(--accent-primary)] transition-all text-[var(--text-secondary)]">
+                                        <i className="fas fa-chevron-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </FadeIn>
                         
                         {/* IMPROVED MODAL - FULLY RESPONSIVE */}
                         {selectedCert && (
@@ -1965,10 +2095,25 @@
             );
         };
 
-        // Services Section - RESPONSIVE
+        // Services Section - MODERN CARDS WITH BACKGROUND
         const Services = () => {
             const { lang } = React.useContext(LangContext);
             const t = translations[lang];
+            const features = lang === 'fr' ? [
+                ['Code review','OWASP Top 10','CI/CD sécurisé'],
+                ['Rapport détaillé','Recommandations prioritaires','Audit complet'],
+                ['Tests manuels et automatisés','Rapport de vulnérabilités','Re-test gratuit'],
+                ['Configuration firewall','Segmentation','Surveillance 24/7'],
+                ['AWS • Azure • GCP','Hardening','Compliance'],
+                ['Sessions interactives','Cas pratiques','Certification'],
+            ] : [
+                ['Code review','OWASP Top 10','Secure CI/CD'],
+                ['Detailed report','Priority recommendations','Full audit'],
+                ['Manual & automated tests','Vulnerability report','Free re-test'],
+                ['Firewall config','Segmentation','24/7 monitoring'],
+                ['AWS • Azure • GCP','Hardening','Compliance'],
+                ['Interactive sessions','Hands-on labs','Certification'],
+            ];
             
             return (
                 <section id="services" className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-[var(--bg-secondary)]">
@@ -1988,20 +2133,30 @@
                         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
                             {t.services.map((service, idx) => (
                                 <FadeIn key={idx} delay={idx * 0.1}>
-                                    <div className="cyber-card p-6 sm:p-8 group hover:scale-105 transition-all duration-300 h-full flex flex-col">
-                                        <div className={`w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br ${service.color} rounded-xl sm:rounded-2xl flex items-center justify-center mb-4 sm:mb-6 group-hover:rotate-6 group-hover:scale-110 transition-all duration-300 shadow-lg`}>
-                                            <i className={`${service.icon} text-2xl sm:text-3xl text-white`}></i>
+                                    <div className="cyber-card p-5 sm:p-7 group h-full flex flex-col relative overflow-hidden hover:-translate-y-1.5 transition-all duration-300">
+                                        <div className={`absolute -top-10 -right-10 w-40 h-40 bg-gradient-to-br ${service.color} opacity-[0.07] rounded-full blur-xl group-hover:opacity-[0.15] group-hover:scale-125 transition-all duration-500`}></div>
+                                        <div className="absolute -bottom-6 -left-6 text-8xl text-[var(--text-primary)] opacity-[0.04] pointer-events-none select-none group-hover:opacity-[0.08] group-hover:scale-110 transition-all duration-500">
+                                            <i className={service.icon}></i>
                                         </div>
                                         
-                                        <h3 className="text-lg sm:text-xl font-bold text-[var(--text-primary)] mb-3 group-hover:text-[var(--accent-primary)] transition-colors">
-                                            {service.title}
-                                        </h3>
+                                        <div className={`w-12 h-12 bg-gradient-to-br ${service.color} rounded-xl flex items-center justify-center mb-4 shadow-lg`}>
+                                            <i className={`${service.icon} text-lg text-white`}></i>
+                                        </div>
                                         
-                                        <p className="text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed flex-grow">
-                                            {service.description}
-                                        </p>
+                                        <h3 className="text-lg font-bold text-[var(--text-primary)] mb-3">{service.title}</h3>
                                         
-                                        <div className="mt-4 sm:mt-6 h-1 w-0 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] group-hover:w-full transition-all duration-500 rounded-full"></div>
+                                        <ul className="space-y-2.5 mb-5 flex-grow relative z-10">
+                                            {features[idx].map((f, i) => (
+                                                <li key={i} className="flex items-center gap-2.5 text-sm text-[var(--text-secondary)]">
+                                                    <span className={`w-1.5 h-1.5 rounded-full bg-gradient-to-r ${service.color} flex-shrink-0`}></span>
+                                                    <span>{f}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                        
+                                        <a href="#contact" className={`w-full py-2.5 rounded-lg bg-gradient-to-r ${service.color} text-white text-sm font-semibold opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 relative z-10 text-center block`}>
+                                            {lang === 'fr' ? 'Demander un devis' : 'Get a quote'} <i className="fas fa-arrow-right ml-2 text-xs"></i>
+                                        </a>
                                     </div>
                                 </FadeIn>
                             ))}
@@ -2047,8 +2202,9 @@
                         <div className="space-y-6 sm:space-y-8">
                             {t.experiences.map((exp, idx) => (
                                 <FadeIn key={idx} delay={idx * 0.2}>
-                                    <div className="cyber-card p-4 sm:p-6 lg:p-8 cursor-pointer" onClick={() => openModal(exp)}>
-                                        <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6">
+                                    <div className="cyber-card p-4 sm:p-6 lg:p-8 cursor-pointer relative" onClick={() => openModal(exp)}>
+                                        <div className="card-bg-image" style={{backgroundImage: `url(${exp.bgImage})`}}></div>
+                                        <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6 relative z-10">
                                             <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-lg sm:rounded-xl flex items-center justify-center flex-shrink-0">
                                                 <i className={`${exp.icon} text-xl sm:text-2xl text-black`}></i>
                                             </div>
