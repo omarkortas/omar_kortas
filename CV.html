@@ -9,6 +9,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/particlesjs/2.2.3/particles.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         :root {
@@ -207,6 +211,20 @@
 
         ::-webkit-scrollbar-thumb:hover {
             background: var(--accent-secondary);
+        }
+
+        .loading-spinner {
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top: 3px solid var(--accent-primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -428,15 +446,88 @@
         // Section CV PDF
         const CVPDF = () => {
             const sectionRef = useRef(null);
+            const containerRef = useRef(null);
+            const [loading, setLoading] = useState(true);
+            const [error, setError] = useState(false);
+            const [pageNum, setPageNum] = useState(1);
+            const [totalPages, setTotalPages] = useState(0);
+            const [pageImages, setPageImages] = useState({});
+            const pdfDocRef = useRef(null);
+            const renderedRef = useRef({});
+
+            const renderPageToImage = (num) => {
+                if (renderedRef.current[num]) return Promise.resolve();
+                const pdfDoc = pdfDocRef.current;
+                if (!pdfDoc) return Promise.reject();
+                return pdfDoc.getPage(num).then((page) => {
+                    const container = containerRef.current;
+                    const scale = Math.min(1.5, (container.clientWidth - 32) / page.getViewport({ scale: 1 }).width);
+                    const viewport = page.getViewport({ scale });
+                    const canvas = document.createElement('canvas');
+                    canvas.width = viewport.width;
+                    canvas.height = viewport.height;
+                    const ctx = canvas.getContext('2d');
+                    return page.render({ canvasContext: ctx, viewport }).promise.then(() => {
+                        const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
+                        renderedRef.current[num] = true;
+                        setPageImages((prev) => ({ ...prev, [num]: dataUrl }));
+                    });
+                });
+            };
+
+            const loadPDF = () => {
+                setLoading(true);
+                setError(false);
+                const loadingTask = pdfjsLib.getDocument("Omar-El-Farouk-KORTAS-Resume.pdf");
+                loadingTask.promise.then((pdfDoc) => {
+                    pdfDocRef.current = pdfDoc;
+                    setTotalPages(pdfDoc.numPages);
+                    renderPageToImage(1).then(() => setLoading(false));
+                }, () => {
+                    setError(true);
+                    setLoading(false);
+                });
+            };
 
             useEffect(() => {
-                const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
-                tl.fromTo(".cv-heading", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 1 }, 0.3)
-                  .fromTo(".cv-text", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1 }, 0.6)
-                  .fromTo(".cv-buttons", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1 }, 0.8)
-                  .fromTo(".cv-pdf", { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 1.2 }, 0.5)
-                  .fromTo(".cv-alt", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1 }, 1.0);
+                loadPDF();
             }, []);
+
+            useEffect(() => {
+                if (pdfDocRef.current && !renderedRef.current[pageNum]) {
+                    renderPageToImage(pageNum);
+                }
+            }, [pageNum]);
+
+            useEffect(() => {
+                const handleResize = () => {
+                    if (pageNum && pdfDocRef.current && renderedRef.current[pageNum]) {
+                        renderedRef.current = {};
+                        setPageImages({});
+                        renderPageToImage(pageNum);
+                    }
+                };
+                window.addEventListener('resize', handleResize);
+                return () => window.removeEventListener('resize', handleResize);
+            }, [pageNum]);
+
+            const goPrev = () => {
+                if (pageNum > 1) {
+                    setLoading(true);
+                    const newPage = pageNum - 1;
+                    setPageNum(newPage);
+                    renderPage(newPage);
+                }
+            };
+
+            const goNext = () => {
+                if (pageNum < totalPages) {
+                    setLoading(true);
+                    const newPage = pageNum + 1;
+                    setPageNum(newPage);
+                    renderPage(newPage);
+                }
+            };
 
             return (
                 <section id="cv" ref={sectionRef} className="min-h-screen flex items-center pt-24 pb-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
@@ -480,29 +571,73 @@
                             
                             <FadeIn direction="up" delay={0.4} className="cv-pdf">
                                 <div className="bg-[var(--bg-primary)] p-2 rounded-xl border-2 border-[var(--border-color)] shadow-xl">
-                                    <iframe
-                                        src="Omar-El-Farouk-KORTAS-Resume.pdf"
-                                        width="100%"
-                                        height="600"
-                                        className="rounded-lg"
-                                        title="CV PDF"
-                                        onError={() => console.error("Erreur de chargement du PDF")}
-                                    ></iframe>
+                                    {error ? (
+                                        <div className="p-8 text-center">
+                                            <i className="fas fa-exclamation-triangle text-4xl text-[var(--accent-warning)] mb-4"></i>
+                                            <p className="text-[var(--text-secondary)] mb-4">Impossible de charger le PDF.</p>
+                                            <a
+                                                href="Omar-El-Farouk-KORTAS-Resume.pdf"
+                                                download
+                                                className="px-6 py-3 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-white font-semibold rounded-lg inline-block"
+                                            >
+                                                <i className="fas fa-download mr-2"></i>Télécharger le PDF
+                                            </a>
+                                        </div>
+                                    ) : (
+                                        <div>
+                                            <div className="relative">
+                                                    {loading && !pageImages[pageNum] && (
+                                                        <div className="flex items-center justify-center bg-[var(--bg-primary)] rounded-lg" style={{ minHeight: '400px' }}>
+                                                            <div className="loading-spinner"></div>
+                                                        </div>
+                                                    )}
+                                                    <div ref={containerRef}>
+                                                        {pageImages[pageNum] && (
+                                                            <img
+                                                                src={pageImages[pageNum]}
+                                                                alt={`Page ${pageNum} du CV`}
+                                                                className="w-full rounded-lg"
+                                                                style={{ display: 'block' }}
+                                                            />
+                                                        )}
+                                                    </div>
+                                            </div>
+                                            {totalPages > 1 && (
+                                                <div className="flex items-center justify-center gap-4 mt-4">
+                                                    <button
+                                                        onClick={goPrev}
+                                                        disabled={pageNum <= 1}
+                                                        className="w-10 h-10 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg disabled:opacity-30 hover:border-[var(--accent-primary)] transition-all"
+                                                    >
+                                                        <i className="fas fa-chevron-left"></i>
+                                                    </button>
+                                                    <span className="text-sm text-[var(--text-secondary)]">
+                                                        Page {pageNum} / {totalPages}
+                                                    </span>
+                                                    <button
+                                                        onClick={goNext}
+                                                        disabled={pageNum >= totalPages}
+                                                        className="w-10 h-10 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg disabled:opacity-30 hover:border-[var(--accent-primary)] transition-all"
+                                                    >
+                                                        <i className="fas fa-chevron-right"></i>
+                                                    </button>
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
                                 </div>
                             </FadeIn>
                             
                             <FadeIn direction="up" delay={0.6} className="cv-alt mt-6">
                                 <p className="text-sm text-[var(--text-secondary)]">
                                     <i className="fas fa-info-circle text-[var(--accent-primary)] mr-2"></i>
-                                    Si le PDF ne s'affiche pas correctement,{' '}
                                     <a
                                         href="Omar-El-Farouk-KORTAS-Resume.pdf"
+                                        download
                                         className="text-[var(--accent-primary)] hover:text-[var(--accent-secondary)] font-semibold underline"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
                                     >
-                                        cliquez ici pour l'ouvrir dans un nouvel onglet
-                                    </a>.
+                                        Télécharger le PDF
+                                    </a>
                                 </p>
                             </FadeIn>
                         </div>
