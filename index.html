@@ -578,8 +578,6 @@
             background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
             border-radius: 1rem;
             width: 100%;
-            max-height: calc(100vh - 2rem);
-            overflow-y: auto;
             position: relative;
             border: 2px solid var(--accent-primary);
             box-shadow: 0 25px 50px -12px var(--glow-primary);
@@ -588,14 +586,12 @@
         @media (min-width: 640px) {
             .modal-content {
                 border-radius: 1.5rem;
-                max-height: calc(100vh - 4rem);
             }
         }
 
         @media (max-width: 639px) {
             .modal-content {
                 min-height: 100vh;
-                max-height: 100vh;
                 border-radius: 0;
                 border-left: none;
                 border-right: none;
@@ -605,20 +601,6 @@
                 padding: 0;
                 margin: 0;
             }
-        }
-
-        /* Modal scrollbar */
-        .modal-content::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .modal-content::-webkit-scrollbar-track {
-            background: var(--bg-primary);
-        }
-
-        .modal-content::-webkit-scrollbar-thumb {
-            background: var(--accent-primary);
-            border-radius: 3px;
         }
 
         /* Text Responsive Sizes */
@@ -1899,11 +1881,11 @@ attestation: 'attestation.jpeg',},
                 {selectedProject && (
                     <div className="modal-overlay" onClick={closeModal}>
                         <div className="modal-container">
-                            <div className="modal-content p-4 sm:p-6 lg:p-8" onClick={(e) => e.stopPropagation()}>
-                                <button
-                                    onClick={closeModal}
-                                    className="sticky top-2 sm:top-4 float-right w-10 h-10 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg hover:border-[var(--accent-primary)] transition-all duration-300 z-10 mb-4"
-                                >
+                                    <div className="modal-content p-4 sm:p-6" onClick={(e) => e.stopPropagation()}>
+                                        <button 
+                                            onClick={closeModal}
+                                            className="sticky top-2 sm:top-4 float-right w-8 h-8 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg hover:border-[var(--accent-primary)] transition-all duration-300 z-10 mb-2"
+                                        >
                                     <i className="fas fa-times text-[var(--text-primary)]"></i>
                                 </button>
 
@@ -2273,35 +2255,40 @@ attestation: 'attestation.jpeg',},
                             </div>
                         </FadeIn>
                         
-                        <div className="space-y-6 sm:space-y-8">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                             {t.experiences.map((exp, idx) => (
                                 <FadeIn key={idx} delay={idx * 0.2}>
-                                    <div className="cyber-card p-4 sm:p-6 lg:p-8 cursor-pointer relative" onClick={() => openModal(exp)}>
+                                    <div className="cyber-card p-4 sm:p-6 cursor-pointer relative h-full" onClick={() => openModal(exp)}>
                                         <div className="card-bg-image" style={{backgroundImage: `url(${exp.bgImage})`}}></div>
-                                        <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6 relative z-10">
-                                            <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-lg sm:rounded-xl flex items-center justify-center flex-shrink-0">
+                                        <div className="flex flex-col items-start gap-4 relative z-10">
+                                            <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-lg sm:rounded-xl flex items-center justify-center flex-shrink-0">
                                                 <i className={`${exp.icon} text-xl sm:text-2xl text-black`}></i>
                                             </div>
                                             
                                             <div className="flex-grow w-full">
-                                                <h3 className="text-xl sm:text-2xl font-bold text-[var(--text-primary)] mb-2">{exp.company}</h3>
-                                                <div className="flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-center gap-1 sm:gap-4 mb-4 text-sm sm:text-base">
+                                                <h3 className="text-lg sm:text-xl font-bold text-[var(--text-primary)] mb-2">{exp.company}</h3>
+                                                <div className="flex flex-col items-start gap-1 mb-3 text-sm">
                                                     <span className="text-[var(--accent-primary)] font-semibold">{exp.role.split(' - ')[0]}</span>
-                                                    <span className="text-[var(--text-secondary)] text-xs sm:text-sm">{exp.period}</span>
-                                                    <span className="text-[var(--text-secondary)] text-xs sm:text-sm">
+                                                    <span className="text-[var(--text-secondary)] text-xs">{exp.period}</span>
+                                                    <span className="text-[var(--text-secondary)] text-xs">
                                                         <i className="fas fa-map-marker-alt mr-1"></i>
                                                         {exp.location}
                                                     </span>
                                                 </div>
                                                 
-                                                <ul className="space-y-2">
+                                                <ul className="space-y-1">
                                                     {exp.responsibilities.map((task) => (
-                                                        <li key={task} className="flex items-start gap-3 text-sm sm:text-base text-[var(--text-secondary)]">
-                                                            <i className="fas fa-check text-[var(--accent-primary)] mt-1 flex-shrink-0"></i>
+                                                        <li key={task} className="flex items-start gap-2 text-xs sm:text-sm text-[var(--text-secondary)]">
+                                                            <i className="fas fa-check text-[var(--accent-primary)] mt-0.5 flex-shrink-0"></i>
                                                             <span>{task}</span>
                                                         </li>
                                                     ))}
                                                 </ul>
+                                            </div>
+                                            
+                                            <div className="w-full flex items-center justify-end gap-2 text-xs text-[var(--accent-primary)] mt-2 pt-2 border-t border-[var(--border-color)]">
+                                                <span>{lang === 'fr' ? 'Voir attestation' : 'View attestation'}</span>
+                                                <i className="fas fa-arrow-right text-[10px]"></i>
                                             </div>
                                         </div>
                                     </div>
@@ -2322,22 +2309,22 @@ attestation: 'attestation.jpeg',},
                                         </button>
                                         
                                         <div className="clear-both">
-                                            <div className="flex items-start gap-3 sm:gap-4 mb-4 sm:mb-6">
-                                                <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-lg sm:rounded-xl flex items-center justify-center flex-shrink-0">
-                                                    <i className={`${selectedExperience.icon} text-lg sm:text-xl text-black`}></i>
+                                            <div className="flex items-start gap-2 sm:gap-3 mb-2">
+                                                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-lg flex items-center justify-center flex-shrink-0">
+                                                    <i className={`${selectedExperience.icon} text-base sm:text-lg text-black`}></i>
                                                 </div>
                                                 <div className="flex-grow min-w-0">
-                                                    <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-[var(--text-primary)] mb-1 break-words">
+                                                    <h3 className="text-base sm:text-lg lg:text-xl font-bold text-[var(--text-primary)] mb-0.5 break-words">
                                                         {selectedExperience.company}
                                                     </h3>
-                                                    <p className="text-[var(--accent-primary)] font-semibold text-xs sm:text-sm lg:text-base break-words">
+                                                    <p className="text-[var(--accent-primary)] font-semibold text-xs sm:text-sm break-words">
                                                         {selectedExperience.role.split(' - ')[0]}
                                                     </p>
                                                 </div>
                                             </div>
                                         </div>
                                         
-                                        <div className="flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-center gap-1 sm:gap-3 text-[var(--text-secondary)] text-xs sm:text-sm mb-4 sm:mb-6">
+                                        <div className="flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-center gap-1 sm:gap-3 text-[var(--text-secondary)] text-xs sm:text-sm mb-2">
                                             <div className="flex items-center gap-2">
                                                 <i className="fas fa-calendar-alt"></i>
                                                 <span>{selectedExperience.period}</span>
@@ -2348,38 +2335,38 @@ attestation: 'attestation.jpeg',},
                                             </div>
                                         </div>
                                         
-                                        <div className="mb-4 sm:mb-6">
-                                            <div className="flex items-center gap-2 mb-3">
+                                        <div className="mb-3">
+                                            <div className="flex items-center gap-2 mb-1">
                                                 <i className="fas fa-list text-[var(--accent-primary)]"></i>
-                                                <h4 className="text-sm sm:text-base lg:text-lg font-semibold text-[var(--text-primary)]">{t.exp_resp_label}</h4>
+                                                <h4 className="text-sm sm:text-base font-semibold text-[var(--text-primary)]">{t.exp_resp_label}</h4>
                                             </div>
-                                            <ul className="space-y-2">
+                                            <ul className="space-y-0.5">
                                                 {selectedExperience.tasks.map((task, index) => (
-                                                    <li key={index} className="flex items-start gap-3 text-[var(--text-secondary)] text-xs sm:text-sm">
-                                                        <i className="fas fa-check text-green-400 mt-1 flex-shrink-0"></i>
+                                                    <li key={index} className="flex items-start gap-2 text-[var(--text-secondary)] text-xs">
+                                                        <i className="fas fa-check text-green-400 mt-0.5 flex-shrink-0"></i>
                                                         <span>{task}</span>
                                                     </li>
                                                 ))}
                                             </ul>
                                         </div>
                                         
-                                        <div className="mb-4 sm:mb-6">
-                                            <div className="flex items-center gap-2 mb-3">
+                                        <div className="mb-3">
+                                            <div className="flex items-center gap-2 mb-1">
                                                 <i className="fas fa-certificate text-[var(--accent-primary)]"></i>
-                                                <h4 className="text-sm sm:text-base lg:text-lg font-semibold text-[var(--text-primary)]">{t.exp_attest_label}</h4>
+                                                <h4 className="text-sm sm:text-base font-semibold text-[var(--text-primary)]">{t.exp_attest_label}</h4>
                                             </div>
-                                            <div className="bg-[var(--card-bg)] rounded-xl sm:rounded-2xl p-3 sm:p-4 border border-[var(--border-color)]">
+                                            <div className="bg-[var(--card-bg)] rounded-xl p-2 border border-[var(--border-color)] w-fit mx-auto">
                                                 <img 
                                                     src={selectedExperience.attestation} 
                                                     alt={`Attestation ${selectedExperience.company}`}
-                                                    className="w-full max-w-sm mx-auto h-auto rounded-lg cursor-pointer hover:scale-105 transition-transform"
+                                                    className="block max-w-[200px] h-auto rounded-lg cursor-pointer hover:scale-105 transition-transform"
                                                     onClick={(e) => {
                                                         e.stopPropagation();
                                                         window.open(selectedExperience.attestation, '_blank');
                                                     }}
                                                     loading="lazy" decoding="async"
                                                 />
-                                                <p className="text-center text-xs text-[var(--text-secondary)] mt-2">
+                                                <p className="text-center text-[10px] text-[var(--text-secondary)] mt-1">
                                                     {t.exp_click}
                                                 </p>
                                             </div>
@@ -2387,7 +2374,7 @@ attestation: 'attestation.jpeg',},
                                         
                                         <button 
                                             onClick={closeModal}
-                                            className="w-full py-2 sm:py-3 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-black font-semibold rounded-lg hover:shadow-lg hover:shadow-[var(--glow-primary)] transition-all text-sm sm:text-base"
+                                            className="w-full py-2 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-black font-semibold rounded-lg hover:shadow-lg hover:shadow-[var(--glow-primary)] transition-all text-sm"
                                         >
                                             {t.exp_close}
                                         </button>
