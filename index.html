@@ -889,9 +889,15 @@
                 proj_desc_label: 'Description du projet',
                 proj_feat_label: 'Fonctionnalités principales',
                 proj_tech_label: 'Technologies utilisées',
+                proj_filter_all: 'Tous',
+                proj_filter_dev: 'Développement',
+                proj_filter_cyber: 'Cybersécurité',
+                proj_filter_design: 'Design',
+                proj_empty: 'Aucun projet dans cette catégorie.',
                 projects: [
     {
         title: 'AutoLux Motors - Concession Premium',
+        category: 'dev',
         description: 'Site vitrine pour concession automobile premium avec catalogue de véhicules et réservation d\'essais.',
         fullDescription: 'Plateforme web interactive pour une concession automobile de luxe. Présentation de véhicules premium (Mercedes, BMW, Porsche, Tesla), catalogue avec filtres, fiches détaillées, réservation d\'essais en ligne, galerie photo, témoignages clients et formulaire de contact.',
         features: ['Catalogue de véhicules premium avec filtres','Fiches détaillées avec spécifications','Réservation d\'essais en ligne','Galerie photo et showroom virtuel','Formulaire de contact et FAQ','Design responsive et animations fluides'],
@@ -900,6 +906,7 @@
     },
     {
         title: 'Maison Éclipse - Restaurant Gastronomique',
+        category: 'dev',
         description: 'Site vitrine pour restaurant gastronomique avec menu, réservation et galerie.',
         fullDescription: 'Site web élégant pour un restaurant gastronomique étoilé. Présentation de la carte (petit-déjeuner, déjeuner, dîner), plats signatures, histoire du chef, galerie photo immersive, formulaire de réservation en ligne et services traiteur.',
         features: ['Menu dynamique avec catégories et prix','Plats signatures avec descriptions','Galerie photo immersive','Formulaire de réservation en ligne','Section chef et histoire','Services : sur place, à emporter, livraison, événements'],
@@ -908,6 +915,7 @@
     },
     {
         title: 'Cabinet Anouar KORTAS - Comptabilité',
+        category: 'dev',
         description: 'Site vitrine pour cabinet comptable avec services, blog et consultation en ligne.',
         fullDescription: 'Site web professionnel pour un cabinet d\'expertise comptable. Présentation des services (comptabilité générale, optimisation fiscale, conseil en gestion, audit), blog d\'actualités, formulaire de consultation en ligne, tableau de bord client et module de recrutement.',
         features: ['Services comptables détaillés','Blog d\'actualités fiscales','Formulaire de consultation','Tableau de bord client','Section recrutement','Design moderne et responsive'],
@@ -916,6 +924,7 @@
     },
     {
         title: 'Secure Delivery Platform',
+        category: 'dev',
         description: 'Web and mobile application with advanced authentication and data encryption.',
         fullDescription: 'Web and mobile application for delivery management between clients, suppliers and couriers. Complete delivery system with user registration, order management, delivery tracking, complaint submission, automatic invoice generation and email notifications.',
         features: ['User registration and authentication','Complete order management','Real-time delivery tracking','Complaint system','Automatic invoice generation','Email notifications'],
@@ -923,6 +932,7 @@
     },
     {
         title: 'Vybe – Social Platform',
+        category: 'dev',
         description: 'Modern social platform with news feed and real-time messaging.',
         fullDescription: 'Complete social platform allowing users to share content, interact via a dynamic news feed, send real-time messages and customize their profile.',
         features: ['Dynamic news feed','Real-time messaging','Profile management','Likes and comments system','Push notifications'],
@@ -931,6 +941,7 @@
     },
     {
         title: 'Zoomy – Plateforme Dashboard Admin',
+        category: 'dev',
         description: 'Plateforme interactive avec dashboard admin, analytics et gestion utilisateurs.',
         fullDescription: 'Plateforme web complète avec un tableau de bord administrateur avancé : gestion des utilisateurs, rapports analytiques, visualisation de données en temps réel, gestion des rôles et permissions, et interface moderne responsive.',
         features: ['Dashboard admin interactif','Analytics en temps réel','Gestion des utilisateurs et rôles','Rapports et visualisations','Système de permissions','Interface responsive'],
@@ -1091,6 +1102,11 @@ attestation: 'attestation.jpeg',},
                 proj_desc_label: 'Project description',
                 proj_feat_label: 'Key features',
                 proj_tech_label: 'Technologies used',
+                proj_filter_all: 'All',
+                proj_filter_dev: 'Development',
+                proj_filter_cyber: 'Cybersecurity',
+                proj_filter_design: 'Design',
+                proj_empty: 'No projects in this category yet.',
                 projects: [
                     {
                         title: 'AutoLux Motors - Premium Dealership',
@@ -1118,6 +1134,7 @@ attestation: 'attestation.jpeg',},
                     },
                     {
                         title: 'Secure Delivery Platform',
+        category: 'dev',
                         description: 'Web and mobile application with advanced authentication and data encryption.',
                         fullDescription: 'Web and mobile application for delivery management between clients, suppliers and couriers. Complete delivery system with user registration, order management, delivery tracking, complaint submission, automatic invoice generation and email notifications.',
                         features: ['User registration and authentication','Complete order management','Real-time delivery tracking','Complaint system','Automatic invoice generation','Email notifications'],
@@ -1125,6 +1142,7 @@ attestation: 'attestation.jpeg',},
                     },
                     {
                         title: 'Vybe – Social Platform',
+        category: 'dev',
                         description: 'Modern social platform with news feed and real-time messaging.',
                         fullDescription: 'Complete social platform allowing users to share content, interact via a dynamic news feed, send real-time messages and customize their profile.',
                         features: ['Dynamic news feed','Real-time messaging','Profile management','Likes and comments system','Push notifications'],
@@ -1133,6 +1151,7 @@ attestation: 'attestation.jpeg',},
                     },
                     {
                         title: 'Zoomy – Admin Dashboard Platform',
+        category: 'dev',
                         description: 'Interactive platform with admin dashboard, analytics and user management.',
                         fullDescription: 'Complete web platform featuring an advanced admin dashboard: user management, analytics reports, real-time data visualization, roles and permissions management, and modern responsive interface.',
                         features: ['Interactive admin dashboard','Real-time analytics','User & role management','Reports & visualizations','Permission system','Responsive interface'],
@@ -1756,6 +1775,11 @@ attestation: 'attestation.jpeg',},
     const t = translations[lang];
     const [selectedProject, setSelectedProject] = useState(null);
     const [scrollPosition, setScrollPosition] = useState(0);
+    const [filter, setFilter] = useState('all');
+
+    const filteredProjects = t.projects
+        .map((project, idx) => ({ project, idx }))
+        .filter(({ project }) => filter === 'all' || project.category === filter);
 
     const projectImages = ["car1.png", "resto1.png", "compta.png", null, null, "zoomy1.png"];
     const projectVideos = [null, null, null, "liv.mp4", "vybe.mp4", null];
@@ -1825,13 +1849,43 @@ attestation: 'attestation.jpeg',},
                             <span>{t.proj_badge}</span>
                         </div>
                         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[var(--text-primary)]">
-                            {t.proj_title} <span className="text-[var(--accent-primary)]">{t.proj_title2}</span>
+                            {t.proj_title}                             <span className="text-[var(--accent-primary)]">{t.proj_title2}</span>
                         </h2>
                     </div>
                 </FadeIn>
 
+                <FadeIn>
+                    <div className="flex flex-wrap justify-center gap-3 mb-12">
+                        {[
+                            { key: 'all', label: t.proj_filter_all, icon: 'fas fa-th-large' },
+                            { key: 'dev', label: t.proj_filter_dev, icon: 'fas fa-code' },
+                            { key: 'cyber', label: t.proj_filter_cyber, icon: 'fas fa-shield-alt' },
+                            { key: 'design', label: t.proj_filter_design, icon: 'fas fa-palette' },
+                        ].map((f) => (
+                            <button
+                                key={f.key}
+                                onClick={() => setFilter(f.key)}
+                                className={`px-4 sm:px-6 py-2 rounded-full font-semibold text-sm sm:text-base transition-all duration-300 flex items-center gap-2 ${
+                                    filter === f.key
+                                        ? 'bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-black shadow-lg'
+                                        : 'bg-[var(--bg-tertiary)] border border-[var(--border-color)] text-[var(--text-secondary)] hover:border-[var(--accent-primary)] hover:text-[var(--accent-primary)]'
+                                }`}
+                            >
+                                <i className={`fas ${f.icon}`}></i>
+                                {f.label}
+                            </button>
+                        ))}
+                    </div>
+                </FadeIn>
+
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-                    {t.projects.map((project, idx) => (
+                    {filteredProjects.length === 0 ? (
+                        <div className="col-span-full text-center text-[var(--text-secondary)] py-16">
+                            <i className="fas fa-folder-open text-4xl mb-4 block opacity-50"></i>
+                            <p className="text-base sm:text-lg">{t.proj_empty}</p>
+                        </div>
+                    ) : (
+                    filteredProjects.map(({ project, idx }) => (
                         <FadeIn key={idx} delay={idx * 0.15}>
                             <div
                                 className="cyber-card p-4 sm:p-6 group h-full flex flex-col cursor-pointer"
@@ -1873,7 +1927,7 @@ attestation: 'attestation.jpeg',},
                                 </div>
                             </div>
                         </FadeIn>
-                    ))}
+                    )))}
                 </div>
 
                 {/* MODAL */}
