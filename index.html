@@ -948,6 +948,15 @@
         badge: 'Project',
         link: 'https://zoomy.com.tn',
     },
+    {
+        title: 'NIDS Suricata - Détection d\'Intrusion Réseau',
+        category: 'cyber',
+        description: 'Système de détection d\'intrusion réseau complet : Suricata, dashboard Flask en temps réel et blocage automatique.',
+        fullDescription: 'Système de détection d\'intrusion réseau (NIDS) développé de bout en bout. Détection avec Suricata et 15 règles personnalisées couvrant 5 familles d\'attaques (scan de ports, brute-force SSH, injections SQL/XSS, tunneling DNS, protocoles en clair) — 93% de couverture, 14/15 signatures validées. Visualisation via un dashboard Flask + Chart.js en temps réel (rafraîchissement 5s) avec KPI, graphiques et filtres par sévérité. Réponse automatisée : identification des IPs malveillantes, génération des règles iptables de blocage et journal d\'audit complet.',
+        features: ['Suricata avec 15 règles personnalisées (5 familles d\'attaques)','93% de détection, 14/15 signatures validées','Dashboard Flask + Chart.js temps réel avec KPI et filtres par sévérité','Moteur de réponse automatisé : blocage iptables des IPs malveillantes','Journal d\'audit complet'],
+        badge: 'Project',
+        link: 'https://www.linkedin.com/posts/omar-el-farouk-kortas-8b4613294_cybersecurity-nids-suricata-ugcPost-7489310837468250112-LvK8/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEdIMkgBTZ9J7AXIAGP9Jt5XkwH1mMC6_W0',
+    },
 ],
                 cert_badge: 'Certifications',
                 cert_title: 'Certifications',
@@ -1157,6 +1166,15 @@ attestation: 'attestation.jpeg',},
                         features: ['Interactive admin dashboard','Real-time analytics','User & role management','Reports & visualizations','Permission system','Responsive interface'],
                         badge: 'Project',
                         link: 'https://zoomy.com.tn',
+                    },
+                    {
+                        title: 'NIDS Suricata - Network Intrusion Detection',
+                        category: 'cyber',
+                        description: 'Complete network intrusion detection system: Suricata, real-time Flask dashboard and automated blocking.',
+                        fullDescription: 'End-to-end network intrusion detection system (NIDS). Detection with Suricata and 15 custom rules covering 5 attack families (port scans, SSH brute-force, SQL/XSS injections, DNS tunneling, cleartext protocols) — 93% coverage, 14/15 signatures validated. Visualization via a real-time Flask + Chart.js dashboard (5s refresh) with KPIs, charts and severity filters. Automated response: malicious IP identification, iptables blocking rule generation and full audit log.',
+                        features: ['Suricata with 15 custom rules (5 attack families)','93% detection rate, 14/15 signatures validated','Real-time Flask + Chart.js dashboard with KPIs and severity filters','Automated response engine: iptables blocking of malicious IPs','Full audit log'],
+                        badge: 'Project',
+                        link: 'https://www.linkedin.com/posts/omar-el-farouk-kortas-8b4613294_cybersecurity-nids-suricata-ugcPost-7489310837468250112-LvK8/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEdIMkgBTZ9J7AXIAGP9Jt5XkwH1mMC6_W0',
                     },
                 ],
                 cert_badge: 'Certifications',
@@ -1781,9 +1799,9 @@ attestation: 'attestation.jpeg',},
         .map((project, idx) => ({ project, idx }))
         .filter(({ project }) => filter === 'all' || project.category === filter);
 
-    const projectImages = ["car1.png", "resto1.png", "compta.png", null, null, "zoomy1.png"];
-    const projectVideos = [null, null, null, "liv.mp4", "vybe.mp4", null];
-    const projectIcons  = ["fas fa-car", "fas fa-utensils", "fas fa-calculator", "fas fa-truck", "fas fa-gamepad", "fas fa-tachometer-alt"];
+    const projectImages = ["car1.png", "resto1.png", "compta.png", null, null, "zoomy1.png", "cyber.png"];
+    const projectVideos = [null, null, null, "liv.mp4", "vybe.mp4", null, null];
+    const projectIcons  = ["fas fa-car", "fas fa-utensils", "fas fa-calculator", "fas fa-truck", "fas fa-gamepad", "fas fa-tachometer-alt", "fas fa-shield-halved"];
     const projectTechs  = [
         ["Next.js","Tailwind CSS","Vercel"],
         ["Next.js","Tailwind CSS","Vercel"],
@@ -1791,6 +1809,7 @@ attestation: 'attestation.jpeg',},
         ["Next.js","NestJS","MySQL","JWT"],
         ["React","Node.js","API REST","Chart.js"],
         ["TypeScript","Express","MongoDB"],
+        ["Suricata","Python","Flask","Chart.js"],
     ];
 
     const openModal = (project) => {
