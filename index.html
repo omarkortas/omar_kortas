@@ -572,6 +572,10 @@
             }
         }
 
+        .modal-container-sm {
+            max-width: 30rem;
+        }
+
         .modal-content {
             background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
             border-radius: 1rem;
@@ -896,6 +900,8 @@
                 proj_filter_cyber: 'Cybersécurité',
                 proj_filter_design: 'Design',
                 proj_empty: 'Aucun projet dans cette catégorie.',
+                proj_view_all: 'Voir tous les projets',
+                proj_view_less: 'Voir moins',
                 projects: [
     {
         title: 'AutoLux Motors - Concession Premium',
@@ -1142,6 +1148,8 @@ attestation: 'attestation.jpeg',},
                 proj_filter_cyber: 'Cybersecurity',
                 proj_filter_design: 'Design',
                 proj_empty: 'No projects in this category yet.',
+                proj_view_all: 'View all projects',
+                proj_view_less: 'View less',
                 projects: [
                     {
                         title: 'AutoLux Motors - Premium Dealership',
@@ -1844,6 +1852,7 @@ attestation: 'attestation.jpeg',},
     const [selectedProject, setSelectedProject] = useState(null);
     const [scrollPosition, setScrollPosition] = useState(0);
     const [filter, setFilter] = useState('all');
+    const [visibleCount, setVisibleCount] = useState(6);
 
     const filteredProjects = t.projects
         .map((project, idx) => ({ project, idx }))
@@ -1936,7 +1945,7 @@ attestation: 'attestation.jpeg',},
                         ].map((f) => (
                             <button
                                 key={f.key}
-                                onClick={() => setFilter(f.key)}
+                                onClick={() => { setFilter(f.key); setVisibleCount(6); }}
                                 className={`px-4 sm:px-6 py-2 rounded-full font-semibold text-sm sm:text-base transition-all duration-300 flex items-center gap-2 ${
                                     filter === f.key
                                         ? 'bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-black shadow-lg'
@@ -1957,7 +1966,7 @@ attestation: 'attestation.jpeg',},
                             <p className="text-base sm:text-lg">{t.proj_empty}</p>
                         </div>
                     ) : (
-                    filteredProjects.map(({ project, idx }) => (
+                    filteredProjects.slice(0, visibleCount).map(({ project, idx }) => (
                         <FadeIn key={idx} delay={idx * 0.15}>
                             <div
                                 className="cyber-card p-4 sm:p-6 group h-full flex flex-col cursor-pointer"
@@ -2002,10 +2011,22 @@ attestation: 'attestation.jpeg',},
                     )))}
                 </div>
 
+                {filteredProjects.length > 6 && (
+                    <div className="text-center mt-10">
+                        <button
+                            onClick={() => setVisibleCount(visibleCount === 6 ? filteredProjects.length : 6)}
+                            className="px-6 sm:px-8 py-3 rounded-full font-semibold text-sm sm:text-base bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-black shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 mx-auto"
+                        >
+                            <i className={`fas ${visibleCount === 6 ? 'fa-eye' : 'fa-chevron-up'}`}></i>
+                            {visibleCount === 6 ? t.proj_view_all : t.proj_view_less}
+                        </button>
+                    </div>
+                )}
+
                 {/* MODAL */}
                 {selectedProject && (
                     <div className="modal-overlay" onClick={closeModal}>
-                        <div className="modal-container">
+                        <div className={`modal-container ${selectedProject.category === 'design' ? 'modal-container-sm' : ''}`}>
                                     <div className="modal-content p-4 sm:p-6" onClick={(e) => e.stopPropagation()}>
                                         <button 
                                             onClick={closeModal}
