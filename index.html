@@ -957,6 +957,38 @@
         badge: 'Project',
         link: 'https://www.linkedin.com/posts/omar-el-farouk-kortas-8b4613294_cybersecurity-nids-suricata-ugcPost-7489310837468250112-LvK8/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEdIMkgBTZ9J7AXIAGP9Jt5XkwH1mMC6_W0',
     },
+    {
+        title: 'Tableau 1 - Conception UI/UX',
+        category: 'design',
+        description: 'Maquette design UI/UX - tableau de bord.',
+        fullDescription: 'Maquette de conception UI/UX réalisée en design. Interface soignée, cohérence visuelle et composants réutilisables.',
+        features: ['Design UI/UX','Interface responsive','Composants réutilisables'],
+        badge: 'Design',
+    },
+    {
+        title: 'Tableau 2 - Conception UI/UX',
+        category: 'design',
+        description: 'Maquette design UI/UX - tableau de bord.',
+        fullDescription: 'Maquette de conception UI/UX réalisée en design. Interface soignée, cohérence visuelle et composants réutilisables.',
+        features: ['Design UI/UX','Interface responsive','Composants réutilisables'],
+        badge: 'Design',
+    },
+    {
+        title: 'Tableau 3 - Conception UI/UX',
+        category: 'design',
+        description: 'Maquette design UI/UX - tableau de bord.',
+        fullDescription: 'Maquette de conception UI/UX réalisée en design. Interface soignée, cohérence visuelle et composants réutilisables.',
+        features: ['Design UI/UX','Interface responsive','Composants réutilisables'],
+        badge: 'Design',
+    },
+    {
+        title: 'Badge - Conception UI/UX',
+        category: 'design',
+        description: 'Badge design UI/UX.',
+        fullDescription: 'Conception d\'un badge UI/UX : identité visuelle, icône et style cohérent.',
+        features: ['Design UI/UX','Identité visuelle','Style cohérent'],
+        badge: 'Design',
+    },
 ],
                 cert_badge: 'Certifications',
                 cert_title: 'Certifications',
@@ -1175,6 +1207,38 @@ attestation: 'attestation.jpeg',},
                         features: ['Suricata with 15 custom rules (5 attack families)','93% detection rate, 14/15 signatures validated','Real-time Flask + Chart.js dashboard with KPIs and severity filters','Automated response engine: iptables blocking of malicious IPs','Full audit log'],
                         badge: 'Project',
                         link: 'https://www.linkedin.com/posts/omar-el-farouk-kortas-8b4613294_cybersecurity-nids-suricata-ugcPost-7489310837468250112-LvK8/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEdIMkgBTZ9J7AXIAGP9Jt5XkwH1mMC6_W0',
+                    },
+                    {
+                        title: 'Board 1 - UI/UX Design',
+                        category: 'design',
+                        description: 'UI/UX design mockup - dashboard.',
+                        fullDescription: 'UI/UX design mockup. Polished interface, visual consistency and reusable components.',
+                        features: ['UI/UX Design','Responsive interface','Reusable components'],
+                        badge: 'Design',
+                    },
+                    {
+                        title: 'Board 2 - UI/UX Design',
+                        category: 'design',
+                        description: 'UI/UX design mockup - dashboard.',
+                        fullDescription: 'UI/UX design mockup. Polished interface, visual consistency and reusable components.',
+                        features: ['UI/UX Design','Responsive interface','Reusable components'],
+                        badge: 'Design',
+                    },
+                    {
+                        title: 'Board 3 - UI/UX Design',
+                        category: 'design',
+                        description: 'UI/UX design mockup - dashboard.',
+                        fullDescription: 'UI/UX design mockup. Polished interface, visual consistency and reusable components.',
+                        features: ['UI/UX Design','Responsive interface','Reusable components'],
+                        badge: 'Design',
+                    },
+                    {
+                        title: 'Badge - UI/UX Design',
+                        category: 'design',
+                        description: 'UI/UX badge design.',
+                        fullDescription: 'UI/UX badge design: visual identity, icon and consistent style.',
+                        features: ['UI/UX Design','Visual identity','Consistent style'],
+                        badge: 'Design',
                     },
                 ],
                 cert_badge: 'Certifications',
@@ -1799,9 +1863,9 @@ attestation: 'attestation.jpeg',},
         .map((project, idx) => ({ project, idx }))
         .filter(({ project }) => filter === 'all' || project.category === filter);
 
-    const projectImages = ["car1.png", "resto1.png", "compta.png", null, null, "zoomy1.png", "cyber.png"];
-    const projectVideos = [null, null, null, "liv.mp4", "vybe.mp4", null, null];
-    const projectIcons  = ["fas fa-car", "fas fa-utensils", "fas fa-calculator", "fas fa-truck", "fas fa-gamepad", "fas fa-tachometer-alt", "fas fa-shield-halved"];
+    const projectImages = ["car1.png", "resto1.png", "compta.png", null, null, "zoomy1.png", "cyber.png", "tableau1.png", "tableau2.png", "tableau3.png", "badge.png"];
+    const projectVideos = [null, null, null, "liv.mp4", "vybe.mp4", null, null, null, null, null, null];
+    const projectIcons  = ["fas fa-car", "fas fa-utensils", "fas fa-calculator", "fas fa-truck", "fas fa-gamepad", "fas fa-tachometer-alt", "fas fa-shield-halved", "fas fa-palette", "fas fa-vector-square", "fas fa-object-group", "fas fa-id-badge"];
     const projectTechs  = [
         ["Next.js","Tailwind CSS","Vercel"],
         ["Next.js","Tailwind CSS","Vercel"],
@@ -1810,6 +1874,10 @@ attestation: 'attestation.jpeg',},
         ["React","Node.js","API REST","Chart.js"],
         ["TypeScript","Express","MongoDB"],
         ["Suricata","Python","Flask","Chart.js"],
+        ["Figma","UI/UX","Adobe"],
+        ["Figma","UI/UX","Adobe"],
+        ["Figma","UI/UX","Adobe"],
+        ["Figma","UI/UX","Adobe"],
     ];
 
     const openModal = (project) => {
