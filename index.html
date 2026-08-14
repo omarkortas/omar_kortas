@@ -572,10 +572,6 @@
             }
         }
 
-        .modal-container-sm {
-            max-width: 30rem;
-        }
-
         .modal-content {
             background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
             border-radius: 1rem;
@@ -2026,7 +2022,7 @@ attestation: 'attestation.jpeg',},
                 {/* MODAL */}
                 {selectedProject && (
                     <div className="modal-overlay" onClick={closeModal}>
-                        <div className={`modal-container ${selectedProject.category === 'design' ? 'modal-container-sm' : ''}`}>
+                        <div className="modal-container">
                                     <div className="modal-content p-4 sm:p-6" onClick={(e) => e.stopPropagation()}>
                                         <button 
                                             onClick={closeModal}
